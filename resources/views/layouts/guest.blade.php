@@ -7,10 +7,12 @@
 
         <title>Prihlásenie | Kartotéka v3</title>
 
+        <meta name="robots" content="noindex, nofollow">
+
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;0,900;1,300;1,500;1,900&amp;display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+        <link rel="stylesheet" href="{{ asset('login-assets/login.css') }}">
     </head>
     <body>
         <div class="body-wrap">
