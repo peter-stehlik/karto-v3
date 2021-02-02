@@ -6,10 +6,13 @@
   display: inline-block;
   font-family: $btn-font-family;
   font-weight: $btn-font-weight;
+  font-size: $btn-font-size;
   line-height: $btn-line-height;
-  color: $body-color;
+  color: $white;
   text-align: center;
   text-decoration: if($link-decoration == none, null, none);
+  text-transform: uppercase;
+  font-weight: 500;
   white-space: $btn-white-space;
   vertical-align: middle;
   cursor: if($enable-button-pointers, pointer, null);
@@ -20,8 +23,21 @@
   @include transition($btn-transition);
 
   &:hover {
-    color: $body-color;
+    color: $white;
     text-decoration: if($link-hover-decoration == underline, none, null);
+  }
+
+  svg {
+    fill: $white;
+    & + span {
+      margin-left: 0.5rem;
+    }
+  }
+
+  span {
+    & + svg {
+      margin-left: 0.5rem;
+    }
   }
 
   .btn-check:focus + &,
@@ -106,4 +122,19 @@
 
 .btn-sm {
   @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm);
+}
+
+
+//
+// Block button
+//
+
+.btn-block {
+  display: block;
+  width: 100%;
+
+  // Vertically space out multiple block buttons
+  + .btn-block {
+    margin-top: $btn-block-spacing-y;
+  }
 }

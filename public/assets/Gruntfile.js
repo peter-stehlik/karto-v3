@@ -12,6 +12,7 @@ module.exports = function (grunt) {
 		  },
 		  files: {
 			"dist/css/bootstrap.5.0.0.css": "dev/scss/bootstrap/bootstrap.scss",
+			"dist/css/dashboard-template.css": "dev/scss/custom/dashboard-template.scss",
 		  }
 		}
 	  },
@@ -84,6 +85,7 @@ module.exports = function (grunt) {
 		dist: {
 		  files: {
 			"dist/js/custom.js": "dev/es6/custom.js",
+			"dist/js/dashboard-template.js": "dev/es6/dashboard-template.js",
 		  }
 		}
 	  },

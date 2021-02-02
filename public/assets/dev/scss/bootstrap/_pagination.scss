@@ -1,6 +1,19 @@
 .pagination {
   display: flex;
+  margin: 0;
   @include list-unstyled();
+  svg {
+    position: relative;
+    top: -5px;
+    width: 40px;
+    border: 2px solid transparent;
+    .cls-1 {
+      fill:none;
+      stroke:#c4c4c4;
+      stroke-miterlimit:10;
+      stroke-width:2px;
+    }
+  }
 }
 
 .page-link {
@@ -10,6 +23,8 @@
   text-decoration: if($link-decoration == none, null, none);
   background-color: $pagination-bg;
   border: $pagination-border-width solid $pagination-border-color;
+  font-size: $font-size-lg;
+  font-family: $font-family-sans-serif;
   @include transition($pagination-transition);
 
   &:hover {
@@ -18,6 +33,15 @@
     text-decoration: if($link-hover-decoration == underline, none, null);
     background-color: $pagination-hover-bg;
     border-color: $pagination-hover-border-color;
+
+    svg {
+      border-radius: 50%;
+      border-color: $primary;
+    }
+
+    .cls-1 {
+      stroke: $primary;
+    }
   }
 
   &:focus {
@@ -31,7 +55,7 @@
 
 .page-item {
   &:not(:first-child) .page-link {
-    margin-left: $pagination-margin-start;
+    margin-left: $pagination-margin-left;
   }
 
   &.active .page-link {
