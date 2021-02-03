@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BankAccountController;
 
 
 /*
@@ -28,6 +29,17 @@ Route::name('kartoteka.')->group(function () {
     Route::get('/kartoteka', function () {
         return view('v-kartoteka/kartoteka');
     })->middleware(['auth'])->name('uvod');
+});
+
+/* ------------------- */
+/* --- KANCELARIA --- */
+/* ----------------- */
+Route::name('kancelaria.')->group(function () {
+    Route::get('/kancelaria', function () {
+        return view('v-kancelaria/kancelaria');
+    })->middleware(['auth'])->name('uvod');
+
+    Route::resource('kancelaria/bankove-ucty', BankAccountController::class)->middleware(['auth']);
 });
 
 /* ----------------- */

@@ -21,7 +21,9 @@
 				</li><!-- / .nav-item -->
 
 				<li class="nav-item">
-					<a class="nav-link" href="demo.html">Kancelária</a>
+					<a class="nav-link @if( str_starts_with(request()->route()->getName(), 'kancelaria.') ) active @endif" href="{{ route('kancelaria.uvod') }}">Kancelária</a>
+
+					@include('components/subnavs/kancelaria')
 				</li><!-- / .nav-item -->
 
 				<li class="nav-item">

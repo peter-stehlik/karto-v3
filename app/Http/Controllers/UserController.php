@@ -11,7 +11,7 @@ use Hash;
 class UserController extends Controller
 {
     /**
-     * Change password for a given user.
+     * Change password for a given user. POST
      *
      * @param  int  $id
      * @return \Illuminate\View\View

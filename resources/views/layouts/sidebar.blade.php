@@ -3,6 +3,8 @@
 		<h6 class="sidebar-heading px-2 mt-3 mb-1 text-muted">
 			@if( str_starts_with(request()->route()->getName(), 'kartoteka.') )
 				Kartotéka
+			@elseif( str_starts_with(request()->route()->getName(), 'kancelaria.') )
+				Kancelária
 			@elseif( str_starts_with(request()->route()->getName(), 'uzivatel.') )
 				Užívateľ
 			@endif
@@ -12,6 +14,10 @@
 			@include('components/subnavs/kartoteka')
 		@endif
 		
+		@if( str_starts_with(request()->route()->getName(), 'kancelaria.') )
+			@include('components/subnavs/kancelaria')
+		@endif
+
 		@if( str_starts_with(request()->route()->getName(), 'uzivatel.') )
 			@include('components/subnavs/uzivatel')
 		@endif
@@ -24,13 +30,13 @@
 
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a class="nav-link" href="#ui-homepage">
+				<a class="nav-link">
 					{{ Auth::user()->name }}
 				</a>
 			</li><!-- / .nav-item -->
 
 			<li class="nav-item">
-				<a class="nav-link" href="#ui-homepage">
+				<a class="nav-link">
 					Účtovný dátum: <br>
 					13.2.2021
 				</a>
