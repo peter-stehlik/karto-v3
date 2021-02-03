@@ -32,6 +32,9 @@ main {
 	color: #333;
 	line-height: 1.4;
 	padding: .5rem .75rem;
+	&:hover {
+		text-decoration: underline;
+	}
   }
 
   

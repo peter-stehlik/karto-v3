@@ -97,6 +97,7 @@ hr:not([size]) {
   font-weight: $headings-font-weight;
   line-height: $headings-line-height;
   color: $headings-color;
+  letter-spacing: .25px;
 }
 
 h1 {
@@ -401,6 +402,8 @@ th {
 
 label {
   display: inline-block; // 1
+  font-size: $font-size-sm;
+  cursor: pointer;
 }
 
 // Remove the default `border-radius` that macOS Chrome adds.

@@ -3,11 +3,17 @@
 		<h6 class="sidebar-heading px-2 mt-3 mb-1 text-muted">
 			@if( str_starts_with(request()->route()->getName(), 'kartoteka.') )
 				Kartotéka
+			@elseif( str_starts_with(request()->route()->getName(), 'uzivatel.') )
+				Užívateľ
 			@endif
 		</h6>
 
 		@if( str_starts_with(request()->route()->getName(), 'kartoteka.') )
 			@include('components/subnavs/kartoteka')
+		@endif
+		
+		@if( str_starts_with(request()->route()->getName(), 'uzivatel.') )
+			@include('components/subnavs/uzivatel')
 		@endif
 
 		<hr class="mr-2">

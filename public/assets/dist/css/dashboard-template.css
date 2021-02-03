@@ -33,6 +33,9 @@ main {
   line-height: 1.4;
   padding: 0.5rem 0.75rem;
 }
+.sidebar .nav-link:hover {
+  text-decoration: underline;
+}
 
 .sidebar .nav-link.active {
   color: var(--bs-primary);

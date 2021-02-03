@@ -12,7 +12,6 @@
   text-align: center;
   text-decoration: if($link-decoration == none, null, none);
   text-transform: uppercase;
-  font-weight: 500;
   white-space: $btn-white-space;
   vertical-align: middle;
   cursor: if($enable-button-pointers, pointer, null);

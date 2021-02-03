@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'Peter Stehlík',
             'email' => 'peter@inovative.sk',
             'email_verified_at' => now(),
-            'password' => Hash::make('.Kar+7073-kA/'),
+            'password' => Hash::make('.KartotekA1510/'),
             'remember_token' => Str::random(10),
         ]);
 

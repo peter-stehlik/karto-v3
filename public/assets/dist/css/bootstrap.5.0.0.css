@@ -43,7 +43,7 @@ body {
   font-family: "PT Serif", "Georgia", serif;
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.88;
+  line-height: 1.48;
   color: #000;
   background-color: #fff;
   -webkit-text-size-adjust: 100%;
@@ -70,9 +70,10 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   margin-top: 0;
   margin-bottom: 1.5rem;
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.2;
-  color: #96C33C;
+  color: #000;
+  letter-spacing: 0.25px;
 }
 
 h1, .h1 {
@@ -292,6 +293,8 @@ th {
 
 label {
   display: inline-block;
+  font-size: 0.875rem;
+  cursor: pointer;
 }
 
 button {
@@ -2127,11 +2130,11 @@ progress {
 }
 
 .col-form-label {
-  padding-top: calc(0.6rem + 1px);
-  padding-bottom: calc(0.6rem + 1px);
+  padding-top: calc(0.25rem + 1px);
+  padding-bottom: calc(0.25rem + 1px);
   margin-bottom: 0;
   font-size: inherit;
-  line-height: 1.88;
+  line-height: 1.48;
 }
 
 .col-form-label-lg {
@@ -2160,18 +2163,18 @@ progress {
 .form-control {
   display: block;
   width: 100%;
-  min-height: calc(1.88em + 1.2rem + 2px);
-  padding: 0.6rem 1rem;
+  min-height: calc(1.48em + 0.5rem + 2px);
+  padding: 0.25rem 0.75rem;
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.13rem;
-  font-weight: 400;
-  line-height: 1.88;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.48;
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #c4c4c4;
   appearance: none;
-  border-radius: 0;
+  border-radius: 0.32rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2198,9 +2201,9 @@ progress {
 .form-control-plaintext {
   display: block;
   width: 100%;
-  padding: 0.6rem 0;
+  padding: 0.25rem 0;
   margin-bottom: 0;
-  line-height: 1.88;
+  line-height: 1.48;
   color: #000;
   background-color: transparent;
   border: solid transparent;
@@ -2212,17 +2215,17 @@ progress {
 }
 
 .form-control-sm {
-  min-height: calc(1.88em + 0.5rem + 2px);
+  min-height: calc(1.48em + 0.5rem + 2px);
   padding: 0.25rem 0.5rem;
   font-size: 1rem;
-  border-radius: 0;
+  border-radius: 0.2rem;
 }
 
 .form-control-lg {
-  min-height: calc(1.88em + 2rem + 2px);
+  min-height: calc(1.48em + 2rem + 2px);
   padding: 1rem 1.5rem;
   font-size: calc(1.2606rem + 0.1272vw);
-  border-radius: 0;
+  border-radius: 0.5rem;
 }
 @media (min-width: 1200px) {
   .form-control-lg {
@@ -2232,32 +2235,32 @@ progress {
 
 .form-control-color {
   max-width: 3rem;
-  padding: 0.6rem;
+  padding: 0.25rem;
 }
 
 .form-control-color::-moz-color-swatch {
-  border-radius: 0;
+  border-radius: 0.32rem;
 }
 
 .form-control-color::-webkit-color-swatch {
-  border-radius: 0;
+  border-radius: 0.32rem;
 }
 
 .form-select {
   display: block;
   width: 100%;
-  height: calc(1.88em + 1.2rem + 2px);
-  padding: 0.6rem 2rem 0.6rem 1rem;
+  height: calc(1.48em + 0.5rem + 2px);
+  padding: 0.25rem 1.75rem 0.25rem 0.75rem;
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.13rem;
-  font-weight: 400;
-  line-height: 1.88;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.48;
   color: #495057;
   vertical-align: middle;
   background-color: #fff;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right 1rem center;
+  background-position: right 0.75rem center;
   background-size: 16px 12px;
   border: 1px solid #c4c4c4;
   border-radius: 0.32rem;
@@ -2274,7 +2277,7 @@ progress {
 }
 .form-select[multiple], .form-select[size]:not([size="1"]) {
   height: auto;
-  padding-right: 1rem;
+  padding-right: 0.75rem;
   background-image: none;
 }
 .form-select:disabled {
@@ -2287,7 +2290,7 @@ progress {
 }
 
 .form-select-sm {
-  height: calc(1.88em + 0.5rem + 2px);
+  height: calc(1.48em + 0.5rem + 2px);
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   padding-left: 0.5rem;
@@ -2295,7 +2298,7 @@ progress {
 }
 
 .form-select-lg {
-  height: calc(1.88em + 2rem + 2px);
+  height: calc(1.48em + 2rem + 2px);
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1.5rem;
@@ -2309,7 +2312,7 @@ progress {
 
 .form-check {
   display: block;
-  min-height: 1.88rem;
+  min-height: 1.48rem;
   padding-left: 1.5em;
   margin-bottom: 0.125rem;
 }
@@ -2321,7 +2324,7 @@ progress {
 .form-check-input {
   width: 1em;
   height: 1em;
-  margin-top: 0.44em;
+  margin-top: 0.24em;
   vertical-align: top;
   background-color: #fff;
   background-repeat: no-repeat;
@@ -2405,7 +2408,7 @@ progress {
 }
 
 .form-file {
-  --bs-form-file-height: calc(1.88em + 1.2rem + 2px);
+  --bs-form-file-height: calc(1.48em + 0.5rem + 2px);
   position: relative;
 }
 
@@ -2434,17 +2437,17 @@ progress {
   display: flex;
   height: var(--bs-form-file-height);
   border-color: #c4c4c4;
-  border-radius: 0;
+  border-radius: 0.32rem;
 }
 
 .form-file-text {
   display: block;
   flex-grow: 1;
-  padding: 0.6rem 1rem;
+  padding: 0.25rem 0.75rem;
   overflow: hidden;
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
-  font-weight: 400;
-  line-height: 1.88;
+  font-weight: 300;
+  line-height: 1.48;
   color: #495057;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2459,9 +2462,9 @@ progress {
 .form-file-button {
   display: block;
   flex-shrink: 0;
-  padding: 0.6rem 1rem;
+  padding: 0.25rem 0.75rem;
   margin-left: -1px;
-  line-height: 1.88;
+  line-height: 1.48;
   color: #495057;
   background-color: #e9ecef;
   border-color: inherit;
@@ -2472,7 +2475,7 @@ progress {
 }
 
 .form-file-sm {
-  --bs-form-file-height: calc(1.88em + 0.5rem + 2px);
+  --bs-form-file-height: calc(1.48em + 0.5rem + 2px);
   font-size: 1rem;
 }
 .form-file-sm .form-file-text,
@@ -2481,7 +2484,7 @@ progress {
 }
 
 .form-file-lg {
-  --bs-form-file-height: calc(1.88em + 2rem + 2px);
+  --bs-form-file-height: calc(1.48em + 2rem + 2px);
   font-size: calc(1.2606rem + 0.1272vw);
 }
 @media (min-width: 1200px) {
@@ -2662,24 +2665,24 @@ progress {
 .input-group-text {
   display: flex;
   align-items: center;
-  padding: 0.6rem 1rem;
-  font-size: 1.13rem;
-  font-weight: 400;
-  line-height: 1.88;
+  padding: 0.25rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.48;
   color: #495057;
   text-align: center;
   white-space: nowrap;
   background-color: #e9ecef;
   border: 1px solid #c4c4c4;
-  border-radius: 0;
+  border-radius: 0.32rem;
 }
 
 .input-group-lg > .form-control {
-  min-height: calc(1.88em + 2rem + 2px);
+  min-height: calc(1.48em + 2rem + 2px);
 }
 
 .input-group-lg > .form-select {
-  height: calc(1.88em + 2rem + 2px);
+  height: calc(1.48em + 2rem + 2px);
 }
 
 .input-group-lg > .form-control,
@@ -2688,7 +2691,7 @@ progress {
 .input-group-lg > .btn {
   padding: 1rem 1.5rem;
   font-size: calc(1.2606rem + 0.1272vw);
-  border-radius: 0;
+  border-radius: 0.5rem;
 }
 @media (min-width: 1200px) {
   .input-group-lg > .form-control,
@@ -2700,11 +2703,11 @@ progress {
 }
 
 .input-group-sm > .form-control {
-  min-height: calc(1.88em + 0.5rem + 2px);
+  min-height: calc(1.48em + 0.5rem + 2px);
 }
 
 .input-group-sm > .form-select {
-  height: calc(1.88em + 0.5rem + 2px);
+  height: calc(1.48em + 0.5rem + 2px);
 }
 
 .input-group-sm > .form-control,
@@ -2713,12 +2716,12 @@ progress {
 .input-group-sm > .btn {
   padding: 0.25rem 0.5rem;
   font-size: 1rem;
-  border-radius: 0;
+  border-radius: 0.2rem;
 }
 
 .input-group-lg > .form-select,
 .input-group-sm > .form-select {
-  padding-right: 2rem;
+  padding-right: 1.75rem;
 }
 
 .input-group > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
@@ -2763,11 +2766,11 @@ progress {
 
 .was-validated .form-control:valid, .form-control.is-valid {
   border-color: #00A546;
-  padding-right: calc(1.88em + 1.2rem);
+  padding-right: calc(1.48em + 0.5rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2300A546' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right calc(0.47em + 0.3rem) center;
-  background-size: calc(0.94em + 0.6rem) calc(0.94em + 0.6rem);
+  background-position: right calc(0.37em + 0.125rem) center;
+  background-size: calc(0.74em + 0.25rem) calc(0.74em + 0.25rem);
 }
 .was-validated .form-control:valid:focus, .form-control.is-valid:focus {
   border-color: #00A546;
@@ -2775,16 +2778,16 @@ progress {
 }
 
 .was-validated textarea.form-control:valid, textarea.form-control.is-valid {
-  padding-right: calc(1.88em + 1.2rem);
-  background-position: top calc(0.47em + 0.3rem) right calc(0.47em + 0.3rem);
+  padding-right: calc(1.48em + 0.5rem);
+  background-position: top calc(0.37em + 0.125rem) right calc(0.37em + 0.125rem);
 }
 
 .was-validated .form-select:valid, .form-select.is-valid {
   border-color: #00A546;
-  padding-right: calc(0.75em + 2.9rem);
+  padding-right: calc(0.75em + 2.125rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2300A546' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
-  background-position: right 1rem center, center right 2rem;
-  background-size: 16px 12px, calc(0.94em + 0.6rem) calc(0.94em + 0.6rem);
+  background-position: right 0.75rem center, center right 1.75rem;
+  background-size: 16px 12px, calc(0.74em + 0.25rem) calc(0.74em + 0.25rem);
 }
 .was-validated .form-select:valid:focus, .form-select.is-valid:focus {
   border-color: #00A546;
@@ -2847,11 +2850,11 @@ progress {
 
 .was-validated .form-control:invalid, .form-control.is-invalid {
   border-color: #dc3545;
-  padding-right: calc(1.88em + 1.2rem);
+  padding-right: calc(1.48em + 0.5rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right calc(0.47em + 0.3rem) center;
-  background-size: calc(0.94em + 0.6rem) calc(0.94em + 0.6rem);
+  background-position: right calc(0.37em + 0.125rem) center;
+  background-size: calc(0.74em + 0.25rem) calc(0.74em + 0.25rem);
 }
 .was-validated .form-control:invalid:focus, .form-control.is-invalid:focus {
   border-color: #dc3545;
@@ -2859,16 +2862,16 @@ progress {
 }
 
 .was-validated textarea.form-control:invalid, textarea.form-control.is-invalid {
-  padding-right: calc(1.88em + 1.2rem);
-  background-position: top calc(0.47em + 0.3rem) right calc(0.47em + 0.3rem);
+  padding-right: calc(1.48em + 0.5rem);
+  background-position: top calc(0.37em + 0.125rem) right calc(0.37em + 0.125rem);
 }
 
 .was-validated .form-select:invalid, .form-select.is-invalid {
   border-color: #dc3545;
-  padding-right: calc(0.75em + 2.9rem);
+  padding-right: calc(0.75em + 2.125rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-  background-position: right 1rem center, center right 2rem;
-  background-size: 16px 12px, calc(0.94em + 0.6rem) calc(0.94em + 0.6rem);
+  background-position: right 0.75rem center, center right 1.75rem;
+  background-size: 16px 12px, calc(0.74em + 0.25rem) calc(0.74em + 0.25rem);
 }
 .was-validated .form-select:invalid:focus, .form-select.is-invalid:focus {
   border-color: #dc3545;
@@ -2904,20 +2907,19 @@ progress {
   display: inline-block;
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
-  font-size: 1.13rem;
-  line-height: 1.88;
+  font-size: 1rem;
+  line-height: 1.48;
   color: #fff;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
-  font-weight: 500;
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
   background-color: transparent;
   border: 1px solid transparent;
-  padding: 0.6rem 1rem;
-  font-size: 1.13rem;
+  padding: 0.4rem 1rem;
+  font-size: 1rem;
   border-radius: 0.32rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -3928,8 +3930,8 @@ progress {
   justify-content: space-between;
 }
 .navbar-brand {
-  padding-top: 0.3778rem;
-  padding-bottom: 0.3778rem;
+  padding-top: 0.4038rem;
+  padding-bottom: 0.4038rem;
   margin-right: 1rem;
   font-size: 1.13rem;
   text-decoration: none;
@@ -5179,7 +5181,7 @@ progress {
 
 .modal-title {
   margin-bottom: 0;
-  line-height: 1.88;
+  line-height: 1.48;
 }
 
 .modal-body {
@@ -5379,7 +5381,7 @@ progress {
   font-family: "PT Serif", "Georgia", serif;
   font-style: normal;
   font-weight: 400;
-  line-height: 1.88;
+  line-height: 1.48;
   text-align: left;
   text-align: start;
   text-decoration: none;
@@ -5481,7 +5483,7 @@ progress {
   font-family: "PT Serif", "Georgia", serif;
   font-style: normal;
   font-weight: 400;
-  line-height: 1.88;
+  line-height: 1.48;
   text-align: left;
   text-align: start;
   text-decoration: none;
@@ -5602,7 +5604,7 @@ progress {
   padding: 0.5rem 1.5rem;
   margin-bottom: 0;
   font-size: 1rem;
-  color: #96C33C;
+  color: #000;
   background-color: #f7f7f7;
   border-bottom: 1px solid #ebebeb;
   border-top-left-radius: calc(0.5rem - 1px);
@@ -5973,6 +5975,10 @@ aside .carousel-gallery .carousel {
 .spinner-grow-sm {
   width: 1rem;
   height: 1rem;
+}
+
+form sup {
+  color: #dc3545;
 }
 
 footer {
@@ -7176,11 +7182,11 @@ footer blockquote a {
 }
 
 .lh-base {
-  line-height: 1.88 !important;
+  line-height: 1.48 !important;
 }
 
 .lh-lg {
-  line-height: 2.3 !important;
+  line-height: 2 !important;
 }
 
 .bg-primary {

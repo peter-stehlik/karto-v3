@@ -414,9 +414,9 @@ $font-weight-bolder:          bolder !default;
 
 $font-weight-base:            $font-weight-normal !default;
 
-$line-height-base:            1.88 !default;
+$line-height-base:            1.48 !default;
 $line-height-sm:              1.25 !default;
-$line-height-lg:              2.3 !default;
+$line-height-lg:              2 !default;
 
 $h1-font-size:                $font-size-base * 2.25 !default;
 $h2-font-size:                $font-size-base * 1.31 !default;
@@ -428,9 +428,9 @@ $h6-font-size:                $font-size-base !default;
 $headings-margin-bottom:      $spacer !default;
 $headings-font-family:        $font-family-sans-serif !default;
 $headings-font-style:         null !default;
-$headings-font-weight:        300 !default;
+$headings-font-weight:        500 !default;
 $headings-line-height:        1.2 !default;
-$headings-color:              $green !default;
+$headings-color:              $black !default;
 
 // scss-docs-start display-headings
 $display-font-sizes: (
@@ -540,10 +540,10 @@ $table-variants: (
 //
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
 
-$input-btn-padding-y:         .6rem !default;
+$input-btn-padding-y:         .4rem !default;
 $input-btn-padding-x:         1rem !default;
 $input-btn-font-family:       $font-family-sans-serif !default;
-$input-btn-font-size:         $font-size-lg !default;
+$input-btn-font-size:         $font-size-base !default;
 $input-btn-line-height:       $line-height-base !default;
 
 $input-btn-focus-width:         .25rem !default;
@@ -618,11 +618,11 @@ $form-label-font-style:                 null !default;
 $form-label-font-weight:                null !default;
 $form-label-color:                      null !default;
 
-$input-padding-y:                       $input-btn-padding-y !default;
-$input-padding-x:                       $input-btn-padding-x !default;
+$input-padding-y:                       $spacer / 6 !default;
+$input-padding-x:                       $spacer / 2 !default;
 $input-font-family:                     $input-btn-font-family !default;
-$input-font-size:                       $input-btn-font-size !default;
-$input-font-weight:                     $font-weight-base !default;
+$input-font-size:                       $input-btn-font-size-sm !default;
+$input-font-weight:                     $font-weight-light !default;
 $input-line-height:                     $input-btn-line-height !default;
 
 $input-padding-y-sm:                    $input-btn-padding-y-sm !default;
@@ -642,9 +642,9 @@ $input-border-color:                    $gray-400 !default;
 $input-border-width:                    $input-btn-border-width !default;
 $input-box-shadow:                      $box-shadow-inset !default;
 
-$input-border-radius:                   0 !default;
-$input-border-radius-sm:                0 !default;
-$input-border-radius-lg:                0 !default;
+$input-border-radius:                   $border-radius !default;
+$input-border-radius-sm:                $border-radius-sm !default;
+$input-border-radius-lg:                $border-radius-lg !default;
 
 $input-focus-bg:                        $input-bg !default;
 $input-focus-border-color:              lighten($component-active-bg, 25%) !default;

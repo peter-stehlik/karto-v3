@@ -7,7 +7,19 @@
 
 	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="{{url('/images/svdmainlogo.gif')}}" />
 
-	<title>SVD Kancelária</title>
+	<?php
+		$title = "Kancelária";
+	
+		if( request()->route()->getName() === 'kartoteka.uvod' ):
+			$title = "Kartotéka";
+		elseif( request()->route()->getName() === 'uzivatel.uvod' ):
+			$title = "Užívateľ";
+		elseif( request()->route()->getName() === 'uzivatel.zmenit-heslo' ):
+			$title = "Zmeniť heslo";
+		endif;
+	?>
+
+	<title>{{ $title }} | SVD</title>
 
 	<meta name="robots" content="noindex, nofollow">
 
@@ -30,6 +42,14 @@
 
 			<main class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-md-3 d-flex flex-column justify-content-between">
 				<div class="content">
+					@if (session('message'))
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							{{ session('message') }}
+
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					@endif
+
                     {{ $slot }}
 				</div><!-- / .content -->
 

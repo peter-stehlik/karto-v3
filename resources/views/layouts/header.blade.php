@@ -4,10 +4,10 @@
 	</a>
 
 	<nav class="w-100 px-md-2 pt-0 pb-0">
-		<div class="container-fluid d-flex align-items-center justify-content-between px-md-2">
+		<div class="container-fluid d-flex align-items-center justify-content-between pl-md-1 pr-md-2">
 			<ul class="navbar-nav mb-0">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="{{ route('kartoteka.uvod') }}">Kartotéka</a>
+					<a class="nav-link @if( str_starts_with(request()->route()->getName(), 'kartoteka.') ) active @endif" href="{{ route('kartoteka.uvod') }}">Kartotéka</a>
 
 					@include('components/subnavs/kartoteka')
 				</li><!-- / .nav-item -->
@@ -25,7 +25,9 @@
 				</li><!-- / .nav-item -->
 
 				<li class="nav-item">
-					<a class="nav-link" href="demo.html">Užívateľ</a>
+					<a class="nav-link @if( str_starts_with(request()->route()->getName(), 'uzivatel.') ) active @endif" href="{{ route('uzivatel.uvod') }}">Užívateľ</a>
+
+					@include('components/subnavs/uzivatel')
 				</li><!-- / .nav-item -->
 			</ul><!-- / .navbar-nav -->
 			
