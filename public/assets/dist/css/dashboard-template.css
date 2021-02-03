@@ -70,7 +70,15 @@ main {
 .nav-item .nav {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -0.5rem;
+  z-index: 77;
+  display: none;
+  width: 200%;
+  padding: 0 0.5rem 0.5rem;
+  background: #343a40;
+}
+.nav-item:hover .nav {
+  display: block;
 }
 
 /*# sourceMappingURL=dashboard-template.css.map */

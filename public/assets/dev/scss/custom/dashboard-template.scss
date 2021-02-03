@@ -72,7 +72,17 @@ main {
 	.nav {
 		position: absolute;
 		top: 100%;
-		left: 0;
+		left: -.5rem;
+		z-index: 77;
+		display: none;
+		width: 200%;
+		padding: 0 .5rem .5rem;
+		background: #343a40;
+	}
+	&:hover {
+		.nav {
+			display: block;
+		}
 	}
 }
   

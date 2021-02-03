@@ -17,8 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::name('kartoteka.')->group(function () {
+    Route::get('/kartoteka', function () {
+        return view('kartoteka');
+    })->middleware(['auth'])->name('uvod');
+});
+
+
 
 require __DIR__.'/auth.php';
