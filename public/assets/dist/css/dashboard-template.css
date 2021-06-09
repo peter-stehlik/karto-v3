@@ -33,7 +33,8 @@ main {
   line-height: 1.4;
   padding: 0.5rem 0.75rem;
 }
-.sidebar .nav-link:hover {
+
+.sidebar a.nav-link:hover {
   text-decoration: underline;
 }
 
