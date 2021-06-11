@@ -7,19 +7,7 @@
 
 	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="{{url('/images/svdmainlogo.gif')}}" />
 
-	<?php
-		$title = "Kancelária";
-	
-		if( request()->route()->getName() === 'kartoteka.uvod' ):
-			$title = "Kartotéka";
-		elseif( request()->route()->getName() === 'uzivatel.uvod' ):
-			$title = "Užívateľ";
-		elseif( request()->route()->getName() === 'uzivatel.zmenit-heslo' ):
-			$title = "Zmeniť heslo";
-		endif;
-	?>
-
-	<title>{{ $title }} | SVD</title>
+	<title>{{ request()->route()->getName() }} | SVD</title>
 
 	<meta name="robots" content="noindex, nofollow">
 
@@ -29,6 +17,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap.5.0.0.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/dist/css/dashboard-template.css') }}">
 
+	<script src="{{ asset('assets/dist/js/jquery-3.6.0.min.js') }}"></script>
 	<script src="{{ asset('assets/dist/js/dashboard-template.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/bootstrap.bundle.min.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/custom.js') }}" defer></script>

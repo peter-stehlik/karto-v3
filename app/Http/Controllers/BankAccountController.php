@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\BankAccount;
 
 class BankAccountController extends Controller
 {
@@ -13,7 +14,10 @@ class BankAccountController extends Controller
      */
     public function index()
     {
-        return view('v-kancelaria/bankove-ucty/index');
+        $bank_accounts = BankAccount::orderBy("created_at", "desc")->get();
+
+        return view('v-kancelaria/bankove-ucty/index')
+                ->with('bank_accounts', $bank_accounts);
     }
 
     /**
@@ -23,7 +27,7 @@ class BankAccountController extends Controller
      */
     public function create()
     {
-        //
+        return view('v-kancelaria/bankove-ucty/create');
     }
 
     /**
@@ -79,6 +83,10 @@ class BankAccountController extends Controller
      */
     public function destroy($id)
     {
-        //
+        BankAccount::find($id)->delete($id);
+  
+        return response()->json([
+            'success' => '1'
+        ]);
     }
 }
