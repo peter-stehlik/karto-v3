@@ -87,15 +87,8 @@
 
                             return;
                         }
-
-                        $("tr[data-id='" + id + "']").remove();
-
-                        // manually remove modal, bootstrap method not working
-                        $("body").removeClass("modal-open");
-                        $(".modal").removeClass("show").hide();
-                        $(".modal-backdrop").remove();
-
                         alert( "Vymazanie prebehlo úspešne." );
+                        location.reload();
                     }
                 });
             });
