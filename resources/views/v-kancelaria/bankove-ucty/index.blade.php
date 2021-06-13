@@ -92,7 +92,7 @@
 
                         // manually remove modal, bootstrap method not working
                         $("body").removeClass("modal-open");
-                        $(".modal").removeClass("show");
+                        $(".modal").removeClass("show").hide();
                         $(".modal-backdrop").remove();
 
                         alert( "Vymazanie prebehlo úspešne." );

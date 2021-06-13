@@ -38,7 +38,17 @@ class BankAccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $bank_name = $request->bank_name; 
+        $abbreviation = $request->abbreviation; 
+        $number = $request->number;
+
+        BankAccount::create([
+            'bank_name' => $bank_name,
+            'abbreviation' => $abbreviation,
+            'number' => $number,
+        ]);
+
+        return redirect('kancelaria/bankove-ucty')->with('message', 'Operácia sa podarila!');
     }
 
     /**
