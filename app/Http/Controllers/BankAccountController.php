@@ -70,7 +70,10 @@ class BankAccountController extends Controller
      */
     public function edit($id)
     {
-        //
+        $bank_account = BankAccount::find($id);
+
+        return view('v-kancelaria/bankove-ucty/edit')
+            ->with('bank_account', $bank_account);
     }
 
     /**
@@ -82,7 +85,18 @@ class BankAccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $bank_name = $request->bank_name; 
+        $abbreviation = $request->abbreviation; 
+        $number = $request->number;
+
+        BankAccount::where('id', $id)
+            ->update([
+                'bank_name' => $bank_name,
+                'abbreviation' => $abbreviation,
+                'number' => $number,
+            ]);
+
+        return redirect('kancelaria/bankove-ucty')->with('message', 'Operácia sa podarila!');
     }
 
     /**

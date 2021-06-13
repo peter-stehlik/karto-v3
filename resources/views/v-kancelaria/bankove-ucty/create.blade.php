@@ -18,27 +18,27 @@
 
 					<div class="col-lg-4">
 						<div class="mb-3">
-							<label class="pr-2 mb-1" for="abbreviation">Skratka <sup>*</sup></label>
+							<label class="pr-2 mb-1" for="abbreviation">Skratka</label>
 
 							<div>
 								<input class="form-control" id="abbreviation" type="text" name="abbreviation"
-									autocomplete="off" required>
+									autocomplete="off">
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<div class="mb-3">
-					<label class="pr-2 mb-1" for="number">Číslo účtu <sup>*</sup></label>
+					<label class="pr-2 mb-1" for="number">Číslo účtu</label>
 
 					<div class="">
 						<input class="form-control" id="number" type="text"
-							name="number" autocomplete="off" required>
+							name="number" autocomplete="off">
 					</div>
 				</div>
 
 				<div class="mb-3">
-					<button class="btn btn-primary" type="submit">Vytvoriť</button>
+					<button class="btn btn-primary" type="submit">Uložiť</button>
 				</div>
 			</div>
 		{!! Form::close() !!}

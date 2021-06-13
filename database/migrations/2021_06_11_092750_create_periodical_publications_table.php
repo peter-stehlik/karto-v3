@@ -16,11 +16,11 @@ class CreatePeriodicalPublicationsTable extends Migration
         Schema::create('periodical_publications', function (Blueprint $table) {
             $table->id();
             $table->string('name', 20);
-            $table->date('label_date');
-            $table->string('abbrevation', 20);
-            $table->decimal('price', 14, 2);
-            $table->integer('current_number');
-            $table->string('note');
+            $table->date('label_date')->nullable();
+            $table->string('abbrevation', 20)->nullable();
+            $table->decimal('price', 14, 2)->nullable();
+            $table->integer('current_number')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

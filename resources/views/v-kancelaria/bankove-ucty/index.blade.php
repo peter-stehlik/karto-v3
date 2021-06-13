@@ -22,7 +22,7 @@
                         <td>{{ $bank_account->bank_name }}</td>
                         <td>{{ $bank_account->abbreviation }}</td>
                         <td>{{ $bank_account->number }}</td>
-                        <td class="text-center"><a href="#">
+                        <td class="text-center"><a href="{{ route('kancelaria.bankove-ucty.edit', [$bank_account->id]) }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-pencil-square text-success"
                                     viewBox="0 0 16 16">

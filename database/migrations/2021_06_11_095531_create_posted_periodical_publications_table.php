@@ -17,8 +17,8 @@ class CreatePostedPeriodicalPublicationsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('periodical_publication_id');
-            $table->date('label_date');
-            $table->integer('posted_number')->comment('Related to CURRENT NUMBER at periodical publications');
+            $table->date('label_date')->nullable();
+            $table->integer('posted_number')->nullable()->comment('Related to CURRENT NUMBER at periodical publications');
             $table->timestamps();
             $table->softDeletes();
         });
