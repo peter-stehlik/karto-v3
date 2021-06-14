@@ -19,7 +19,9 @@
 				</li><!-- / .nav-item -->
 
 				<li class="nav-item">
-					<a class="nav-link" href="components.html">Osoba</a>
+					<a class="nav-link @if( str_starts_with(request()->route()->getName(), 'osoba.') ) active @endif" href="{{ route('osoba.uvod') }}">Osoba</a>
+
+					@include('components/subnavs/osoba')
 				</li><!-- / .nav-item -->
 
 				<li class="nav-item">

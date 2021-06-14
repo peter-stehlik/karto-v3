@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\PeriodicalController;
 use App\Http\Controllers\NonperiodicalController;
+use App\Http\Controllers\CategoryController;
 
 
 /*
@@ -44,6 +45,17 @@ Route::name('vydavatelstvo.')->group(function () {
     Route::resource('vydavatelstvo/publikacie', PeriodicalController::class)->middleware(['auth']);
 
     Route::resource('vydavatelstvo/neperiodika', NonperiodicalController::class)->middleware(['auth']);
+});
+
+/* -------------- */
+/* --- OSOBA --- */
+/* ------------ */
+Route::name('osoba.')->group(function () {
+    Route::get('/osoba', function () {
+        return view('v-osoba/osoba');
+    })->middleware(['auth'])->name('uvod');
+
+    Route::resource('osoba/kategorie', CategoryController::class)->middleware(['auth']);
 });
 
 /* ------------------- */
