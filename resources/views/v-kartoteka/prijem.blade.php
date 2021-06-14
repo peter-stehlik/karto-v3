@@ -2,7 +2,7 @@
 	<h1 class="h3 py-2 border-bottom text-uppercase">Zadať príjem</h1>
 
 	<div class="row">
-		{!! Form::open(['action' => 'App\Http\Controllers\IncomeController@store']) !!}	
+		{!! Form::open(['action' => 'App\Http\Controllers\IncomeController@store', 'id' => 'incomeForm']) !!}	
 			<div class="col-lg-5">
 				<div class="row">
 					<div class="bg-warning p-3 mb-4">

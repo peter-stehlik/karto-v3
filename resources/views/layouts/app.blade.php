@@ -21,6 +21,8 @@
 	<script src="{{ asset('assets/dist/js/dashboard-template.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/bootstrap.bundle.min.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/custom.js') }}" defer></script>
+	<script src="{{ asset('assets/dist/js/helper.js') }}" defer></script>
+	<script src="{{ asset('assets/dist/js/income.js') }}" defer></script>
 </head>
 <body>
 	@include('layouts/header')
