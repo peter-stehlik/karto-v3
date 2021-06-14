@@ -8,6 +8,7 @@ use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\PeriodicalController;
 use App\Http\Controllers\NonperiodicalController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IncomeController;
 
 
 /*
@@ -32,6 +33,9 @@ Route::name('kartoteka.')->group(function () {
     Route::get('/kartoteka', function () {
         return view('v-kartoteka/kartoteka');
     })->middleware(['auth'])->name('uvod');
+
+    Route::get('/prijem', [IncomeController::class, 'create'])->middleware(['auth'])->name('prijem-get');
+    Route::post('/prijem', [IncomeController::class, 'store'])->middleware(['auth'])->name('prijem-post');
 });
 
 /* ---------------------- */

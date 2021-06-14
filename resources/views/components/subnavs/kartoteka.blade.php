@@ -1,6 +1,6 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
-		<a class="nav-link" href="#ui-homepage">
+		<a class="nav-link" href="{{ route('kartoteka.prijem-get') }}">
 			Príjem platby
 		</a>
 	</li><!-- / .nav-item -->

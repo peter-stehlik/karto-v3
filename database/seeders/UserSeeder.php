@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'Peter Stehlík',
             'email' => 'peter@inovative.sk',
             'email_verified_at' => now(),
+            'accounting_date' => now(),
             'password' => Hash::make('.KartotekA1510/'),
             'remember_token' => Str::random(10),
         ]);
@@ -30,6 +31,7 @@ class UserSeeder extends Seeder
             'name' => 'Katarína Vallová',
             'email' => 'katarina.vallova@svd.sk',
             'email_verified_at' => now(),
+            'accounting_date' => now(),
             'password' => Hash::make('kalvaria1'),
             'remember_token' => Str::random(10),
         ]);
@@ -39,6 +41,7 @@ class UserSeeder extends Seeder
             'name' => 'Katarína Mancírová',
             'email' => 'katarina.mancirova@svd.sk',
             'email_verified_at' => now(),
+            'accounting_date' => now(),
             'password' => Hash::make('kalvaria2'),
             'remember_token' => Str::random(10),
         ]);
