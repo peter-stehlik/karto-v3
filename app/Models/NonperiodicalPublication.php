@@ -17,6 +17,6 @@ class NonperiodicalPublication extends Model
      */
     protected $fillable = [
         'name',
-        'abbrevation',
+        'abbreviation',
     ];
 }

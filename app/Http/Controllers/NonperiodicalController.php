@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\NonperiodicalPublication;
 
 use Illuminate\Http\Request;
 
@@ -13,7 +14,10 @@ class NonperiodicalController extends Controller
      */
     public function index()
     {
-        //
+        $nonperiodicals = NonperiodicalPublication::orderBy("created_at", "desc")->get();
+
+        return view('v-vydavatelstvo/neperiodika/index')
+                ->with('nonperiodicals', $nonperiodicals);
     }
 
     /**
@@ -23,7 +27,7 @@ class NonperiodicalController extends Controller
      */
     public function create()
     {
-        //
+        return view('v-vydavatelstvo/neperiodika/create');
     }
 
     /**
@@ -34,7 +38,15 @@ class NonperiodicalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $name = $request->name; 
+        $abbreviation = $request->abbreviation; 
+
+        NonperiodicalPublication::create([
+            'name' => $name,
+            'abbreviation' => $abbreviation,
+        ]);
+
+        return redirect('vydavatelstvo/neperiodika')->with('message', 'Operácia sa podarila!');
     }
 
     /**
@@ -56,7 +68,10 @@ class NonperiodicalController extends Controller
      */
     public function edit($id)
     {
-        //
+        $nonperiodical = NonperiodicalPublication::find($id);
+
+        return view('v-vydavatelstvo/neperiodika/edit')
+            ->with('nonperiodical', $nonperiodical);
     }
 
     /**
@@ -68,7 +83,16 @@ class NonperiodicalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $name = $request->name; 
+        $abbreviation = $request->abbreviation; 
+
+        NonperiodicalPublication::where('id', $id)
+            ->update([
+                'name' => $name,
+                'abbreviation' => $abbreviation,
+            ]);
+
+        return redirect('vydavatelstvo/neperiodika')->with('message', 'Operácia sa podarila!');
     }
 
     /**
@@ -79,6 +103,10 @@ class NonperiodicalController extends Controller
      */
     public function destroy($id)
     {
-        //
+        NonperiodicalPublication::find($id)->delete($id);
+  
+        return response()->json([
+            'success' => '1'
+        ]);
     }
 }

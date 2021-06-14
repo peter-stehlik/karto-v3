@@ -16,7 +16,7 @@ class CreateNonperiodicalPublicationsTable extends Migration
         Schema::create('nonperiodical_publications', function (Blueprint $table) {
             $table->id();
             $table->string('name', 20);
-            $table->string('abbrevation', 20)->nullable();
+            $table->string('abbreviation', 20)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
