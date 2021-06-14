@@ -5,6 +5,8 @@
 				Kartotéka
 			@elseif( str_starts_with(request()->route()->getName(), 'kancelaria.') )
 				Kancelária
+			@elseif( str_starts_with(request()->route()->getName(), 'vydatavelstvo.') )
+				Vydavateľstvo
 			@elseif( str_starts_with(request()->route()->getName(), 'uzivatel.') )
 				Užívateľ
 			@endif
@@ -12,6 +14,10 @@
 
 		@if( str_starts_with(request()->route()->getName(), 'kartoteka.') )
 			@include('components/subnavs/kartoteka')
+		@endif
+
+		@if( str_starts_with(request()->route()->getName(), 'vydavatelstvo.') )
+			@include('components/subnavs/vydavatelstvo')
 		@endif
 		
 		@if( str_starts_with(request()->route()->getName(), 'kancelaria.') )

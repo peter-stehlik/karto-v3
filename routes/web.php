@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\PeriodicalController;
+use App\Http\Controllers\NonperiodicalController;
 
 
 /*
@@ -29,6 +31,19 @@ Route::name('kartoteka.')->group(function () {
     Route::get('/kartoteka', function () {
         return view('v-kartoteka/kartoteka');
     })->middleware(['auth'])->name('uvod');
+});
+
+/* ---------------------- */
+/* --- VYDAVATELSTVO --- */
+/* -------------------- */
+Route::name('vydavatelstvo.')->group(function () {
+    Route::get('/vydavatelstvo', function () {
+        return view('v-vydavatelstvo/vydavatelstvo');
+    })->middleware(['auth'])->name('uvod');
+
+    Route::resource('vydavatelstvo/publikacie', PeriodicalController::class)->middleware(['auth']);
+
+    Route::resource('vydavatelstvo/neperiodika', NonperiodicalController::class)->middleware(['auth']);
 });
 
 /* ------------------- */

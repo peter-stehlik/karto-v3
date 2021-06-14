@@ -361,7 +361,7 @@ textarea {
   resize: vertical;
 }
 textarea.form-control {
-  min-height: 20rem;
+  min-height: 7rem;
   font-size: 0.875rem;
 }
 

@@ -13,7 +13,9 @@
 				</li><!-- / .nav-item -->
 
 				<li class="nav-item">
-					<a class="nav-link" href="general.html">Vydavateľstvo</a>
+					<a class="nav-link @if( str_starts_with(request()->route()->getName(), 'vydavatelstvo.') ) active @endif" href="{{ route('vydavatelstvo.uvod') }}">Vydavateľstvo</a>
+
+					@include('components/subnavs/vydavatelstvo')
 				</li><!-- / .nav-item -->
 
 				<li class="nav-item">

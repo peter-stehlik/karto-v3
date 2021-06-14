@@ -501,7 +501,7 @@ button,
 textarea {
   resize: vertical; // 1
   &.form-control {
-    min-height: 20rem;
+    min-height: 7rem;
     font-size: $font-size-sm;
   }
 }
