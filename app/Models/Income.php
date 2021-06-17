@@ -28,4 +28,20 @@ class Income extends Model
         'note',
         'income_date',
     ];
+
+    /**
+     * Get the bank account that belongs to the income.
+     */
+    public function bank_account()
+    {
+        return $this->belongsTo(BankAccount::class);
+    }
+
+    /**
+     * Get the person details income is for.
+     */
+    public function person()
+    {
+        return $this->belongsTo(Person::class);
+    }
 }
