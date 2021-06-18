@@ -23,4 +23,12 @@ class PeriodicalPublication extends Model
         'current_number',
         'note',
     ];
+
+    /**
+     * Get all transfers
+     */
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
 }

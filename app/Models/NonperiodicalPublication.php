@@ -19,4 +19,12 @@ class NonperiodicalPublication extends Model
         'name',
         'abbreviation',
     ];
+
+    /**
+     * Get all transfers
+     */
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
 }

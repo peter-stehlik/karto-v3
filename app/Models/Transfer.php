@@ -21,5 +21,30 @@ class Transfer extends Model
         'periodical_publication_id',
         'nonperiodical_publication_id',
         'note',
+        'transfer_date',
     ];
+
+    /**
+     * Get the income ID.
+     */
+    public function income()
+    {
+        return $this->belongsTo(Income::class);
+    }
+
+    /**
+     * Get the periodical ID.
+     */
+    public function periodical()
+    {
+        return $this->belongsTo(PeriodicalPublication::class);
+    }
+
+    /**
+     * Get the nonperiodical ID.
+     */
+    public function nonperiodical()
+    {
+        return $this->belongsTo(NonperiodicalPublication::class);
+    }
 }

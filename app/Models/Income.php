@@ -24,7 +24,7 @@ class Income extends Model
         'package_number',
         'invoice',
         'accounting_date',
-        'posted',
+        'confirmed',
         'note',
         'income_date',
     ];
@@ -43,5 +43,13 @@ class Income extends Model
     public function person()
     {
         return $this->belongsTo(Person::class);
+    }
+
+    /**
+     * Get all transfers
+     */
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
     }
 }

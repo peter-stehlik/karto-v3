@@ -84,4 +84,6 @@ var Income = {
 // INIT
 //////////
 
-Income.storeIncomeChars();
+if ($("#incomeForm").length) {
+  Income.storeIncomeChars();
+}

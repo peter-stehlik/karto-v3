@@ -23,7 +23,7 @@ class CreateIncomesTable extends Migration
             $table->integer('package_number')->nullable()->comment("pomocna charakteristika");
             $table->integer('invoice')->nullable()->comment("pomocna charakteristika");
             $table->timestamp('accounting_date')->nullable();
-            $table->boolean('posted');
+            $table->boolean('confirmed')->comment("potvrdeny (zauctovany) prijem");
             $table->string('note')->nullable();
             $table->timestamp('income_date')->nullable()->comment("spravca moze nastavit");
             $table->timestamps();
