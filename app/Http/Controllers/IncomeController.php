@@ -93,7 +93,7 @@ class IncomeController extends Controller
 					$n = "";					
 				}
 				
-				Transfer::create(array(
+				Transfer::create([
                     "income_id" => $new_income->id,
 					"sum" => $p,
 					"periodical_publication_id" => $pp,
@@ -101,7 +101,7 @@ class IncomeController extends Controller
 					"note" => $n,
 					"sum" => floatval($p),
 					"transfer_date" => $a,
-				));
+				]);
 			}
 		}
 

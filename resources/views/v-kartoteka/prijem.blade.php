@@ -142,243 +142,68 @@
 					<!-- ///////////////////// -->
 					<div class="bg-light pt-3 p-2 mb-3">
 						<div class="row">
-							<!-- UCEL 1 -->
-							<div class="col-lg-5">
-								<div class="row">
-									<h3 class="text-center mb-2">Účel</h3>
+							<!-- 4 UCELY -->
+							@for( $i=1; $i <= 4; $i++)
+								<div class="col-lg-5 @if( $i % 2 == 0 ) offset-lg-1 @endif">
+									<div class="row">
+										<h3 class="text-center mb-2">Účel</h3>
 
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Publikácia</label>
+										<div class="col-lg-6">
+											<div class="mb-2">
+												<label class="pr-2 mb-1" for="p{{ $i }}">Publikácia</label>
 
-											<select class="form-control" id="p1" name="periodical_publication[]">
-												<option value="0">Vyberte</option>
+												<select class="form-control" id="p{{ $i }}" name="periodical_publication[]">
+													<option value="0">Vyberte</option>
 
-												@foreach( $periodicals as $item )
-												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
-												@endforeach
-											</select>
+													@foreach( $periodicals as $item )
+													<option value="{!! $item->id !!}">{!! $item->name !!}</option>
+													@endforeach
+												</select>
+											</div>
 										</div>
-									</div>
 
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Neperiodikum</label>
+										<div class="col-lg-6">
+											<div class="mb-2">
+												<label class="pr-2 mb-1" for="np{{ $i }}">Neperiodikum</label>
 
-											<select class="form-control" id="np1" name="nonperiodical_publication[]">
-												<option value="0">Vyberte</option>
+												<select class="form-control" id="np{{ $i }}" name="nonperiodical_publication[]">
+													<option value="0">Vyberte</option>
 
-												@foreach( $nonperiodicals as $item )
-												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
-												@endforeach
-											</select>
+													@foreach( $nonperiodicals as $item )
+													<option value="{!! $item->id !!}">{!! $item->name !!}</option>
+													@endforeach
+												</select>
+											</div>
 										</div>
-									</div>
 
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Suma</label>
+										<div class="col-lg-6">
+											<div class="mb-2">
+												<label class="pr-2 mb-1" for="s{{ $i }}">Suma</label>
 
-											<input class="form-control" type="text" id="s1" name="sum[]">
+												<input class="form-control" type="text" id="s{{ $i }}" name="sum[]">
+											</div>
 										</div>
-									</div>
 
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Dátum</label>
+										<div class="col-lg-6">
+											<div class="mb-2">
+												<label class="pr-2 mb-1" for="d{{ $i }}">Dátum</label>
 
-											<input class="form-control" id="d1" type="text" name="transfer_date[]">
+												<input class="form-control" id="d{{ $i }}" type="text" name="transfer_date[]">
+											</div>
 										</div>
-									</div>
 
-									<div class="col-lg-12">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Poznámka</label>
+										<div class="col-lg-12">
+											<div class="mb-2">
+												<label class="pr-2 mb-1" for="n{{ $i }}">Poznámka</label>
 
-											<textarea class="form-control" id="n1" name="note[]"></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- UCEL 2 -->
-							<div class="col-lg-5 offset-lg-1">
-								<div class="row">
-									<h3 class="text-center mb-2">Účel</h3>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Publikácia</label>
-
-											<select class="form-control" id="p1" name="periodical_publication[]">
-												<option value="0">Vyberte</option>
-
-												@foreach( $periodicals as $item )
-												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Neperiodikum</label>
-
-											<select class="form-control" id="np1" name="nonperiodical_publication[]">
-												<option value="0">Vyberte</option>
-
-												@foreach( $nonperiodicals as $item )
-												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Suma</label>
-
-											<input class="form-control" type="text" id="s1" name="sum[]">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Dátum</label>
-
-											<input class="form-control" id="d1" type="text" name="transfer_date[]">
-										</div>
-									</div>
-
-									<div class="col-lg-12">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Poznámka</label>
-
-											<textarea class="form-control" id="n1" name="note[]"></textarea>
+												<textarea class="form-control" id="n{{ $i }}" name="note[]"></textarea>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 
-							<hr class="my-4">
-
-							<!-- UCEL 3 -->
-							<div class="col-lg-5">
-								<div class="row">
-									<h3 class="text-center mb-2">Účel</h3>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Publikácia</label>
-
-											<select class="form-control" id="p1" name="periodical_publication[]">
-												<option value="0">Vyberte</option>
-
-												@foreach( $periodicals as $item )
-												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Neperiodikum</label>
-
-											<select class="form-control" id="np1" name="nonperiodical_publication[]">
-												<option value="0">Vyberte</option>
-
-												@foreach( $nonperiodicals as $item )
-												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Suma</label>
-
-											<input class="form-control" type="text" id="s1" name="sum[]">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Dátum</label>
-
-											<input class="form-control" id="d1" type="text" name="transfer_date[]">
-										</div>
-									</div>
-
-									<div class="col-lg-12">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Poznámka</label>
-
-											<textarea class="form-control" id="n1" name="note[]"></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- UCEL 4 -->
-							<div class="col-lg-5 offset-lg-1">
-								<div class="row">
-									<h3 class="text-center mb-2">Účel</h3>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Publikácia</label>
-
-											<select class="form-control" id="p1" name="periodical_publication[]">
-												<option value="0">Vyberte</option>
-
-												@foreach( $periodicals as $item )
-												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Neperiodikum</label>
-
-											<select class="form-control" id="np1" name="nonperiodical_publication[]">
-												<option value="0">Vyberte</option>
-
-												@foreach( $nonperiodicals as $item )
-												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Suma</label>
-
-											<input class="form-control" type="text" id="s1" name="sum[]">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Dátum</label>
-
-											<input class="form-control" id="d1" type="text" name="transfer_date[]">
-										</div>
-									</div>
-
-									<div class="col-lg-12">
-										<div class="mb-2">
-											<label class="pr-2 mb-1">Poznámka</label>
-
-											<textarea class="form-control" id="n1" name="note[]"></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
+								@if( $i % 2 == 0 ) <hr class="my-4"> @endif
+							@endfor
 						</div>
 					</div>
 				</div>
