@@ -129,7 +129,77 @@
 						
 						<textarea class="form-control" name="note" id="note"></textarea>
 					</div>
+
+					<div class="col-lg-12">
+						<hr>
+					</div>
+
+					<div class="bg-light pt-3 p-2 mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="row">
+									<h3 class="text-center mb-2">Účel</h3>
+
+									<div class="col-lg-6">
+										<div class="mb-2">
+											<label class="pr-2 mb-1">Publikácia</label>
+
+											<select class="form-control" id="p1" name="periodical_publication[]">
+												<option value="0">Vyberte</option>
+
+												@foreach( $periodicals as $item )
+												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
+												@endforeach
+											</select>
+										</div>
+									</div>
+
+									<div class="col-lg-6">
+										<div class="mb-2">
+											<label class="pr-2 mb-1">Neperiodikum</label>
+
+											<select class="form-control" id="np1" name="nonperiodical_publication[]">
+												<option value="0">Vyberte</option>
+
+												@foreach( $nonperiodicals as $item )
+												<option value="{!! $item->id !!}">{!! $item->name !!}</option>
+												@endforeach
+											</select>
+										</div>
+									</div>
+
+									<div class="col-lg-6">
+										<div class="mb-2">
+											<label class="pr-2 mb-1">Suma</label>
+
+											<input class="form-control" type="text" id="s1" name="sum[]">
+										</div>
+									</div>
+
+									<div class="col-lg-6">
+										<div class="mb-2">
+											<label class="pr-2 mb-1">Dátum</label>
+
+											<input class="form-control" id="d1" type="text" name="date[]">
+										</div>
+									</div>
+
+									<div class="col-lg-12">
+										<div class="mb-2">
+											<label class="pr-2 mb-1">Poznámka</label>
+
+											<textarea class="form-control" id="n1" name="note[]"></textarea>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
 				</div>
+
+
 
 				<div class="mb-3">
 					<button class="btn btn-primary" type="submit">Uložiť</button>

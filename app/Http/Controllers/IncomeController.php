@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BankAccount;
+use App\Models\PeriodicalPublication;
+use App\Models\NonperiodicalPublication;
 use App\Models\Income;
 use Auth;
 
@@ -16,9 +18,13 @@ class IncomeController extends Controller
      */
     public function create()
     {
+		$periodicals = PeriodicalPublication::get();
+		$nonperiodicals = NonperiodicalPublication::get();
 		$bank_accounts = BankAccount::get();
 
         return view('v-kartoteka/prijem')
+				->with('periodicals', $periodicals)
+				->with('nonperiodicals', $nonperiodicals)
 				->with('bank_accounts', $bank_accounts);
     }
 
