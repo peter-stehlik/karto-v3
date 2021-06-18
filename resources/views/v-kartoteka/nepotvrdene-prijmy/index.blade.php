@@ -23,7 +23,12 @@
 
                 <tbody>
                     @foreach ($incomes as $income)
-                    <tr data-id="{{ $income->id }}">
+                    <?php $transfers_sum = 0; ?>
+                    @foreach($income->transfers as $transfer)
+                        <?php $transfers_sum += $transfer->sum; ?>
+                    @endforeach
+
+                    <tr class="@if( $income->sum != $transfers_sum ) bg-notice @endif" data-id="{{ $income->id }}">
                         <td>{{ $income->id }}</td>
                         <td>{{ $income->person->name1 }}</td>
                         <td>{{ date('j.n.Y', strtotime($income->income_date)) }}</td>
@@ -32,7 +37,12 @@
                         <td>{{ $income->invoice }}</td>
                         <td>{{ $income->bank_account->bank_name }}</td>
                         <td>{{ $income->note }}</td>
-                        <td>{{ number_format($income->sum, 2, ",", " ") }}</td>
+                        <td>
+                            {{ number_format($income->sum, 2, ",", " ") }}
+                            @if( $income->sum != $transfers_sum )
+                                <br><a class="d-inline-block p-1 px-2 mt-1 rounded bg-danger text-white text-uppercase text-decoration-none" href="{{ route('kartoteka.nepotvrdene-prijmy.edit', [$income->id]) }}"><small>Peniaze na ceste</small></a>
+                            @endif
+                        </td>
                         <td>
                             <ul class="m-0">
                             @foreach($income->transfers as $transfer)

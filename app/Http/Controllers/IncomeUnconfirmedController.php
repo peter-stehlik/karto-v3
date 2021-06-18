@@ -168,7 +168,11 @@ class IncomeUnconfirmedController extends Controller
                 }
 			} else {
                 // if sum is not defined delete transfer if exists
-                Transfer::find($transfer_ids[$key])->delete($transfer_ids[$key]);
+                $transfer = Transfer::find($transfer_ids[$key]);
+
+                if( $transfer != null ){
+                    $transfer->delete($transfer_ids[$key]);
+                }
             }
 		}
         

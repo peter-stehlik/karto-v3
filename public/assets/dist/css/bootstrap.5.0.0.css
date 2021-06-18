@@ -9,7 +9,7 @@
   --bs-blue: #90cfe1;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
-  --bs-pink: #d63384;
+  --bs-pink: #ffeff7;
   --bs-red: #dc3545;
   --bs-orange: #FF823C;
   --bs-yellow: #ffc107;
@@ -27,6 +27,7 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #343a40;
+  --bs-notice: #ffeff7;
   --bs-font-sans-serif: "Roboto", "Helvetica Neue", Arial, sans-serif;
   --bs-font-monospace: "SFMono-Regular", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
@@ -229,7 +230,7 @@ pre code {
 
 code {
   font-size: 0.875em;
-  color: #d63384;
+  color: #ffeff7;
   word-wrap: break-word;
 }
 a > code {
@@ -3189,6 +3190,36 @@ progress {
   border-color: #343a40;
 }
 
+.btn-notice {
+  color: #fff;
+  background-color: #ffeff7;
+  border-color: #ffeff7;
+}
+.btn-notice:hover {
+  color: #fff;
+  background-color: white;
+  border-color: white;
+}
+.btn-check:focus + .btn-notice, .btn-notice:focus {
+  color: #fff;
+  background-color: white;
+  border-color: white;
+  box-shadow: 0 0 0 0.25rem rgba(217, 203, 210, 0.5);
+}
+.btn-check:checked + .btn-notice, .btn-check:active + .btn-notice, .btn-notice:active, .btn-notice.active, .show > .btn-notice.dropdown-toggle {
+  color: #fff;
+  background-color: white;
+  border-color: white;
+}
+.btn-check:checked + .btn-notice:focus, .btn-check:active + .btn-notice:focus, .btn-notice:active:focus, .btn-notice.active:focus, .show > .btn-notice.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(217, 203, 210, 0.5);
+}
+.btn-notice:disabled, .btn-notice.disabled {
+  color: #000;
+  background-color: #ffeff7;
+  border-color: #ffeff7;
+}
+
 .btn-outline-primary {
   color: #90cfe1;
   border-color: #90cfe1;
@@ -3386,6 +3417,31 @@ progress {
 }
 .btn-outline-dark:disabled, .btn-outline-dark.disabled {
   color: #343a40;
+  background-color: transparent;
+}
+
+.btn-outline-notice {
+  color: #ffeff7;
+  border-color: #ffeff7;
+}
+.btn-outline-notice:hover {
+  color: #000;
+  background-color: #ffeff7;
+  border-color: #ffeff7;
+}
+.btn-check:focus + .btn-outline-notice, .btn-outline-notice:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 239, 247, 0.5);
+}
+.btn-check:checked + .btn-outline-notice, .btn-check:active + .btn-outline-notice, .btn-outline-notice:active, .btn-outline-notice.active, .btn-outline-notice.dropdown-toggle.show {
+  color: #000;
+  background-color: #ffeff7;
+  border-color: #ffeff7;
+}
+.btn-check:checked + .btn-outline-notice:focus, .btn-check:active + .btn-outline-notice:focus, .btn-outline-notice:active:focus, .btn-outline-notice.active:focus, .btn-outline-notice.dropdown-toggle.show:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 239, 247, 0.5);
+}
+.btn-outline-notice:disabled, .btn-outline-notice.disabled {
+  color: #ffeff7;
   background-color: transparent;
 }
 
@@ -4631,6 +4687,15 @@ progress {
   color: #040505;
 }
 
+.alert-notice {
+  color: #857c80;
+  background-color: #fffcfd;
+  border-color: #fffbfd;
+}
+.alert-notice .alert-link {
+  color: #6b6367;
+}
+
 @keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
@@ -4998,6 +5063,20 @@ progress {
   color: #fff;
   background-color: #1b1e21;
   border-color: #1b1e21;
+}
+
+.list-group-item-notice {
+  color: #857c80;
+  background-color: #fffbfd;
+}
+.list-group-item-notice.list-group-item-action:hover, .list-group-item-notice.list-group-item-action:focus {
+  color: #857c80;
+  background-color: #ffe2f0;
+}
+.list-group-item-notice.list-group-item-action.active {
+  color: #fff;
+  background-color: #857c80;
+  border-color: #857c80;
 }
 
 .btn-close {
@@ -6056,6 +6135,13 @@ footer blockquote a {
   color: #121416;
 }
 
+.link-notice {
+  color: #ffeff7;
+}
+.link-notice:hover, .link-notice:focus {
+  color: white;
+}
+
 .ratio {
   position: relative;
   width: 100%;
@@ -6413,6 +6499,10 @@ footer blockquote a {
 
 .border-dark {
   border-color: #343a40 !important;
+}
+
+.border-notice {
+  border-color: #ffeff7 !important;
 }
 
 .border-white {
@@ -7149,6 +7239,10 @@ footer blockquote a {
   color: #343a40 !important;
 }
 
+.text-notice {
+  color: #ffeff7 !important;
+}
+
 .text-white {
   color: #fff !important;
 }
@@ -7219,6 +7313,10 @@ footer blockquote a {
 
 .bg-dark {
   background-color: #343a40 !important;
+}
+
+.bg-notice {
+  background-color: #ffeff7 !important;
 }
 
 .bg-body {
