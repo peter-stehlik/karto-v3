@@ -2,14 +2,14 @@
 	<h1 class="h3 py-2 border-bottom text-uppercase">Zadať príjem</h1>
 
 	<div class="row">
+		<div class="col-lg-5">
 		{!! Form::open(['action' => 'App\Http\Controllers\IncomeController@store', 'id' => 'incomeForm']) !!}	
-			<div class="col-lg-5">
 				<div class="row">
 					<div class="bg-warning p-3 mb-4">
 						<div class="row">
 							<div class="col-lg-7">
 								<div class="mb-2">
-									<label class="pr-2 mb-1" for="search_name">Názov</label>
+									<label class="pr-2 mb-1" for="search_name">Meno</label>
 									
 									<div>
 										<input class="form-control" id="search_name" type="text" name="search_name"	autocomplete="off">
@@ -213,7 +213,31 @@
 				<div class="mb-3">
 					<button class="btn btn-primary" type="submit">Uložiť</button>
 				</div>
-			</div>
 		{!! Form::close() !!}
+		</div>
+
+		<div class="col-lg-6 offset-lg-1 income-search-results" style="/*display:none;*/">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Meno 1</th>
+						<th>Adresa</th>
+						<th>Mesto</th>
+						<th>PSČ</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody id="incomeSearchResults">
+
+				</tbody>
+			</table>
+		</div>
 	</div>
 </x-app-layout>

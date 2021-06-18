@@ -38,6 +38,8 @@ Route::name('kartoteka.')->group(function () {
     Route::get('/kartoteka/prijem', [IncomeController::class, 'create'])->middleware(['auth'])->name('prijem-get');
     Route::post('/kartoteka/prijem', [IncomeController::class, 'store'])->middleware(['auth'])->name('prijem-post');
     
+    Route::get('/kartoteka/prijem/autocomplete', [IncomeController::class, 'autocomplete'])->middleware(['auth'])->name('autocomplete-get');
+
     Route::resource('/kartoteka/nepotvrdene-prijmy', IncomeUnconfirmedController::class)->middleware(['auth']);
 });
 

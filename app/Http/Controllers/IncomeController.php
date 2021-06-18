@@ -9,6 +9,7 @@ use App\Models\NonperiodicalPublication;
 use App\Models\Income;
 use App\Models\Transfer;
 use Auth;
+use DB;
 
 class IncomeController extends Controller
 {
@@ -105,6 +106,51 @@ class IncomeController extends Controller
 			}
 		}
 
-        return redirect('/kartoteka')->with('message', 'Operácia sa podarila!');
+        return redirect('/kartoteka/nepotvrdene-prijmy')->with('message', 'Operácia sa podarila!');
     }
+	/**
+     * Autocomplete search for people.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+	public function autocomplete()
+	{
+		$name1 = $_GET['search_name'];
+		$city = $_GET['search_city'];
+		$address = $_GET['search_address'];
+		$zip_code = $_GET['search_zip_code'];
+		
+		$people = DB::table('people')
+			->where(function($query) use ($name1, $city, $address, $zip_code) {
+				if($name1){
+					$query->where('name1', 'like', '%' . $name1 . '%');
+				}
+				if($city){
+					$query->where('city', 'like', '%' . $city . '%');
+				}
+				if($address){
+					$query->where('address1', 'like', '%' . $address . '%');
+				}
+				if($zip_code){
+					$query->where('zip_code', 'like', '%' . $zip_code . '%');
+				}
+			})->whereNull('deleted_at')->get();
+		
+		$data = array('result' => 1);
+		
+		if( $people ){
+			foreach( $people as $person ){
+				$data["people"][] = [
+					"id" => $person->id,
+					"name1" => $person->name1,
+					"address" => $person->address1,
+					"city" => $person->city,
+					"zip_code" => $person->zip_code,
+				];
+			}
+		}
+		
+		return response()->json($data);
+	}
 }

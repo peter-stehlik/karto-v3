@@ -89,12 +89,129 @@ let Income = {
 			localStorage.setItem('bankAccountDate', today);
 			localStorage.setItem('bankAccount', bankAccount);
 		});
-	}
+	},
+	/*
+	*
+	*  AUTOCOMPLETE SEARCH FOR PERSON FROM DATABASE:
+	*  LIST FOUND RESULTS.
+	*
+	*/
+	initSearch: () => {
+		let search_name = $("#search_name").val();
+		let search_zip_code = $("#search_zip_code").val();
+		let search_address = $("#search_address").val();
+		let search_city = $("#search_city").val();
+
+		search_zip_code = Help.beautifyZipCode(search_zip_code);
+
+		// Income.clearSearchResults();
+		Help.hidePreloader();
+		// Income.hideAddNewPersonOnIncome();
+
+		if (
+			search_name.length == 0 &&
+			search_zip_code.length == 0 &&
+			search_address.length == 0 &&
+			search_city.length == 0
+		) {
+			alert("Zadajte parameter do vyhľadávania.");
+
+			return;
+		}
+
+		Help.showPreloader();
+
+		$.getJSON(
+			"/kartoteka/prijem/autocomplete",
+			{
+				search_name: search_name,
+				search_zip_code: search_zip_code,
+				search_address: search_address,
+				search_city: search_city
+			},
+			function (data) {
+				if (data.people) {
+					Income.populateSearchedPeople(data.people);
+				} else {
+					let r = confirm(
+						"Nič som nenašiel. Chcete vytvoriť nového používateľa?"
+					);
+					if (r == true) {
+						/*Income.clearSearchResults();
+						Help.hidePreloader();
+						Income.showAddNewPersonOnIncome();*/
+					}
+				}
+			}
+		);
+	},
+	populateSearchedPeople: people => {
+		let html = "";
+		for (let i = 0; i < people.length; i++) {
+			let personHtml = `
+					<tr>
+						<td>${people[i].id}</td>
+						<td>${people[i].name1}</td>
+						<td>${people[i].address}</td>
+						<td>${people[i].city}</td>
+						<td>${people[i].zip_code}</td>
+			  			<td class="icn-td"><a href="javascript:void(0);" class="populate-chosen-person" title="Nahrať príjem tejto osobe" data-person-id="${people[i].id}" data-person-name="${people[i].name1}">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up text-success" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
+							</svg> 
+						</a></td>
+			  			<td class="icn-td"><a href="/backend/people/fusion/${people[i].id}" class="trash" title="Zlúčiť"></a></td>
+			  			<td class="icn-td"><a href="/backend/people/move-money?person_id=${people[i].id}" class="black" title="Prevod peňazí"></a></td>
+						<td class="icn-td"><a href="/backend/people/print/${people[i].id}" target="_blank" class="view" title="Tlačiť">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+								<path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"/>
+								<path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+							</svg>
+						</a></td>
+						<td class="icn-td"><a href="/backend/customer/detail/${people[i].id}" class="edit" title="Pozrieť detail">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill text-info" viewBox="0 0 16 16">
+								<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+							</svg>
+						</a></td>
+						<td class="icn-td"><a href="javascript:void(0);" class="income-delete-user" data-person-id="${people[i].id}" title="Vymazať">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash text-danger" viewBox="0 0 16 16">
+								<path
+									d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+								<path fill-rule="evenodd"
+									d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+							</svg>
+						</a></td>
+					</tr>
+				`;
+
+			html += personHtml;
+		}
+
+		$(".income-search-results").show();
+		$(".preloader").hide();
+
+		$("#incomeSearchResults").html(html);
+
+		// Income.enableBrowseList();
+	},
 }
 
 //////////
 // INIT
 //////////
+
+/* store to local storage */
 if ($("#incomeForm").length) {
 	Income.storeIncomeChars();
 }
+
+/* search */
+let initSearchFn = debounce(function () {
+	Income.initSearch();
+}, 400);
+
+$(document).on(
+	"input",
+	"#search_name, #search_address, #search_zip_code, #search_city",
+	initSearchFn
+);
