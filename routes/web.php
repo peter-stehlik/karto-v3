@@ -9,6 +9,7 @@ use App\Http\Controllers\PeriodicalController;
 use App\Http\Controllers\NonperiodicalController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\IncomeUnconfirmedController;
 
 
 /*
@@ -34,8 +35,10 @@ Route::name('kartoteka.')->group(function () {
         return view('v-kartoteka/kartoteka');
     })->middleware(['auth'])->name('uvod');
 
-    Route::get('/prijem', [IncomeController::class, 'create'])->middleware(['auth'])->name('prijem-get');
-    Route::post('/prijem', [IncomeController::class, 'store'])->middleware(['auth'])->name('prijem-post');
+    Route::get('/kartoteka/prijem', [IncomeController::class, 'create'])->middleware(['auth'])->name('prijem-get');
+    Route::post('/kartoteka/prijem', [IncomeController::class, 'store'])->middleware(['auth'])->name('prijem-post');
+    
+    Route::resource('/kartoteka/nepotvrdene-prijmy', IncomeUnconfirmedController::class)->middleware(['auth']);
 });
 
 /* ---------------------- */
@@ -46,9 +49,9 @@ Route::name('vydavatelstvo.')->group(function () {
         return view('v-vydavatelstvo/vydavatelstvo');
     })->middleware(['auth'])->name('uvod');
 
-    Route::resource('vydavatelstvo/publikacie', PeriodicalController::class)->middleware(['auth']);
+    Route::resource('/vydavatelstvo/publikacie', PeriodicalController::class)->middleware(['auth']);
 
-    Route::resource('vydavatelstvo/neperiodika', NonperiodicalController::class)->middleware(['auth']);
+    Route::resource('/vydavatelstvo/neperiodika', NonperiodicalController::class)->middleware(['auth']);
 });
 
 /* -------------- */
@@ -59,7 +62,7 @@ Route::name('osoba.')->group(function () {
         return view('v-osoba/osoba');
     })->middleware(['auth'])->name('uvod');
 
-    Route::resource('osoba/kategorie', CategoryController::class)->middleware(['auth']);
+    Route::resource('/osoba/kategorie', CategoryController::class)->middleware(['auth']);
 });
 
 /* ------------------- */
@@ -70,7 +73,7 @@ Route::name('kancelaria.')->group(function () {
         return view('v-kancelaria/kancelaria');
     })->middleware(['auth'])->name('uvod');
 
-    Route::resource('kancelaria/bankove-ucty', BankAccountController::class)->middleware(['auth']);
+    Route::resource('/kancelaria/bankove-ucty', BankAccountController::class)->middleware(['auth']);
 });
 
 /* ----------------- */

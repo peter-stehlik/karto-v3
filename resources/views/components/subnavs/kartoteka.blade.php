@@ -6,7 +6,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-right-sidebar">
+		<a class="nav-link" href="{{ route('kartoteka.nepotvrdene-prijmy.index') }}">
 			Zoznam príjmov
 		</a>
 	</li><!-- / .nav-item -->

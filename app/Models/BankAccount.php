@@ -20,4 +20,12 @@ class BankAccount extends Model
         'abbreviation',
         'number',
     ];
+
+    /**
+     * Get the incomes
+     */
+    public function incomes()
+    {
+        return $this->hasMany(Income::class);
+    }
 }

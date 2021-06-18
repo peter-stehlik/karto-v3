@@ -28,4 +28,12 @@ class Person extends Model
         'email',
         'note',
     ];
+
+        /**
+     * Get the incomes
+     */
+    public function incomes()
+    {
+        return $this->hasMany(Income::class);
+    }
 }
