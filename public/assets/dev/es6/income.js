@@ -145,9 +145,21 @@ let Income = {
 			}
 		);
 	},
+	/*
+	*
+	*  HELPER:
+	*  SIMPLY HIDE SEARCH RESULTS
+	*
+	*/
 	clearSearchResults: () => {
 		$(".income-search-results").hide();
 	},
+	/*
+	*
+	*  HELPER:
+	*  DISPLAY ALL PEOPLE FOUND IN DATABASE IN HTML TABLE
+	*
+	*/
 	populateSearchedPeople: people => {
 		let html = "";
 		for (let i = 0; i < people.length; i++) {
@@ -195,6 +207,12 @@ let Income = {
 
 		Income.enableBrowseList();
 	},
+	/*
+	*
+	*  HELPER:
+	*  ADD ACTIVE CLASS TO THE FIRST RESULT
+	*
+	*/
 	enableBrowseList: () => {
 		let search_results = $("#incomeSearchResults tr");
 
@@ -202,6 +220,12 @@ let Income = {
 			search_results.first().addClass("is-active");
 		}
 	},
+	/*
+	*
+	*  HELPER:
+	*  REMOVE ACTIVE CLASS FROM THE RESULTS
+	*
+	*/
 	disableBrowserList: () => {
 		$("#incomeSearchResults tr").removeClass("is-active");
 
@@ -209,6 +233,15 @@ let Income = {
 			scrollTop: 0
 		});
 	},
+	/*
+	*
+	*  ENABLE KEYBOARD SHORTCUTS
+	*  	- Alt + l
+	*	- arrow up/down
+	*	- Enter
+	*	- Escape 
+	*
+	*/
 	initKeyboardShortcuts: e => {
 		if (e.altKey && e.key == "l") {
 			// alt+l
@@ -250,6 +283,12 @@ let Income = {
 			}
 		}
 	},
+	/*
+	*
+	*  HELPER:
+	*  move the search up or down depending on key pressed
+	*
+	*/
 	initSearchList: direction => {
 		let activeTr = $("#incomeSearchResults tr.is-active");
 
@@ -270,6 +309,12 @@ let Income = {
 				break;
 		}
 	},
+	/*
+	*
+	*  HELPER:
+	*  FILL THE PERSON INTO INCOME CHOSEN FROM THE SEARCH LIST
+	*
+	*/
 	populateChosenPerson: (userId, name) => {
 		$("#person_id").val(userId);
 		$("#name1").val(name);
@@ -278,6 +323,12 @@ let Income = {
 
 		$("#income_sum").focus();
 	},
+	/*
+	*
+	*  HELPER:
+	*  CHECK, IF THE TOTAL SUM OF INCOME IS FILLED
+	*
+	*/
 	validateIncome: () => {
 		let validIncome = true;
 		let total = parseFloat($("#income_sum").val());
@@ -288,6 +339,11 @@ let Income = {
 
 		return validIncome;
 	},
+	/*
+	*
+	*  DELETE PERSON DIRECTLY FROM THE SEARCH LIST
+	*
+	*/
 	deleteUser: userId => {
 		$.getJSON(
 			"/kartoteka/prijem/delete-person",
@@ -305,6 +361,12 @@ let Income = {
 			}
 		);
 	},
+	/*
+	*
+	*	HELPER:
+	*   DISPLAY MODAL WINDOW WITH NEW PERSON FORM
+	*
+	*/
 	showAddNewPersonOnIncome: () => {
 		let myModal = new bootstrap.Modal(document.getElementById('myModal'), {
 			keyboard: false
@@ -312,46 +374,52 @@ let Income = {
 
 		myModal.show();
 	},
+	/*
+	*
+	*	HELPER:
+	*   HIDE MODAL WINDOW WITH NEW PERSON FORM
+	*
+	*/
 	hideAddNewPersonOnIncome: () => {
-		$("#myModal").hide();
+		let myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+			keyboard: false
+		});
+
+		myModal.hide();
 	},
+	/*
+	*
+	*   CREATE DYNAMICALLY NEW PERSON
+	*	ADD HIM INTO THE DATABASE
+	*
+	*/
 	createNewUser: () => {
 		let category_id = $("#inc_category_id").val();
 		let title = $("#inc_title").val();
 		let name1 = $("#inc_name1").val();
-		let name2 = $("#inc_name2").val();
 		let address1 = $("#inc_address1").val();
 		let address2 = $("#inc_address2").val();
-		let city = $("#inc_city").val();
+		let organization = $("#inc_organization").val();
 		let zip_code = $("#inc_zip_code").val();
+		let city = $("#inc_city").val();
 		let state = $("#inc_state").val();
-		let phone = $("#inc_phone").val();
-		let fax = $("#inc_fax").val();
-		let bank_account = $("#inc_bank_account").val();
 		let email = $("#inc_email").val();
 		let note = $("#inc_note").val();
-		let birthday = $("#inc_birthday").val();
-		let anniversary = $("#inc_anniversary").val();
 
 		$.getJSON(
-			"/backend/people/create-ajax",
+			"/kartoteka/prijem/create-new-person",
 			{
 				category_id: category_id,
 				title: title,
 				name1: name1,
-				name2: name2,
 				address1: address1,
 				address2: address2,
-				city: city,
+				organization: organization,
 				zip_code: zip_code,
+				city: city,
 				state: state,
-				phone: phone,
-				fax: fax,
-				bank_account: bank_account,
 				email: email,
-				note: note,
-				birthday: birthday,
-				anniversary: anniversary
+				note: note
 			},
 			function (data) {
 				if (data.result == 1) {
@@ -382,6 +450,7 @@ if ($("#incomeForm").length) {
 		Income.initKeyboardShortcuts(e);
 	});
 }
+///////////////////////
 
 /* search */
 let initSearchFn = debounce(function () {
@@ -393,14 +462,18 @@ $(document).on(
 	"#search_name, #search_address, #search_zip_code, #search_city",
 	initSearchFn
 );
+///////////////////////
 
+/* fill chosen person into the income form from the search list */
 $(document).on("click", ".populate-chosen-person", function () {
 	let userId = $(this).attr("data-person-id");
 	let name = $(this).attr("data-person-name");
 
 	Income.populateChosenPerson(userId, name);
 });
+///////////////////////
 
+/* very simple income validation */
 $("#incomeForm").submit(function () {
 	let valid = Income.validateIncome();
 
@@ -408,7 +481,9 @@ $("#incomeForm").submit(function () {
 		return false;
 	}
 });
+////////////////////////
 
+/* delete user dynamically, directly from the search results */
 $(document).on("click", ".income-delete-user", function () {
 	let userId = $(this).attr("data-person-id");
 
@@ -418,3 +493,12 @@ $(document).on("click", ".income-delete-user", function () {
 		Income.deleteUser(userId);
 	}
 });
+///////////////////////
+
+/* create new person */
+$("#create_user_dynamically").submit(function () {
+	Income.createNewUser();
+
+	return false;
+});
+//////////////////////

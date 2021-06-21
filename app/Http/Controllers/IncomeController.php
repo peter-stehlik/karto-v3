@@ -157,7 +157,34 @@ class IncomeController extends Controller
 		
 		return response()->json($data);
 	}
-	
+
+	/**
+     * Create new person on the fly.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+	public function createNewPerson()
+	{
+		Person::create([
+			"category_id" => $_GET["category_id"],
+			"title" => $_GET["title"],
+			"name1" => $_GET["name1"],
+			"address1" => $_GET["address1"],
+			"address2" => $_GET["address2"],
+			"organization" => $_GET["organization"],
+			"zip_code" => $_GET["zip_code"],
+			"city" => $_GET["city"],
+			"state" => $_GET["state"],
+			"email" => $_GET["email"],
+			"note" => $_GET["note"],
+		]);
+
+		$data = array('result' => 1);
+		
+		return response()->json($data);
+	}
+
 	/**
      * Delete the person.
      *

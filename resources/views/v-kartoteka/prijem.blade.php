@@ -216,7 +216,7 @@
 		{!! Form::close() !!}
 		</div>
 
-		<div class="col-lg-5 offset-lg-1 income-search-results" style="/*display:none;*/">
+		<div class="col-lg-5 offset-lg-1 income-search-results" style="display:none;">
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -239,126 +239,113 @@
 		</div>
 	</div>
 
-	<!-- Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+	<!-- ----------------------- -->
+    <!-- CREATE NEW PERSON MODAL -->
+    <!-- ----------------------- -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">Vytvorte nového používateľa</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
 				{!! Form::open(array("id"=>"create_user_dynamically")) !!}
+                <div class="modal-body">
+					<div class="mb-3">
+						<label for="category_id">Kategória</label>
+						
+						<select name="category_id" id="inc_category_id" class="form-control">
+							@foreach( $categories as $cat )
+								<option value="{!! $cat->id !!}">{!! $cat->name !!}</option>
+							@endforeach
+						</select>
+					</div>
 
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Vytvorte nového používateľa</h4>
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-3">
+								<label for="title">Titul</label>
+									
+								<input type="text" name="title" id="inc_title" class="form-control">
+							</div>
+
+							<div class="col-lg-9">
+								<label for="name1">Meno a priezvisko</label>
+								
+								<input type="text" name="name1" id="inc_name1" class="form-control name1a">
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<label for="address1">Adresa 1</label>
+								
+								<input type="text" name="address1" id="inc_address1" class="form-control">
+							</div>
+
+							<div class="col-lg-6">
+								<label for="address2">Adresa 2</label>
+								
+								<input type="text" name="address2" id="inc_address2" class="form-control">
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<label for="organization">Organizácia</label>
+								
+								<input type="text" name="organization" id="inc_organization" class="form-control">
+							</div>
+
+							<div class="col-lg-6">
+								<label for="zip_code">PSČ</label>
+								
+								<input type="text" name="zip_code" id="inc_zip_code" class="form-control">
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<label for="city">Mesto</label>
+								
+								<input type="text" name="city" id="inc_city" class="form-control">
+							</div>
+
+							<div class="col-lg-6">
+								<label for="state">Štát</label>
+								
+								<input type="text" name="state" id="inc_state" class="form-control">
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="email">Email</label>
+						
+						<input type="email" name="email" id="inc_email" class="form-control">
+					</div>
+
+					<div class="mb-3">
+						<label for="note">Poznámka <em>(max. 255 znakov)</em></label>
+						
+						<textarea name="note" id="inc_note" class="form-control" maxlength="255"></textarea>
+					</div>
 				</div>
 
-				<div class="modal-body">
-					<div class="col-sm-12 income-new-person">
-						<div class="row">							
-							
-								<div class="form-group">
-									<label for="category_id">Kategória <sup class="text-danger">*</sup></label>
-									<select name="category_id" id="inc_category_id" class="form-control input-sm" required>
-										@foreach( $categories as $cat )
-											<option value="{!! $cat->id !!}">{!! $cat->name !!}</option>
-										@endforeach
-									</select>
-								</div><!-- / .form-group -->
-							
-								<div class="form-group row">
-									<div class="col-sm-12">
-										<label for="title">Titul</label>
-									</div><!-- / .col-sm-12 -->
-									
-									<div class="col-sm-6">
-										<input type="text" name="title" id="inc_title" class="form-control input-sm">
-									</div><!-- / .col-sm-6 -->
-								</div><!-- / .form-group -->
-
-								<div class="form-group">
-									<label for="name1">Meno 1 <sup class="text-danger">*</sup></label>
-									<input type="text" name="name1" id="inc_name1" class="form-control input-sm name1a" required autofocus>
-								</div><!-- / .form-group -->
-
-								<div class="form-group">
-									<label for="name2">Meno 2 </label>
-									<input type="text" name="name2" id="inc_name2" class="form-control input-sm">
-								</div><!-- / .form-group -->
-								
-								<div class="form-group">
-									<label for="address1">Adresa 1</label>
-									<input type="text" name="address1" id="inc_address1" class="form-control input-sm">
-								</div><!-- / .form-group -->
-
-								<div class="form-group">
-									<label for="address2">Adresa 2</label>
-									<input type="text" name="address2" id="inc_address2" class="form-control input-sm">
-								</div><!-- / .form-group -->
-								
-								<div class="form-group row">
-									<div class="col-sm-6">
-										<label for="city">Mesto</label>
-										<input type="text" name="city" id="inc_city" class="form-control input-sm">
-									</div><!-- / .col-sm-6 -->
-									
-									<div class="col-sm-6">
-										<label for="zip_code">PSČ</label>
-										<input type="text" name="zip_code" id="inc_zip_code" class="form-control input-sm">
-									</div><!-- / .col-sm-6 -->
-								</div><!-- / .form-group -->
-
-								<div class="form-group">
-									<label for="state">Štát</label>
-									<input type="text" name="state" id="inc_state" class="form-control input-sm">
-								</div><!-- / .form-group -->
-								
-								<div class="form-group row">
-									<div class="col-sm-6">
-										<label for="phone">Tel. číslo</label>
-										<input type="text" name="phone" id="inc_phone" class="form-control input-sm">
-									</div><!-- / .col-sm-6 -->
-									
-									<div class="col-sm-6">
-										<label for="fax">Fax</label>
-										<input type="text" name="fax" id="inc_fax" class="form-control input-sm">
-									</div><!-- / .col-sm-6 -->
-								</div><!-- / .form-group -->
-
-								<div class="form-group">
-									<label for="bank_account">Číslo účtu</label>
-									<input type="text" name="bank_account" id="inc_bank_account" class="form-control input-sm">
-								</div><!-- / .form-group -->
-
-								<div class="form-group">
-									<label for="email">Email</label>
-									<input type="email" name="email" id="inc_email" class="form-control input-sm">
-								</div><!-- / .form-group -->
-
-								<div class="form-group">
-									<label for="note">Poznámka <em>(max. 255 znakov)</em></label>
-									<textarea name="note" id="inc_note" class="form-control input-sm" maxlength="255"></textarea>
-								</div><!-- / .form-group -->
-
-								<div class="form-group row">
-									<div class="col-sm-6">
-										<label for="birthday">Dátum narodenia</label>
-										<input type="text" name="birthday" id="inc_birthday" class="form-control input-sm">
-									</div><!-- / .col-sm-6 -->
-									
-									<div class="col-sm-6">
-										<label for="anniversary">Výročie</label>
-										<input type="text" name="anniversary" id="inc_anniversary" class="form-control input-sm">
-									</div><!-- / .col-sm-6 -->
-								</div><!-- / .form-group -->
-						</div><!-- / .row -->
-					</div><!-- / .col-sm-12 -->
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Zatvoriť</button>
-					<button type="submit" class="btn btn-success">Vytvoriť osobu</button>
-				</div>
-
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zrušiť</button>
+                    <button type="submit" class="js-confirm-delete btn btn-danger" data-id="">vytvoriť</button>
+                </div>
 				{!! Form::close() !!}
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

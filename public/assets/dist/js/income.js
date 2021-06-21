@@ -122,9 +122,23 @@ var Income = {
       }
     });
   },
+
+  /*
+  *
+  *  HELPER:
+  *  SIMPLY HIDE SEARCH RESULTS
+  *
+  */
   clearSearchResults: function clearSearchResults() {
     $(".income-search-results").hide();
   },
+
+  /*
+  *
+  *  HELPER:
+  *  DISPLAY ALL PEOPLE FOUND IN DATABASE IN HTML TABLE
+  *
+  */
   populateSearchedPeople: function populateSearchedPeople(people) {
     var html = "";
 
@@ -138,6 +152,13 @@ var Income = {
     $("#incomeSearchResults").html(html);
     Income.enableBrowseList();
   },
+
+  /*
+  *
+  *  HELPER:
+  *  ADD ACTIVE CLASS TO THE FIRST RESULT
+  *
+  */
   enableBrowseList: function enableBrowseList() {
     var search_results = $("#incomeSearchResults tr");
 
@@ -145,12 +166,29 @@ var Income = {
       search_results.first().addClass("is-active");
     }
   },
+
+  /*
+  *
+  *  HELPER:
+  *  REMOVE ACTIVE CLASS FROM THE RESULTS
+  *
+  */
   disableBrowserList: function disableBrowserList() {
     $("#incomeSearchResults tr").removeClass("is-active");
     $("html, body").animate({
       scrollTop: 0
     });
   },
+
+  /*
+  *
+  *  ENABLE KEYBOARD SHORTCUTS
+  *  	- Alt + l
+  *	- arrow up/down
+  *	- Enter
+  *	- Escape 
+  *
+  */
   initKeyboardShortcuts: function initKeyboardShortcuts(e) {
     if (e.altKey && e.key == "l") {
       // alt+l
@@ -190,6 +228,13 @@ var Income = {
       }
     }
   },
+
+  /*
+  *
+  *  HELPER:
+  *  move the search up or down depending on key pressed
+  *
+  */
   initSearchList: function initSearchList(direction) {
     var activeTr = $("#incomeSearchResults tr.is-active");
 
@@ -203,12 +248,26 @@ var Income = {
         break;
     }
   },
+
+  /*
+  *
+  *  HELPER:
+  *  FILL THE PERSON INTO INCOME CHOSEN FROM THE SEARCH LIST
+  *
+  */
   populateChosenPerson: function populateChosenPerson(userId, name) {
     $("#person_id").val(userId);
     $("#name1").val(name); // Income.saveIncomeDataToLocalStorage();
 
     $("#income_sum").focus();
   },
+
+  /*
+  *
+  *  HELPER:
+  *  CHECK, IF THE TOTAL SUM OF INCOME IS FILLED
+  *
+  */
   validateIncome: function validateIncome() {
     var validIncome = true;
     var total = parseFloat($("#income_sum").val());
@@ -219,6 +278,12 @@ var Income = {
 
     return validIncome;
   },
+
+  /*
+  *
+  *  DELETE PERSON DIRECTLY FROM THE SEARCH LIST
+  *
+  */
   deleteUser: function deleteUser(userId) {
     $.getJSON("/kartoteka/prijem/delete-person", {
       userId: userId
@@ -229,49 +294,63 @@ var Income = {
       }
     });
   },
+
+  /*
+  *
+  *	HELPER:
+  *   DISPLAY MODAL WINDOW WITH NEW PERSON FORM
+  *
+  */
   showAddNewPersonOnIncome: function showAddNewPersonOnIncome() {
     var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
       keyboard: false
     });
     myModal.show();
   },
+
+  /*
+  *
+  *	HELPER:
+  *   HIDE MODAL WINDOW WITH NEW PERSON FORM
+  *
+  */
   hideAddNewPersonOnIncome: function hideAddNewPersonOnIncome() {
-    $("#myModal").hide();
+    var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+      keyboard: false
+    });
+    myModal.hide();
   },
+
+  /*
+  *
+  *   CREATE DYNAMICALLY NEW PERSON
+  *	ADD HIM INTO THE DATABASE
+  *
+  */
   createNewUser: function createNewUser() {
     var category_id = $("#inc_category_id").val();
     var title = $("#inc_title").val();
     var name1 = $("#inc_name1").val();
-    var name2 = $("#inc_name2").val();
     var address1 = $("#inc_address1").val();
     var address2 = $("#inc_address2").val();
-    var city = $("#inc_city").val();
+    var organization = $("#inc_organization").val();
     var zip_code = $("#inc_zip_code").val();
+    var city = $("#inc_city").val();
     var state = $("#inc_state").val();
-    var phone = $("#inc_phone").val();
-    var fax = $("#inc_fax").val();
-    var bank_account = $("#inc_bank_account").val();
     var email = $("#inc_email").val();
     var note = $("#inc_note").val();
-    var birthday = $("#inc_birthday").val();
-    var anniversary = $("#inc_anniversary").val();
-    $.getJSON("/backend/people/create-ajax", {
+    $.getJSON("/kartoteka/prijem/create-new-person", {
       category_id: category_id,
       title: title,
       name1: name1,
-      name2: name2,
       address1: address1,
       address2: address2,
-      city: city,
+      organization: organization,
       zip_code: zip_code,
+      city: city,
       state: state,
-      phone: phone,
-      fax: fax,
-      bank_account: bank_account,
       email: email,
-      note: note,
-      birthday: birthday,
-      anniversary: anniversary
+      note: note
     }, function (data) {
       if (data.result == 1) {
         $("#create_user_dynamically input").val("");
@@ -292,26 +371,36 @@ if ($("#incomeForm").length) {
   $(document).on("keydown", function (e) {
     Income.initKeyboardShortcuts(e);
   });
-}
+} ///////////////////////
+
 /* search */
 
 
 var initSearchFn = debounce(function () {
   Income.initSearch();
 }, 400);
-$(document).on("input", "#search_name, #search_address, #search_zip_code, #search_city", initSearchFn);
+$(document).on("input", "#search_name, #search_address, #search_zip_code, #search_city", initSearchFn); ///////////////////////
+
+/* fill chosen person into the income form from the search list */
+
 $(document).on("click", ".populate-chosen-person", function () {
   var userId = $(this).attr("data-person-id");
   var name = $(this).attr("data-person-name");
   Income.populateChosenPerson(userId, name);
-});
+}); ///////////////////////
+
+/* very simple income validation */
+
 $("#incomeForm").submit(function () {
   var valid = Income.validateIncome();
 
   if (!valid) {
     return false;
   }
-});
+}); ////////////////////////
+
+/* delete user dynamically, directly from the search results */
+
 $(document).on("click", ".income-delete-user", function () {
   var userId = $(this).attr("data-person-id");
   var r = confirm("Naozaj chcete túto osobu vymazať?");
@@ -319,4 +408,11 @@ $(document).on("click", ".income-delete-user", function () {
   if (r == true) {
     Income.deleteUser(userId);
   }
-});
+}); ///////////////////////
+
+/* create new person */
+
+$("#create_user_dynamically").submit(function () {
+  Income.createNewUser();
+  return false;
+}); //////////////////////
