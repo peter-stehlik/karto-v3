@@ -104,9 +104,9 @@ let Income = {
 
 		search_zip_code = Help.beautifyZipCode(search_zip_code);
 
-		// Income.clearSearchResults();
+		Income.clearSearchResults();
 		Help.hidePreloader();
-		// Income.hideAddNewPersonOnIncome();
+		Income.hideAddNewPersonOnIncome();
 
 		if (
 			search_name.length == 0 &&
@@ -137,13 +137,16 @@ let Income = {
 						"Nič som nenašiel. Chcete vytvoriť nového používateľa?"
 					);
 					if (r == true) {
-						/*Income.clearSearchResults();
+						Income.clearSearchResults();
 						Help.hidePreloader();
-						Income.showAddNewPersonOnIncome();*/
+						Income.showAddNewPersonOnIncome();
 					}
 				}
 			}
 		);
+	},
+	clearSearchResults: () => {
+		$(".income-search-results").hide();
 	},
 	populateSearchedPeople: people => {
 		let html = "";
@@ -160,8 +163,6 @@ let Income = {
 								<path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
 							</svg> 
 						</a></td>
-			  			<td class="icn-td"><a href="/backend/people/fusion/${people[i].id}" class="trash" title="Zlúčiť"></a></td>
-			  			<td class="icn-td"><a href="/backend/people/move-money?person_id=${people[i].id}" class="black" title="Prevod peňazí"></a></td>
 						<td class="icn-td"><a href="/backend/people/print/${people[i].id}" target="_blank" class="view" title="Tlačiť">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
 								<path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"/>
@@ -192,7 +193,180 @@ let Income = {
 
 		$("#incomeSearchResults").html(html);
 
-		// Income.enableBrowseList();
+		Income.enableBrowseList();
+	},
+	enableBrowseList: () => {
+		let search_results = $("#incomeSearchResults tr");
+
+		if (search_results.length) {
+			search_results.first().addClass("is-active");
+		}
+	},
+	disableBrowserList: () => {
+		$("#incomeSearchResults tr").removeClass("is-active");
+
+		$("html, body").animate({
+			scrollTop: 0
+		});
+	},
+	initKeyboardShortcuts: e => {
+		if (e.altKey && e.key == "l") {
+			// alt+l
+			Income.enableBrowseList();
+		}
+
+		let activeTr = $("#incomeSearchResults tr.is-active");
+		if (e.key == "ArrowDown" || e.key == "ArrowUp") {
+			if (activeTr.length) {
+				switch (e.key) {
+					case "ArrowDown":
+						// sipka dole
+						Income.initSearchList("down");
+						break;
+					case "ArrowUp":
+						// sipka hore
+						Income.initSearchList("up");
+						break;
+				}
+			}
+		}
+
+		if (e.key == "Enter") {
+			if (activeTr.length) {
+				let userId = activeTr
+					.find(".populate-chosen-person")
+					.attr("data-person-id");
+				let name = activeTr
+					.find(".populate-chosen-person")
+					.attr("data-person-name");
+				Income.populateChosenPerson(userId, name);
+				Income.disableBrowserList();
+			}
+		}
+
+		if (e.key == "Escape") {
+			if (activeTr.length) {
+				Income.disableBrowserList();
+			}
+		}
+	},
+	initSearchList: direction => {
+		let activeTr = $("#incomeSearchResults tr.is-active");
+
+		switch (direction) {
+			case "down":
+				activeTr
+					.next()
+					.addClass("is-active")
+					.siblings()
+					.removeClass("is-active");
+				break;
+			case "up":
+				activeTr
+					.prev()
+					.addClass("is-active")
+					.siblings()
+					.removeClass("is-active");
+				break;
+		}
+	},
+	populateChosenPerson: (userId, name) => {
+		$("#person_id").val(userId);
+		$("#name1").val(name);
+
+		// Income.saveIncomeDataToLocalStorage();
+
+		$("#income_sum").focus();
+	},
+	validateIncome: () => {
+		let validIncome = true;
+		let total = parseFloat($("#income_sum").val());
+
+		if (!total) {
+			validIncome = false;
+		}
+
+		return validIncome;
+	},
+	deleteUser: userId => {
+		$.getJSON(
+			"/kartoteka/prijem/delete-person",
+			{
+				userId: userId
+			},
+			function (data) {
+				if (data.result) {
+					$(".income-delete-user[data-person-id='" + userId + "']")
+						.closest("tr")
+						.remove();
+
+					alert("Osoba je úspešne vymazaná.");
+				}
+			}
+		);
+	},
+	showAddNewPersonOnIncome: () => {
+		let myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+			keyboard: false
+		});
+
+		myModal.show();
+	},
+	hideAddNewPersonOnIncome: () => {
+		$("#myModal").hide();
+	},
+	createNewUser: () => {
+		let category_id = $("#inc_category_id").val();
+		let title = $("#inc_title").val();
+		let name1 = $("#inc_name1").val();
+		let name2 = $("#inc_name2").val();
+		let address1 = $("#inc_address1").val();
+		let address2 = $("#inc_address2").val();
+		let city = $("#inc_city").val();
+		let zip_code = $("#inc_zip_code").val();
+		let state = $("#inc_state").val();
+		let phone = $("#inc_phone").val();
+		let fax = $("#inc_fax").val();
+		let bank_account = $("#inc_bank_account").val();
+		let email = $("#inc_email").val();
+		let note = $("#inc_note").val();
+		let birthday = $("#inc_birthday").val();
+		let anniversary = $("#inc_anniversary").val();
+
+		$.getJSON(
+			"/backend/people/create-ajax",
+			{
+				category_id: category_id,
+				title: title,
+				name1: name1,
+				name2: name2,
+				address1: address1,
+				address2: address2,
+				city: city,
+				zip_code: zip_code,
+				state: state,
+				phone: phone,
+				fax: fax,
+				bank_account: bank_account,
+				email: email,
+				note: note,
+				birthday: birthday,
+				anniversary: anniversary
+			},
+			function (data) {
+				if (data.result == 1) {
+					$("#create_user_dynamically input").val("");
+
+					Income.hideAddNewPersonOnIncome();
+
+					alert(
+						"Úspešne ste vytvorili užívateľa, môžete mu pridať zopár grošov."
+					);
+
+					Income.initSearch();
+				}
+			}
+		);
 	},
 }
 
@@ -203,6 +377,10 @@ let Income = {
 /* store to local storage */
 if ($("#incomeForm").length) {
 	Income.storeIncomeChars();
+
+	$(document).on("keydown", function (e) {
+		Income.initKeyboardShortcuts(e);
+	});
 }
 
 /* search */
@@ -215,3 +393,28 @@ $(document).on(
 	"#search_name, #search_address, #search_zip_code, #search_city",
 	initSearchFn
 );
+
+$(document).on("click", ".populate-chosen-person", function () {
+	let userId = $(this).attr("data-person-id");
+	let name = $(this).attr("data-person-name");
+
+	Income.populateChosenPerson(userId, name);
+});
+
+$("#incomeForm").submit(function () {
+	let valid = Income.validateIncome();
+
+	if (!valid) {
+		return false;
+	}
+});
+
+$(document).on("click", ".income-delete-user", function () {
+	let userId = $(this).attr("data-person-id");
+
+	let r = confirm("Naozaj chcete túto osobu vymazať?");
+
+	if (r == true) {
+		Income.deleteUser(userId);
+	}
+});

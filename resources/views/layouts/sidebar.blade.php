@@ -54,5 +54,22 @@
 				</a>
 			</li><!-- / .nav-item -->
 		</ul><!-- / .nav -->
+
+		@if( Route::currentRouteName() == 'kartoteka.prijem-get' )  
+			<hr class="mr-2">
+
+			<h6 class="sidebar-heading px-2 mt-3 mb-1 text-muted">
+				klávesové skratky
+			</h6>
+
+			<dl class="px-2">
+				<dt>Alt + L</dt>
+				<dd>Listovať, potom použite šípky hore/dole.</dd>		
+				<dt>Enter</dt>
+				<dd>Vložiť osobu <br> (pri listovaní)</dd>
+				<dt>Esc</dt>
+				<dd>Zrušiť listovanie</dd>
+			</dl>
+		@endif
 	</div>
 </nav><!-- / .sidebar -->

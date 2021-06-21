@@ -8,6 +8,8 @@ use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
 use App\Models\Income;
 use App\Models\Transfer;
+use App\Models\Person;
+use App\Models\Category;
 use Auth;
 use DB;
 
@@ -23,8 +25,10 @@ class IncomeController extends Controller
 		$periodicals = PeriodicalPublication::get();
 		$nonperiodicals = NonperiodicalPublication::get();
 		$bank_accounts = BankAccount::get();
+		$categories = Category::get();
 
         return view('v-kartoteka/prijem')
+				->with('categories', $categories)
 				->with('periodicals', $periodicals)
 				->with('nonperiodicals', $nonperiodicals)
 				->with('bank_accounts', $bank_accounts);
@@ -151,6 +155,23 @@ class IncomeController extends Controller
 			}
 		}
 		
+		return response()->json($data);
+	}
+	
+	/**
+     * Delete the person.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+	public function deletePerson()
+	{
+		$id = $_GET['userId'];
+
+		Person::find($id)->delete($id);
+
+		$data = array('result' => 1);
+
 		return response()->json($data);
 	}
 }
