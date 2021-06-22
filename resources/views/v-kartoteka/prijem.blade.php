@@ -216,26 +216,32 @@
 		{!! Form::close() !!}
 		</div>
 
-		<div class="col-lg-5 offset-lg-1 income-search-results" style="display:none;">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Meno 1</th>
-						<th>Adresa</th>
-						<th>Mesto</th>
-						<th>PSČ</th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
+		<div class="col-lg-5 offset-lg-1">
+			<div class="preloader" data-id="income-search">
+				Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
+			</div>
 
-				<tbody id="incomeSearchResults">
+			<div class="income-search-results" style="display:none;">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Meno 1</th>
+							<th>Adresa</th>
+							<th>Mesto</th>
+							<th>PSČ</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
 
-				</tbody>
-			</table>
+					<tbody id="incomeSearchResults">
+
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 

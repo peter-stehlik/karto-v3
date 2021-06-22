@@ -186,6 +186,103 @@ class IncomeController extends Controller
 	}
 
 	/**
+     * Confirm unconfirmed incomes - preview.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+	public function unconfirmedIncomesSummary()
+	{
+		$user_id = Auth::user()->id;
+		$current_year = date('Y');
+
+		$all_incomes = Income::where('confirmed', 0)
+			->where('user_id', $user_id)
+			->sum('sum');
+		
+		$all_transfers = Income::where('confirmed', 0)
+			->join('transfers', 'transfers.income_id', '=', 'incomes.id')
+			->where('user_id', $user_id)
+			->sum('transfers.sum');
+
+		$on_the_way = $all_incomes - $all_transfers;
+			
+		$periodicalThisYear = Transfer::whereYear("transfer_date", "=", $current_year)
+			->join("incomes", "incomes.id", "=", "transfers.income_id")
+			->where("user_id", $user_id)
+			->where("invoice", NULL)
+			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
+			->groupBy("periodical_publications.id")
+			->selectRaw("name, SUM(transfers.sum) AS sum")
+			->get();
+
+		$nonperiodicalThisYear = Transfer::whereYear("transfer_date", "=", $current_year)
+			->join("incomes", "incomes.id", "=", "transfers.income_id")
+			->where("user_id", $user_id)
+			->where("invoice", NULL)
+			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
+			->groupBy("nonperiodical_publications.id")
+			->selectRaw("name, SUM(transfers.sum) AS sum")
+			->get();
+
+		$periodicalThisYearInvoice = Transfer::whereYear("transfer_date", "=", $current_year)
+			->join("incomes", "incomes.id", "=", "transfers.income_id")
+			->where("user_id", $user_id)
+			->where("invoice", "!=", NULL)
+			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
+			->groupBy("periodical_publications.id")
+			->selectRaw("name, SUM(transfers.sum) AS sum")
+			->get();
+
+		$nonperiodicalThisYearInvoice = Transfer::whereYear("transfer_date", "=", $current_year)
+			->join("incomes", "incomes.id", "=", "transfers.income_id")
+			->where("user_id", $user_id)
+			->where("invoice", "!=", NULL)
+			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
+			->groupBy("nonperiodical_publications.id")
+			->selectRaw("name, SUM(transfers.sum) AS sum")
+			->get();
+
+		$periodicalNextYear = Transfer::whereYear("transfer_date", ">", $current_year)
+			->join("incomes", "incomes.id", "=", "transfers.income_id")
+			->where("user_id", $user_id)
+			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
+			->groupBy("periodical_publications.id")
+			->selectRaw("name, SUM(transfers.sum) AS sum")
+			->get();
+
+		$nonperiodicalNextYear = Transfer::whereYear("transfer_date", ">", $current_year)
+			->join("incomes", "incomes.id", "=", "transfers.income_id")
+			->where("user_id", $user_id)
+			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
+			->groupBy("nonperiodical_publications.id")
+			->selectRaw("name, SUM(transfers.sum) AS sum")
+			->get();
+
+		return view('v-kartoteka/potvrdit-prijmy')
+				->with('all_incomes', $all_incomes)
+				->with('all_transfers', $all_transfers)
+				->with('on_the_way', $on_the_way)
+				->with('periodicalThisYear', $periodicalThisYear)
+				->with('nonperiodicalThisYear', $nonperiodicalThisYear)
+				->with('periodicalThisYearInvoice', $periodicalThisYearInvoice)
+				->with('nonperiodicalThisYearInvoice', $nonperiodicalThisYearInvoice)
+				->with('periodicalNextYear', $periodicalNextYear)
+				->with('nonperiodicalNextYear', $nonperiodicalNextYear);
+	}
+
+	/**
+     * Confirm unconfirmed incomes - POST.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+	public function confirmIncomes()
+	{
+		return redirect('/kartoteka')->with('message', 'Operácia sa podarila!');
+	}
+
+	/**
      * Delete the person.
      *
      * @param  \Illuminate\Http\Request  $request
