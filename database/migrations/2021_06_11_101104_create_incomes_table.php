@@ -21,7 +21,7 @@ class CreateIncomesTable extends Migration
             $table->integer('bank_account_id');
             $table->integer('number')->nullable();
             $table->integer('package_number')->nullable()->comment("pomocna charakteristika");
-            $table->integer('invoice')->nullable()->comment("pomocna charakteristika");
+            $table->string('invoice')->nullable()->comment("pomocna charakteristika");
             $table->timestamp('accounting_date')->nullable();
             $table->boolean('confirmed')->comment("potvrdeny (zauctovany) prijem");
             $table->string('note')->nullable();

@@ -14,70 +14,61 @@ var Income = {
   */
   storeIncomeChars: function storeIncomeChars() {
     // date to compare, if local storage contains active or old data
-    var today = new Date().toJSON().slice(0, 10).replace(/-/g, '/'); ////////////////////
-    // PACKAGE NUMBER
-    ////////////////////
+    var today = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
+    var dateToCompare = localStorage.getItem('dateToCompare');
 
-    var savedPackageNumber = localStorage.getItem('packageNumber');
-    var savedPackageNumberDate = localStorage.getItem('packageNumberDate'); // prepopulate if active
+    if (!dateToCompare) {
+      dateToCompare = today;
+    } // prepopulate if active
 
-    if (savedPackageNumberDate == today) {
-      $("#package_number").val(savedPackageNumber);
+
+    if (dateToCompare == today) {
+      $("#search_name").val(localStorage.getItem('searchName'));
+      $("#search_zip_code").val(localStorage.getItem('searchZipCode'));
+      $("#search_address").val(localStorage.getItem('searchAddress'));
+      $("#search_city").val(localStorage.getItem('searchCity'));
+      $("#name1").val(localStorage.getItem('name1'));
+      $("#package_number").val(localStorage.getItem('packageNumber'));
+      var number = localStorage.getItem('number');
+      $("#number").val(++number);
+      $("#income_date").val(localStorage.getItem('incomeDate'));
+      $("#bank_account_id").val(localStorage.getItem('bankAccount'));
+
+      if (localStorage.getItem('searchName').length != 0 || localStorage.getItem('searchZipCode').length != 0 || localStorage.getItem('searchAddress').length != 0 || localStorage.getItem('searchCity').length != 0) {
+        Income.initSearch();
+      }
     } // save new val
 
 
-    $("#incomeForm").submit(function () {
-      var packageNumber = $("#package_number").val();
-      localStorage.setItem('packageNumberDate', today);
-      localStorage.setItem('packageNumber', packageNumber);
-    }); ////////////////////
-    // INCOME DATE
-    ////////////////////
+    var saveNewValOnInput = function saveNewValOnInput() {
+      localStorage.setItem('dateToCompare', today);
+      localStorage.setItem('searchName', $("#search_name").val());
+      localStorage.setItem('searchZipCode', $("#search_zip_code").val());
+      localStorage.setItem('searchAddress', $("#search_address").val());
+      localStorage.setItem('searchCity', $("#search_city").val());
+      localStorage.setItem('name1', $("#name1").val());
+      localStorage.setItem('bankAccount', $("#bank_account_id").val());
+      localStorage.setItem('packageNumber', $("#package_number").val());
+      localStorage.setItem('incomeDate', $("#income_date").val());
+      localStorage.setItem('number', $("#number").val());
+    };
 
-    var savedIncomeDate = localStorage.getItem('incomeDate');
-    var savedIncomeDateDate = localStorage.getItem('incomeDateDate'); // prepopulate if active
+    var saveNewValOnSubmit = function saveNewValOnSubmit() {
+      localStorage.setItem('dateToCompare', today);
+      localStorage.setItem('searchName', "");
+      localStorage.setItem('searchZipCode', "");
+      localStorage.setItem('searchAddress', "");
+      localStorage.setItem('searchCity', "");
+      localStorage.setItem('name1', "");
+      localStorage.setItem('bankAccount', $("#bank_account_id").val());
+      localStorage.setItem('packageNumber', $("#package_number").val());
+      localStorage.setItem('incomeDate', $("#income_date").val());
+      localStorage.setItem('number', $("#number").val());
+    };
 
-    if (savedIncomeDateDate == today) {
-      $("#income_date").val(savedIncomeDate);
-    } // save new val
-
-
-    $("#incomeForm").submit(function () {
-      var incomeDate = $("#income_date").val();
-      localStorage.setItem('incomeDateDate', today);
-      localStorage.setItem('incomeDate', incomeDate);
-    }); ////////////////////
-    // NUMBER
-    ////////////////////
-
-    var savedNumber = localStorage.getItem('number');
-    var savedNumberDate = localStorage.getItem('numberDate'); // prepopulate if active
-
-    if (savedNumberDate == today) {
-      $("#number").val(++savedNumber);
-    } // save new val
-
-
-    $("#incomeForm").submit(function () {
-      var number = $("#number").val();
-      localStorage.setItem('numberDate', today);
-      localStorage.setItem('number', number);
-    }); ////////////////////
-    // BANK ACCOUNT
-    ////////////////////
-
-    var savedBankAccount = localStorage.getItem('bankAccount');
-    var savedBankAccountDate = localStorage.getItem('bankAccountDate'); // prepopulate if active
-
-    if (savedBankAccountDate == today) {
-      $("#bank_account_id").val(savedBankAccount);
-    } // save new val
-
-
-    $("#incomeForm").submit(function () {
-      var bankAccount = $("#bank_account_id").val();
-      localStorage.setItem('bankAccountDate', today);
-      localStorage.setItem('bankAccount', bankAccount);
+    $("#incomeForm").submit(saveNewValOnSubmit);
+    $(document).on("input", "#search_name, #search_zip_code, #search_address, #search_city, #name1, #income_date, #package_number, #number", function () {
+      saveNewValOnInput();
     });
   },
 
@@ -359,6 +350,17 @@ var Income = {
         Income.initSearch();
       }
     });
+  },
+
+  /*
+  *
+  *   ADD TO ALL TRANSFERS THE SAME DATE
+  *	AS INCOME HAS
+  *
+  */
+  populateAllGoalDatesByIncomeDate: function populateAllGoalDatesByIncomeDate() {
+    var income_date = $("#income_date").val();
+    $(".form-control[name*='transfer_date']").val(income_date);
   }
 }; //////////
 // INIT
@@ -415,4 +417,12 @@ $(document).on("click", ".income-delete-user", function () {
 $("#create_user_dynamically").submit(function () {
   Income.createNewUser();
   return false;
+}); //////////////////////
+
+/* copy income date to all transfers */
+
+Income.populateAllGoalDatesByIncomeDate(); // if income date changes, change all transfer dates, too
+
+$(document).on("input", "#income_date", function () {
+  Income.populateAllGoalDatesByIncomeDate();
 }); //////////////////////
