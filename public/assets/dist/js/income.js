@@ -359,8 +359,10 @@ var Income = {
   *
   */
   populateAllGoalDatesByIncomeDate: function populateAllGoalDatesByIncomeDate() {
-    var income_date = $("#income_date").val();
-    $(".form-control[name*='transfer_date']").val(income_date);
+    if ($("#incomeForm").length) {
+      var income_date = $("#income_date").val();
+      $(".form-control[name*='transfer_date']").val(income_date);
+    }
   }
 }; //////////
 // INIT

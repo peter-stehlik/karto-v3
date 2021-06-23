@@ -158,7 +158,7 @@
 											<div class="mb-2">
 												<label class="pr-2 mb-1">Dátum</label>
 
-												<input class="form-control" id="d1" type="text" name="transfer_date[]" value="{{ isset($income->transfers[$i]) ? date('d.m.Y', strtotime($income->transfers[$i]->transfer_date)) : '' }}">
+												<input class="form-control" id="d1" type="text" name="transfer_date[]" value="{{ isset($income->transfers[$i]) ? date('d.m.Y', strtotime($income->transfers[$i]->transfer_date)) : date('d.m.Y') }}">
 											</div>
 										</div>
 

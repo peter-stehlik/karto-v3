@@ -440,9 +440,11 @@ let Income = {
 	*
 	*/
 	populateAllGoalDatesByIncomeDate: () => {
-		let income_date = $("#income_date").val();
+		if ($("#incomeForm").length) {
+			let income_date = $("#income_date").val();
 
-		$(".form-control[name*='transfer_date']").val(income_date);
+			$(".form-control[name*='transfer_date']").val(income_date);
+		}
 	},
 }
 
