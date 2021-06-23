@@ -17,7 +17,7 @@ class PeriodicalOrder extends Model
      */
     protected $fillable = [
         'person_id',
-        'periodical_id',
+        'periodical_publication_id',
         'count',
         'credit',
         'valid_from',

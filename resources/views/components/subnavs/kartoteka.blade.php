@@ -19,12 +19,6 @@
 
 	<li class="nav-item">
 		<a class="nav-link" href="#ui-page-no-sidebar">
-			Pridať opravu
-		</a>
-	</li><!-- / .nav-item -->
-
-	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-no-sidebar">
 			Zoznam opráv
 		</a>
 	</li><!-- / .nav-item -->

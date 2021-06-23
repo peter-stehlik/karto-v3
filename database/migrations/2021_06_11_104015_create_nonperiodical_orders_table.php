@@ -16,7 +16,7 @@ class CreateNonperiodicalOrdersTable extends Migration
         Schema::create('nonperiodical_orders', function (Blueprint $table) {
             $table->id();
             $table->integer('person_id');
-            $table->integer('nonperiodical_id');
+            $table->integer('nonperiodical_publication_id');
             $table->decimal('credit', 14, 2);
             $table->timestamps();
             $table->softDeletes();

@@ -16,7 +16,7 @@ class CreatePeriodicalOrdersTable extends Migration
         Schema::create('periodical_orders', function (Blueprint $table) {
             $table->id();
             $table->integer('person_id');
-            $table->integer('periodical_id');
+            $table->integer('periodical_publication_id');
             $table->integer('count');
             $table->decimal('credit', 14, 2);
             $table->date('valid_from');

@@ -17,7 +17,7 @@ class NonperiodicalOrder extends Model
      */
     protected $fillable = [
         'person_id',
-        'nonperiodical_id',
+        'nonperiodical_publication_id',
         'credit',
     ];
 }

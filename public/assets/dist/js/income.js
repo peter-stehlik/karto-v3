@@ -426,3 +426,44 @@ Income.populateAllGoalDatesByIncomeDate(); // if income date changes, change all
 $(document).on("input", "#income_date", function () {
   Income.populateAllGoalDatesByIncomeDate();
 }); //////////////////////
+
+/* prefill transfer sums, if previous or total sum is set */
+
+$(document).on("input", "#income_sum", function () {
+  var sum = $(this).val();
+  var $s1 = $("#s1");
+
+  if (sum) {
+    $s1.val(sum);
+  }
+});
+$(document).on("input", "#s1", function () {
+  var total = parseInt($("#income_sum").val());
+  var sum = parseInt($(this).val());
+  var $s2 = $("#s2");
+
+  if (sum) {
+    $s2.val(total - sum);
+  }
+});
+$(document).on("input", "#s2", function () {
+  var total = parseInt($("#income_sum").val());
+  var sum1 = parseInt($("#s1").val());
+  var sum2 = parseInt($(this).val());
+  var $s3 = $("#s3");
+
+  if (sum2) {
+    $s3.val(total - sum1 - sum2);
+  }
+});
+$(document).on("input", "#s3", function () {
+  var total = parseInt($("#income_sum").val());
+  var sum1 = parseInt($("#s1").val());
+  var sum2 = parseInt($("#s2").val());
+  var sum3 = parseInt($(this).val());
+  var $s4 = $("#s4");
+
+  if (sum3) {
+    $s4.val(total - sum1 - sum2 - sum3);
+  }
+}); ///////////////////////////////////////////

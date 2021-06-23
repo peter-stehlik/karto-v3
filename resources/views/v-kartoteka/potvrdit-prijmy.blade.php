@@ -108,8 +108,12 @@
 		</table>
 
 		{!! Form::open(['action' => 'App\Http\Controllers\IncomeController@confirmIncomes']) !!}					
-			<div class="mr-3">
-				<button type="submit" class="btn btn-success">Potvrdiť príjmy</button>
+			<div class="mr-3 mt-4">
+				<p>Chcete platby zaúčtovať?</p>
+
+				<button class="btn btn-success mr-4" type="submit">áno</button>
+
+				<a class="btn btn-secondary" href="{{ route('kartoteka.uvod') }}">Nie</a>
 			</div>
 		{!! Form::close() !!}
 	</div>

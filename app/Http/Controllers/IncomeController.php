@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\BankAccount;
 use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
+use App\Models\PeriodicalOrder;
+use App\Models\NonperiodicalOrder;
 use App\Models\Income;
 use App\Models\Transfer;
 use App\Models\Person;
@@ -210,6 +212,7 @@ class IncomeController extends Controller
 		$periodicalThisYear = Transfer::whereYear("transfer_date", "=", $current_year)
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->where("user_id", $user_id)
+			->where('confirmed', 0)
 			->where("invoice", NULL)
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
 			->groupBy("periodical_publications.id")
@@ -219,6 +222,7 @@ class IncomeController extends Controller
 		$nonperiodicalThisYear = Transfer::whereYear("transfer_date", "=", $current_year)
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->where("user_id", $user_id)
+			->where('confirmed', 0)
 			->where("invoice", NULL)
 			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
 			->groupBy("nonperiodical_publications.id")
@@ -228,6 +232,7 @@ class IncomeController extends Controller
 		$periodicalThisYearInvoice = Transfer::whereYear("transfer_date", "=", $current_year)
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->where("user_id", $user_id)
+			->where('confirmed', 0)
 			->where("invoice", "!=", NULL)
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
 			->groupBy("periodical_publications.id")
@@ -237,6 +242,7 @@ class IncomeController extends Controller
 		$nonperiodicalThisYearInvoice = Transfer::whereYear("transfer_date", "=", $current_year)
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->where("user_id", $user_id)
+			->where('confirmed', 0)
 			->where("invoice", "!=", NULL)
 			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
 			->groupBy("nonperiodical_publications.id")
@@ -246,6 +252,7 @@ class IncomeController extends Controller
 		$periodicalNextYear = Transfer::whereYear("transfer_date", ">", $current_year)
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->where("user_id", $user_id)
+			->where('confirmed', 0)
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
 			->groupBy("periodical_publications.id")
 			->selectRaw("name, SUM(transfers.sum) AS sum")
@@ -254,6 +261,7 @@ class IncomeController extends Controller
 		$nonperiodicalNextYear = Transfer::whereYear("transfer_date", ">", $current_year)
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->where("user_id", $user_id)
+			->where('confirmed', 0)
 			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
 			->groupBy("nonperiodical_publications.id")
 			->selectRaw("name, SUM(transfers.sum) AS sum")
@@ -279,6 +287,55 @@ class IncomeController extends Controller
      */
 	public function confirmIncomes()
 	{
+		$incomes = Income::where("confirmed", 0)
+                    ->where("user_id", Auth::user()->id)
+					->get();
+
+		foreach( $incomes as $income ){
+			foreach( $income->transfers as $transfer ){
+				if( $transfer->periodical_publication_id ){
+					$exists = PeriodicalOrder::where("person_id", $income->person_id)
+										->where("periodical_publication_id", $transfer->periodical_publication_id)
+										->first();
+
+					if ( $exists ) {
+						PeriodicalOrder::where("person_id", $income->person_id)
+							->where("periodical_publication_id", $transfer->periodical_publication_id)
+							->increment("credit", $transfer->sum);
+					} else {
+						PeriodicalOrder::create([
+							"person_id" => $income->person_id,
+							"periodical_publication_id" => $transfer->periodical_publication_id,
+							"credit" => $transfer->sum,
+						]);
+					}
+				}
+				
+				if( $transfer->nonperiodical_publication_id ){
+					$exists = NonperiodicalOrder::where("person_id", $income->person_id)
+										->where("nonperiodical_publication_id", $transfer->nonperiodical_publication_id)
+										->first();
+
+					if ( $exists ) {
+						NonperiodicalOrder::where("person_id", $income->person_id)
+							->where("nonperiodical_publication_id", $transfer->nonperiodical_publication_id)
+							->increment("credit", $transfer->sum);
+					} else {
+						NonperiodicalOrder::create([
+							"person_id" => $income->person_id,
+							"nonperiodical_publication_id" => $transfer->nonperiodical_publication_id,
+							"credit" => $transfer->sum,
+						]);
+					}
+				}
+			}
+
+			Income::where("id", $income->id)
+				->update([
+					"confirmed" => 1
+				]);
+		}
+
 		return redirect('/kartoteka')->with('message', 'Operácia sa podarila!');
 	}
 
