@@ -31,10 +31,14 @@ var Income = {
       $("#package_number").val(localStorage.getItem('packageNumber'));
       var number = localStorage.getItem('number');
       $("#number").val(++number);
-      $("#income_date").val(localStorage.getItem('incomeDate'));
       $("#bank_account_id").val(localStorage.getItem('bankAccount'));
+      var incomeDate = localStorage.getItem('incomeDate');
 
-      if (localStorage.getItem('searchName').length != 0 || localStorage.getItem('searchZipCode').length != 0 || localStorage.getItem('searchAddress').length != 0 || localStorage.getItem('searchCity').length != 0) {
+      if (incomeDate) {
+        $("#income_date").val(incomeDate);
+      }
+
+      if (localStorage.hasOwnProperty('searchName') || localStorage.hasOwnProperty('searchZipCode') || localStorage.hasOwnProperty('searchAddress') || localStorage.hasOwnProperty('searchCity')) {
         Income.initSearch();
       }
     } // save new val
@@ -89,7 +93,7 @@ var Income = {
     Income.hideAddNewPersonOnIncome();
 
     if (search_name.length == 0 && search_zip_code.length == 0 && search_address.length == 0 && search_city.length == 0) {
-      alert("Zadajte parameter do vyhľadávania.");
+      // alert("Zadajte parameter do vyhľadávania.");
       return;
     }
 

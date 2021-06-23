@@ -199,12 +199,15 @@ class IncomeController extends Controller
 		$current_year = date('Y');
 
 		$all_incomes = Income::where('confirmed', 0)
+			->where("incomes.deleted_at", NULL)
 			->where('user_id', $user_id)
 			->sum('sum');
 		
 		$all_transfers = Income::where('confirmed', 0)
 			->join('transfers', 'transfers.income_id', '=', 'incomes.id')
 			->where('user_id', $user_id)
+			->where("incomes.deleted_at", NULL)
+			->where("transfers.deleted_at", NULL)
 			->sum('transfers.sum');
 
 		$on_the_way = $all_incomes - $all_transfers;
@@ -214,6 +217,7 @@ class IncomeController extends Controller
 			->where("user_id", $user_id)
 			->where('confirmed', 0)
 			->where("invoice", NULL)
+			->where("transfers.deleted_at", NULL)
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
 			->groupBy("periodical_publications.id")
 			->selectRaw("name, SUM(transfers.sum) AS sum")
@@ -224,6 +228,7 @@ class IncomeController extends Controller
 			->where("user_id", $user_id)
 			->where('confirmed', 0)
 			->where("invoice", NULL)
+			->where("transfers.deleted_at", NULL)
 			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
 			->groupBy("nonperiodical_publications.id")
 			->selectRaw("name, SUM(transfers.sum) AS sum")
@@ -234,6 +239,7 @@ class IncomeController extends Controller
 			->where("user_id", $user_id)
 			->where('confirmed', 0)
 			->where("invoice", "!=", NULL)
+			->where("transfers.deleted_at", NULL)
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
 			->groupBy("periodical_publications.id")
 			->selectRaw("name, SUM(transfers.sum) AS sum")
@@ -244,6 +250,7 @@ class IncomeController extends Controller
 			->where("user_id", $user_id)
 			->where('confirmed', 0)
 			->where("invoice", "!=", NULL)
+			->where("transfers.deleted_at", NULL)
 			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
 			->groupBy("nonperiodical_publications.id")
 			->selectRaw("name, SUM(transfers.sum) AS sum")
@@ -253,6 +260,7 @@ class IncomeController extends Controller
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->where("user_id", $user_id)
 			->where('confirmed', 0)
+			->where("transfers.deleted_at", NULL)
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
 			->groupBy("periodical_publications.id")
 			->selectRaw("name, SUM(transfers.sum) AS sum")
@@ -262,6 +270,7 @@ class IncomeController extends Controller
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->where("user_id", $user_id)
 			->where('confirmed', 0)
+			->where("transfers.deleted_at", NULL)
 			->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
 			->groupBy("nonperiodical_publications.id")
 			->selectRaw("name, SUM(transfers.sum) AS sum")

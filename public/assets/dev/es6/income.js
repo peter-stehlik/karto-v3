@@ -32,14 +32,18 @@ let Income = {
 
 			let number = localStorage.getItem('number');
 			$("#number").val(++number);
-			$("#income_date").val(localStorage.getItem('incomeDate'));
 			$("#bank_account_id").val(localStorage.getItem('bankAccount'));
 
+			let incomeDate = localStorage.getItem('incomeDate');
+			if (incomeDate) {
+				$("#income_date").val(incomeDate);
+			}
+
 			if (
-				localStorage.getItem('searchName').length != 0 ||
-				localStorage.getItem('searchZipCode').length != 0 ||
-				localStorage.getItem('searchAddress').length != 0 ||
-				localStorage.getItem('searchCity').length != 0
+				localStorage.hasOwnProperty('searchName') ||
+				localStorage.hasOwnProperty('searchZipCode') ||
+				localStorage.hasOwnProperty('searchAddress') ||
+				localStorage.hasOwnProperty('searchCity')
 			) {
 				Income.initSearch();
 			}
@@ -111,7 +115,7 @@ let Income = {
 			search_address.length == 0 &&
 			search_city.length == 0
 		) {
-			alert("Zadajte parameter do vyhľadávania.");
+			// alert("Zadajte parameter do vyhľadávania.");
 
 			return;
 		}
