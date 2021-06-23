@@ -42,7 +42,7 @@
 
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a class="nav-link">
+				<a class="nav-link" href="{{ route('uzivatel.zmenit-heslo') }}">
 					{{ Auth::user()->name }}
 				</a>
 			</li><!-- / .nav-item -->
@@ -54,6 +54,14 @@
 				</a>
 			</li><!-- / .nav-item -->
 		</ul><!-- / .nav -->
+
+		<div id="accountingDateBox">
+			<div class="px-2">
+				<input class="form-control mb-2" id="setAccountingDate" type="text" value="13.2.2021">
+
+				<button class="btn btn-success" type="button">Uložiť</button>
+			</div>
+		</div>
 
 		@if( Route::currentRouteName() == 'kartoteka.prijem-get' )  
 			<hr class="mr-2">
