@@ -24,12 +24,6 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-no-sidebar">
-			Peniaze na ceste
-		</a>
-	</li><!-- / .nav-item -->
-
-	<li class="nav-item">
 		<a class="nav-link" href="{{ route('kartoteka.unconfirmed-incomes-summary-get') }}">
 			Zaúčtovať
 		</a>
