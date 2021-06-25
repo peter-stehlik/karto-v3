@@ -10,6 +10,7 @@ use App\Http\Controllers\NonperiodicalController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\IncomeUnconfirmedController;
+use App\Http\Controllers\TransferUnconfirmedController;
 
 
 /*
@@ -48,6 +49,9 @@ Route::name('kartoteka.')->group(function () {
     Route::post('/kartoteka/prijem/potvrdit-prijmy', [IncomeController::class, 'confirmIncomes'])->middleware(['auth'])->name('confirm-incomes-post');
 
     Route::resource('/kartoteka/nepotvrdene-prijmy', IncomeUnconfirmedController::class)->middleware(['auth']);
+
+    Route::get('/kartoteka/nepotvrdene-prevody', [TransferUnconfirmedController::class, 'index'])->middleware(['auth'])->name('nepotvrdene-prevody-get');
+    Route::get('/kartoteka/nepotvrdene-prevody-filter', [TransferUnconfirmedController::class, 'filter'])->middleware(['auth'])->name('nepotvrdene-prevody-filter-get');
 });
 
 /* ---------------------- */

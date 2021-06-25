@@ -12,7 +12,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-no-sidebar">
+		<a class="nav-link" href="{{ route('kartoteka.nepotvrdene-prevody-get') }}">
 			Zoznam prevodov
 		</a>
 	</li><!-- / .nav-item -->
