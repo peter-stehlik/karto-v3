@@ -48,18 +48,24 @@
 			</li><!-- / .nav-item -->
 
 			<li class="nav-item">
-				<a class="nav-link">
+				<a class="nav-link" id="changeAccountingDate" href="javascript:void(0);">
 					Účtovný dátum: <br>
-					13.2.2021
+					<span id="accountingDatePreview">{{ date('d.m.Y', strtotime(Auth::user()->accounting_date)) }}</span>
 				</a>
 			</li><!-- / .nav-item -->
 		</ul><!-- / .nav -->
 
-		<div id="accountingDateBox">
+		<div id="accountingDateBox" style="display: none;">
 			<div class="px-2">
-				<input class="form-control mb-2" id="setAccountingDate" type="text" value="13.2.2021">
+				<label class="mb-2" for="setAccountingDate">Zmeňte <em>(v tvare dd.mm.rrrr)</em>:</label>
 
-				<button class="btn btn-success" type="button">Uložiť</button>
+				<input class="form-control mb-2" id="accountingDate" type="text" value="{{ date('d.m.Y', strtotime(Auth::user()->accounting_date)) }}">
+
+				<input id="accountingDateUserId" type="hidden" value="{{ Auth::user()->id }}">
+
+				<button class="btn btn-success" id="setAccountingDate" type="button">Uložiť</button>
+
+				<p class="text-success mt-2" id="successChangeAccountingDate" style="display: none;">Účtovný dátum ste úspešne zmenili.</p>
 			</div>
 		</div>
 

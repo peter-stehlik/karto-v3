@@ -34,4 +34,26 @@ class UserController extends Controller
 
 		return redirect('/uzivatel/zmenit-heslo')->with('message', 'Úspešne ste zmenili heslo.');
     }
+
+	/**
+     * Change accounting date for a given user. GET AJAX
+     *
+     * @param  int  $id
+     * @param  date  $accounting_date
+     * @return json
+     */
+	public function updateAccountingDate()
+	{
+		$id = $_GET['user_id'];
+		$accounting_date = date('Y-m-d', strtotime($_GET['accounting_date']));
+
+		User::where('id', '=', $id)
+			->update([
+				'accounting_date' => $accounting_date,
+			]);		
+
+		$data = array('result' => 1);
+
+		return response()->json($data);
+	}
 }
