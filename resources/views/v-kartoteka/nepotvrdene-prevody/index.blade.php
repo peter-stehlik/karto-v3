@@ -26,21 +26,24 @@
                     <tr>
                         <th>ID</th>
                         <th>Meno</th>
-                        <th>Dátum prevodu</th>
-                        <th>Poznámka</th>
+                        <th>Účel</th>
                         <th>Suma</th>
+                        <th>Poznámka</th>
+                        <th>Dátum prevodu</th>
                         <th>Upraviť</th>
                         <th>Vymazať</th>
                     </tr>
                 </thead>
 
 				<tbody>
+					@foreach( $transfers as $transfer )
 					<tr>
-						<td></td>					
-						<td></td>					
-						<td></td>					
-						<td></td>					
-						<td></td>					
+						<td>{{ $transfer->id }}</td>					
+						<td>{{ $transfer->name1 }}</td>					
+						<td>{{ $transfer->pp_name ? $transfer->pp_name : $transfer->np_name }}</td>					
+						<td>{{ date("j.n.Y", strtotime($transfer->transfer_date)) }}</td>					
+						<td>{{ $transfer->note }}</td>					
+						<td>{{ number_format($transfer->sum, 2, ",", " ") }}</td>					
 						<td class="text-center"><a href=" route('kartoteka.nepotvrdene-prijmy.edit', [$income->id]) ">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 									fill="currentColor" class="bi bi-pencil-square text-success"
@@ -66,6 +69,7 @@
 							</a>
 						</td>
 					</tr>
+					@endforeach
 				</tbody>
 			</table>
 		</div>

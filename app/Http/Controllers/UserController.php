@@ -44,12 +44,12 @@ class UserController extends Controller
      */
 	public function updateAccountingDate()
 	{
-		$id = $_GET['user_id'];
-		$accounting_date = date('Y-m-d', strtotime($_GET['accounting_date']));
+		$id = $_GET['userId'];
+		$accountingDate = date('Y-m-d', strtotime($_GET['accountingDate']));
 
 		User::where('id', '=', $id)
 			->update([
-				'accounting_date' => $accounting_date,
+				'accounting_date' => $accountingDate,
 			]);		
 
 		$data = array('result' => 1);

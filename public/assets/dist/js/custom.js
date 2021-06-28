@@ -14,10 +14,10 @@ var SVD = {
       var newDate = $("#accountingDate").val();
       var userId = $("#accountingDateUserId").val();
       $.getJSON("/uzivatel/uctovny-datum", {
-        accounting_date: newDate,
-        user_id: userId
+        accountingDate: newDate,
+        userId: userId
       }, function (data) {
-        if (data.result == 1) {
+        if (data.result === 1) {
           $("#successChangeAccountingDate").slideToggle();
           $("#accountingDatePreview").text(newDate);
         }
