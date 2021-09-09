@@ -25,7 +25,7 @@
                         <td>{{ $periodical->name }}</td>
                         <td>{{ $periodical->abbreviation }}</td>
                         <td>{{ $periodical->label_date }}</td>
-                        <td>{{ number_format($periodical->price, 2, ",") }}</td>
+                        <td>{{ number_format($periodical->price, 2, ",", " ") }}</td>
                         <td>{{ $periodical->current_number }}</td>
                         <td>{{ $periodical->note }}</td>
                         <td class="text-center"><a href="{{ route('vydavatelstvo.publikacie.edit', [$periodical->id]) }}">

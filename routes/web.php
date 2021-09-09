@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\IncomeUnconfirmedController;
 use App\Http\Controllers\TransferUnconfirmedController;
+use App\Http\Controllers\PersonFilterController;
 
 
 /*
@@ -71,9 +72,7 @@ Route::name('vydavatelstvo.')->group(function () {
 /* --- OSOBA --- */
 /* ------------ */
 Route::name('osoba.')->group(function () {
-    Route::get('/osoba', function () {
-        return view('v-osoba/osoba');
-    })->middleware(['auth'])->name('uvod');
+    Route::get('/osoba', [PersonFilterController::class, 'index'])->middleware(['auth'])->name('uvod');
 
     Route::resource('/osoba/kategorie', CategoryController::class)->middleware(['auth']);
 });

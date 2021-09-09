@@ -20,7 +20,7 @@
 			</div>
 		</div>
 
-		<div class="col-lg-8">
+		<div class="col-lg-10">
 			<table class="table">
                 <thead>
                     <tr>
