@@ -1,14 +1,15 @@
 <x-app-layout>
     <h1 class="h3 py-2 border-bottom text-uppercase">
-		{{ $person->name1 }}, {{ $person->organization }},
-		<span class="text-secondary"> {{ $person->address1 }}, {{ $person->zip_code }} {{ $person->city }}</span>
-		, {{ $person->email }}
-		
-		@if( $person->note )
-			<br>
-			<small><em>{{ $person->note }}</em></small>
-		@endif
+		Účty
 	</h1>
+
+	<script>
+		$(document).ready(function(){
+			let dobrodinec = "<strong>{{ $person->name1 }}</strong><span class='d-block text-secondary'> {{ $person->organization }}</span>{{ $person->address1 }}<span class='d-block text-secondary'> {{ $person->zip_code }} {{ $person->city }}</span>{{ $person->email }}";
+			
+			$("#dobrodinec").html(dobrodinec);
+		});		
+	</script>
 
 	<div class="col-lg-12">
 		@foreach( $periodical_orders as $po )

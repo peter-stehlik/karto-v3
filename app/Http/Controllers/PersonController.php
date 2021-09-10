@@ -26,4 +26,12 @@ class PersonController extends Controller
 			->with('nonperiodical_orders', $nonperiodical_orders)
 			->with('person', $person);
 	}
+
+	public function bio($id)
+	{
+		$person = Person::find($id);
+
+		return view('v-osoba/dobrodinec/osobne-udaje')
+			->with('person', $person);
+	}
 }

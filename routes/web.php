@@ -82,7 +82,8 @@ Route::name('osoba.')->group(function () {
 /* DOBRODINEC */
 /* detaily konkretnej osoby */
 Route::name('dobrodinec.')->group(function () {
-    Route::get('/dobrodinec/{id}', [PersonController::class, 'index'])->middleware(['auth'])->name('ucty');
+    Route::get('/dobrodinec/{id}/ucty', [PersonController::class, 'index'])->middleware(['auth'])->name('ucty');
+    Route::get('/dobrodinec/{id}/osobne-udaje', [PersonController::class, 'bio'])->middleware(['auth'])->name('bio');
 });
 
 
