@@ -9,6 +9,8 @@
 				Vydavateľstvo
 			@elseif( str_starts_with(request()->route()->getName(), 'osoba.') )
 				Osoba
+			@elseif( str_starts_with(request()->route()->getName(), 'dobrodinec.') )
+				Dobrodinec
 			@elseif( str_starts_with(request()->route()->getName(), 'uzivatel.') )
 				Užívateľ
 			@endif
@@ -24,6 +26,10 @@
 		
 		@if( str_starts_with(request()->route()->getName(), 'osoba.') )
 			@include('components/subnavs/osoba')
+		@endif
+
+		@if( str_starts_with(request()->route()->getName(), 'dobrodinec.') )
+			@include('components/subnavs/dobrodinec')
 		@endif
 
 		@if( str_starts_with(request()->route()->getName(), 'kancelaria.') )

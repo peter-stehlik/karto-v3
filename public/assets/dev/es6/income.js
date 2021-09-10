@@ -182,7 +182,7 @@ let Income = {
 								<path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
 							</svg>
 						</a></td>
-						<td class="icn-td"><a href="/backend/customer/detail/${people[i].id}" class="edit" title="Pozrieť detail">
+						<td class="icn-td"><a href="/dobrodinec/${people[i].id}" class="edit" title="Pozrieť detail">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill text-info" viewBox="0 0 16 16">
 								<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
 							</svg>

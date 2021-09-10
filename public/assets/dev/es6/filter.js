@@ -74,7 +74,7 @@ let Filter = {
           var row = `
             <tr>
               <td>${id}</td>
-              <td><a href="/backend/people/edit/${id}" target="_blank">${name1}</a></td>
+              <td><a href="/dobrodinec/${id}" target="_blank">${name1}</a></td>
               <td>${address1}</td>
               <td>${category}</td>
               <td>${note}</td>

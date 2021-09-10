@@ -57,7 +57,7 @@ var Filter = {
         var address1 = people[i].address1 + ", " + people[i].zip_code + " " + people[i].city;
         var note = people[i].note;
         var category = people[i].category_name;
-        var row = "\n            <tr>\n              <td>".concat(id, "</td>\n              <td><a href=\"/backend/people/edit/").concat(id, "\" target=\"_blank\">").concat(name1, "</a></td>\n              <td>").concat(address1, "</td>\n              <td>").concat(category, "</td>\n              <td>").concat(note, "</td>\n            </tr>\n          ");
+        var row = "\n            <tr>\n              <td>".concat(id, "</td>\n              <td><a href=\"/dobrodinec/").concat(id, "\" target=\"_blank\">").concat(name1, "</a></td>\n              <td>").concat(address1, "</td>\n              <td>").concat(category, "</td>\n              <td>").concat(note, "</td>\n            </tr>\n          ");
         htmlResults += row;
       }
 

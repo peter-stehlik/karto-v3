@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\IncomeUnconfirmedController;
 use App\Http\Controllers\TransferUnconfirmedController;
+use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonFilterController;
 
 
@@ -77,6 +78,13 @@ Route::name('osoba.')->group(function () {
 
     Route::resource('/osoba/kategorie', CategoryController::class)->middleware(['auth']);
 });
+
+/* DOBRODINEC */
+/* detaily konkretnej osoby */
+Route::name('dobrodinec.')->group(function () {
+    Route::get('/dobrodinec/{id}', [PersonController::class, 'index'])->middleware(['auth'])->name('ucty');
+});
+
 
 /* ------------------- */
 /* --- KANCELARIA --- */
