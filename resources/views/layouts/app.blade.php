@@ -24,6 +24,7 @@
 	<script src="{{ asset('assets/dist/js/custom.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/helper.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/income.js') }}" defer></script>
+	<script src="{{ asset('assets/dist/js/filter.js') }}" defer></script>
 </head>
 <body>
 	@include('layouts/header')
