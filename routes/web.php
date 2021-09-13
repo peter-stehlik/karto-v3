@@ -83,7 +83,8 @@ Route::name('osoba.')->group(function () {
 /* detaily konkretnej osoby */
 Route::name('dobrodinec.')->group(function () {
     Route::get('/dobrodinec/{id}/ucty', [PersonController::class, 'index'])->middleware(['auth'])->name('ucty');
-    Route::get('/dobrodinec/{id}/osobne-udaje', [PersonController::class, 'bio'])->middleware(['auth'])->name('bio');
+    Route::get('/dobrodinec/{id}/osobne-udaje', [PersonController::class, 'getBio'])->middleware(['auth'])->name('getbio');
+    Route::post('/dobrodinec/osobne-udaje', [PersonController::class, 'postBio'])->middleware(['auth'])->name('postbio');
 });
 
 

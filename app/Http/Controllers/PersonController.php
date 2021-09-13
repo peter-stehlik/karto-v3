@@ -6,9 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Person;
 use App\Models\NonperiodicalOrder;
 use App\Models\PeriodicalOrder;
+use App\Models\Category;
 
 class PersonController extends Controller
 {
+	/*
+		GET
+		zobrazit ucty ku konkretnej osobe (dobrodincovi)
+	*/
 	public function index($id)
 	{
 		$person = Person::find($id);
@@ -27,11 +32,43 @@ class PersonController extends Controller
 			->with('person', $person);
 	}
 
-	public function bio($id)
+	/*
+		GET
+		(edit) zobrazit formular s osobnymi udajmi
+	*/
+	public function getBio($id)
 	{
 		$person = Person::find($id);
+		$categories = Category::get();
 
 		return view('v-osoba/dobrodinec/osobne-udaje')
-			->with('person', $person);
+			->with('person', $person)
+			->with('categories', $categories);
+	}
+
+	/*
+		POST
+		(edit) ulozit formular s osobnymi udajmi
+	*/
+	public function postBio(Request $request)
+	{
+		$id = $request->person_id;
+
+		Person::where('id', $id)
+		->update([
+			'category_id' => $request->category_id,
+			'title' => $request->title,
+			'name1' => $request->name1,
+			'address1' => $request->address1,
+			'address2' => $request->address2,
+			'organization' => $request->organization,
+			'zip_code' => $request->zip_code,
+			'city' => $request->city,
+			'state' => $request->state,
+			'email' => $request->email,
+			'note' => $request->note,
+		]);
+
+		return redirect('/dobrodinec/' . $id . '/ucty')->with('message', 'Operácia sa podarila!');
 	}
 }
