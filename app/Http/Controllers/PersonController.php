@@ -7,6 +7,9 @@ use App\Models\Person;
 use App\Models\NonperiodicalOrder;
 use App\Models\PeriodicalOrder;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\BankAccount;
+use DB;
 
 class PersonController extends Controller
 {
@@ -70,5 +73,82 @@ class PersonController extends Controller
 		]);
 
 		return redirect('/dobrodinec/' . $id . '/ucty')->with('message', 'Operácia sa podarila!');
+	}
+
+	/*
+		GET
+		zobrazit filter prijmov
+	*/
+	public function getIncomes($id)
+	{
+		$person = Person::find($id);
+		$users = User::get();
+		$bank_accounts = BankAccount::get();
+
+		return view('v-osoba/dobrodinec/prijmy')
+			->with('users', $users)
+			->with('bank_accounts', $bank_accounts)
+			->with('person', $person);
+	}
+
+	/*
+		GET JSON
+		nacitat vysledky filtra
+	*/
+	public function getIncomesFilter()
+	{
+		$user_id = $_GET["user_id"];
+		$sum_from = $_GET["sum_from"];
+		$sum_to = $_GET["sum_to"];
+		$bank_account_id = $_GET["bank_account_id"];
+		$number_from = $_GET["number_from"];
+		$number_to = $_GET["number_to"];
+		$package_number = $_GET["package_number"];
+		$invoice = $_GET["invoice"];
+		$accounting_date_from = $_GET["accounting_date_from"];
+		$accounting_date_to = $_GET["accounting_date_to"];
+		$income_date_from = $_GET["income_date_from"];
+		$income_date_to = $_GET["income_date_to"];
+
+		$incomes = [];
+		
+		$incomes = DB::table('incomes')
+			->where(function($query) use ($user_id, $sum_from, $sum_to, $bank_account_id, $number_from, $number_to, $package_number, $invoice, $accounting_date_from, $accounting_date_to, $income_date_from, $income_date_to) {
+				if($user_id > 0){
+					$query->where('incomes.user_id', $user_id);
+				}
+				if($sum_from){
+					$query->where('incomes.sum', '>=', $sum_from);
+				}
+				if($sum_to){
+					$query->where('incomes.sum', '<=', $sum_to);
+				}
+				if($bank_account_id > 0){
+					$query->where('incomes.bank_account_id', $bank_account_id);
+				}
+				if($number_from){
+					$query->where('incomes.number', '>=', $number_from);
+				}
+				if($number_to){
+					$query->where('incomes.number', '<=', $number_to);
+				}
+				if($package_number){
+					$query->where('incomes.package_number', $package_number);
+				}
+				if($invoice){
+					$query->where('incomes.invoice', $invoice);
+				}
+			})
+			->join("users", "incomes.user_id", "=", "users.id")
+			->join("bank_accounts", "incomes.bank_account_id", "=", "bank_accounts.id")
+			->select("incomes.id AS income_id" , "users.name AS username", "incomes.sum", "bank_accounts.bank_name", "incomes.number", "incomes.package_number", "incomes.invoice", "incomes.accounting_date", "incomes.note", "incomes.income_date")
+			->orderBy("incomes.income_date", "desc")
+			->get();
+
+		$data = array('result' => 1);
+
+		$data["incomes"] = $incomes;
+
+		return response()->json($data);	
 	}
 }

@@ -14,6 +14,23 @@ var Help = {
 
     return beautifiedZip;
   },
+  beautifyDecimal: function beautifyDecimal(decimal) {
+    var numArr = decimal.split(".");
+    var num = numArr[0];
+
+    if (numArr[1] != '00') {
+      num = numArr.join(',');
+    }
+
+    return num;
+  },
+  beautifyDate: function beautifyDate(date) {
+    var rawDate = new Date(date);
+    var niceDate = rawDate.toLocaleDateString('sk-SK', {
+      timeZone: 'UTC'
+    });
+    return niceDate;
+  },
   getTodayDate: function getTodayDate() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');

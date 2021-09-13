@@ -88,7 +88,8 @@ module.exports = function (grunt) {
 					"dist/js/dashboard-template.js": "dev/es6/dashboard-template.js",
 					"dist/js/helper.js": "dev/es6/helper.js",
 					"dist/js/income.js": "dev/es6/income.js",
-					"dist/js/filter.js": "dev/es6/filter.js",
+					"dist/js/people-filter.js": "dev/es6/people-filter.js",
+					"dist/js/person-incomes-filter.js": "dev/es6/person-incomes-filter.js",
 				}
 			}
 		},

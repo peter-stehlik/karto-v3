@@ -11,6 +11,22 @@ let Help = {
 
 		return beautifiedZip;
 	},
+	beautifyDecimal: decimal => {
+		let numArr = decimal.split(".");
+		let num = numArr[0];
+
+		if( numArr[1] != '00' ){
+			num = numArr.join(',');
+		}
+
+		return num;
+	},
+	beautifyDate: date => {
+		let rawDate = new Date(date);
+		let niceDate = rawDate.toLocaleDateString('sk-SK', {timeZone: 'UTC'});
+
+		return niceDate;
+	},
 	getTodayDate: () => {
 		let today = new Date();
 		let dd = String(today.getDate()).padStart(2, '0');
