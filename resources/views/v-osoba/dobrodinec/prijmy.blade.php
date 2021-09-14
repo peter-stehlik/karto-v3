@@ -13,6 +13,8 @@
 
 	<div class="col-lg-12 p-3 bg-warning">
         <div class="row">
+            <input id="person_id" type="hidden" value="{!! $person->id !!}">
+
             <div class="col-lg-2">
                 <div class="mb-3">
                     <label class="mb-2" for="user_id">Užívateľ:</label>
@@ -101,7 +103,7 @@
 
             <div class="col-lg-2">
                 <div class="mb-3">
-                    <label class="mb-2" for="accounting_date_to">Účt. dátum od:</label>
+                    <label class="mb-2" for="accounting_date_to">Účt. dátum do:</label>
                     
                     <input class="form-control" id="accounting_date_to" type="text">
                 </div>
@@ -117,7 +119,7 @@
 
             <div class="col-lg-2">
                 <div class="mb-3">
-                    <label class="mb-2" for="income_date_to">Dát. príjmu od:</label>
+                    <label class="mb-2" for="income_date_to">Dát. príjmu do:</label>
                     
                     <input class="form-control" id="income_date_to" type="text">
                 </div>

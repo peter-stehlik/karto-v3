@@ -7,6 +7,7 @@ var PersonIncomesFilter = {
   filterPersonIncomes: function filterPersonIncomes() {
     Help.showPreloader();
     PersonIncomesFilter.emptySearchResults();
+    var person_id = $("#person_id").val();
     var user_id = $("#user_id").val();
     var sum_from = $("#sum_from").val();
     var sum_to = $("#sum_to").val();
@@ -23,7 +24,7 @@ var PersonIncomesFilter = {
      * VALIDATE IF SOME PARAMETER FILLED
      */
 
-    if (user_id == 0 && sum_from.length == 0 && sum_to.length == 0 && bank_account_id == 0 && number_from.length == 0 && number_to.length == 0 && package_number.length == 0 && invoice.length == 0 && accounting_date_from.length == 0 && accounting_date_to.length == 0 && income_date_from.length == 0 && income_date_to.length == 0) {
+    if (person_id.length == 0 && user_id == 0 && sum_from.length == 0 && sum_to.length == 0 && bank_account_id == 0 && number_from.length == 0 && number_to.length == 0 && package_number.length == 0 && invoice.length == 0 && accounting_date_from.length == 0 && accounting_date_to.length == 0 && income_date_from.length == 0 && income_date_to.length == 0) {
       alert("Zadajte aspoň jeden parameter do vyhľadávania.");
       Help.hidePreloader();
       return;
@@ -34,6 +35,7 @@ var PersonIncomesFilter = {
 
 
     $.getJSON("/dobrodinec/prijmy-filter", {
+      person_id: person_id,
       user_id: user_id,
       sum_from: sum_from,
       sum_to: sum_to,

@@ -6,6 +6,7 @@ let PersonIncomesFilter = {
       Help.showPreloader();
       PersonIncomesFilter.emptySearchResults();
   
+      let person_id = $("#person_id").val();
       let user_id = $("#user_id").val();
       let sum_from = $("#sum_from").val();
       let sum_to = $("#sum_to").val();
@@ -23,6 +24,7 @@ let PersonIncomesFilter = {
        * VALIDATE IF SOME PARAMETER FILLED
        */
       if (
+        person_id.length == 0 &&
         user_id == 0 &&
         sum_from.length == 0 &&
         sum_to.length == 0 &&
@@ -49,6 +51,7 @@ let PersonIncomesFilter = {
       $.getJSON(
         "/dobrodinec/prijmy-filter",
         {
+            person_id: person_id,
             user_id: user_id,
             sum_from: sum_from,
             sum_to: sum_to,

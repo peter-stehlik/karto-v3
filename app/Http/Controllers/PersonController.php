@@ -97,6 +97,7 @@ class PersonController extends Controller
 	*/
 	public function getIncomesFilter()
 	{
+		$person_id = $_GET["person_id"];
 		$user_id = $_GET["user_id"];
 		$sum_from = $_GET["sum_from"];
 		$sum_to = $_GET["sum_to"];
@@ -105,15 +106,18 @@ class PersonController extends Controller
 		$number_to = $_GET["number_to"];
 		$package_number = $_GET["package_number"];
 		$invoice = $_GET["invoice"];
-		$accounting_date_from = $_GET["accounting_date_from"];
-		$accounting_date_to = $_GET["accounting_date_to"];
-		$income_date_from = $_GET["income_date_from"];
-		$income_date_to = $_GET["income_date_to"];
+		$accounting_date_from = date("Y-m-d", strtotime($_GET["accounting_date_from"]));
+		$accounting_date_to = date("Y-m-d", strtotime($_GET["accounting_date_to"]));
+		$income_date_from = date("Y-m-d", strtotime($_GET["income_date_from"]));
+		$income_date_to = date("Y-m-d", strtotime($_GET["income_date_to"]));
 
 		$incomes = [];
 		
 		$incomes = DB::table('incomes')
-			->where(function($query) use ($user_id, $sum_from, $sum_to, $bank_account_id, $number_from, $number_to, $package_number, $invoice, $accounting_date_from, $accounting_date_to, $income_date_from, $income_date_to) {
+			->where(function($query) use ($person_id, $user_id, $sum_from, $sum_to, $bank_account_id, $number_from, $number_to, $package_number, $invoice, $accounting_date_from, $accounting_date_to, $income_date_from, $income_date_to) {
+				if($person_id > 0){
+					$query->where('incomes.person_id', $person_id);
+				}
 				if($user_id > 0){
 					$query->where('incomes.user_id', $user_id);
 				}
@@ -138,6 +142,18 @@ class PersonController extends Controller
 				if($invoice){
 					$query->where('incomes.invoice', $invoice);
 				}
+				if(strlen($accounting_date_from) > 0){
+					$query->whereDate('incomes.accounting_date', ">=", $accounting_date_from);
+				}
+				if(strlen($accounting_date_to) > 0){
+					$query->whereDate('incomes.accounting_date', "<", $accounting_date_to);
+				}
+				/*if(strlen($income_date_from) > 0){
+					$query->whereDate('incomes.income_date', ">=", $income_date_from);
+				}
+				if(strlen($income_date_to) > 0){
+					$query->whereDate('incomes.income_date', "<=", $income_date_to);
+				}*/
 			})
 			->join("users", "incomes.user_id", "=", "users.id")
 			->join("bank_accounts", "incomes.bank_account_id", "=", "bank_accounts.id")
