@@ -83,7 +83,7 @@ let PersonIncomesFilter = {
         for (let i = 0; i < incomes.length; i++) {
           let income_id = incomes[i].income_id;
           let username = incomes[i].username;
-          let sum = Help.beautifyDecimal(incomes[i].sum);
+          let income_sum = Help.beautifyDecimal(incomes[i].income_sum);
           let bank_name = incomes[i].bank_name;
           let number = incomes[i].number;
           let package_number = incomes[i].package_number;
@@ -93,10 +93,10 @@ let PersonIncomesFilter = {
           let income_date = Help.beautifyDate(incomes[i].income_date);
   
           let row = `
-            <tr>
+            <tr class="income-row">
               <td>${income_id}</td>
               <td>${username}</td>
-              <td>${sum} &euro;</td>
+              <td>${income_sum} &euro;</td>
               <td>${bank_name}</td>
               <td>${number}</td>
               <td>${package_number}</td>
@@ -104,6 +104,10 @@ let PersonIncomesFilter = {
               <td>${accounting_date}</td>
               <td>${note}</td>
               <td>${income_date}</td>
+              <td><a class="js-toggle-transfers btn btn-primary btn-sm" href="javascript:void(0);" data-income-id="${income_id}">prevody</a></td>
+            </tr>
+            <tr class="transfers-row bg-light" style="display: none;">
+              <td colspan="11">prevody</td>
             </tr>
           `;
   
@@ -111,8 +115,37 @@ let PersonIncomesFilter = {
         }
   
         $("#personIncomeFilterTableResults").html(htmlResults);
+        PersonIncomesFilter.toggleTransfers();
       }
-    }
+    },
+    toggleTransfers: () => {
+      $(document).on("click", ".js-toggle-transfers", function(){
+        Help.showPreloader();
+
+        let income_id = parseInt($(this).attr("data-income-id"));
+        let $incomeRow = $(this).closest(".income-row");
+        $incomeRow.toggleClass("bg-light").next(".transfers-row").slideToggle();
+
+        /***
+         * GET DATA FROM SERVER
+         */
+        $.getJSON(
+          "/dobrodinec/prijmy-filter-zobraz-prevody",
+          {
+              income_id: income_id,
+          },
+          function (data) {
+            if (data.transfers) {
+              console.log( data.transfers );
+            } else {
+              alert("Nič som nenašiel.");
+            }
+    
+            Help.hidePreloader();
+          }
+        );
+      });
+    },
   };
   
   $("document").ready(function () {

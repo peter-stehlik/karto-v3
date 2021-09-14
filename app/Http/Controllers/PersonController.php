@@ -106,10 +106,10 @@ class PersonController extends Controller
 		$number_to = $_GET["number_to"];
 		$package_number = $_GET["package_number"];
 		$invoice = $_GET["invoice"];
-		$accounting_date_from = date("Y-m-d", strtotime($_GET["accounting_date_from"]));
-		$accounting_date_to = date("Y-m-d", strtotime($_GET["accounting_date_to"]));
-		$income_date_from = date("Y-m-d", strtotime($_GET["income_date_from"]));
-		$income_date_to = date("Y-m-d", strtotime($_GET["income_date_to"]));
+		$accounting_date_from = $_GET["accounting_date_from"] ? date("Y-m-d", strtotime($_GET["accounting_date_from"])) : "";
+		$accounting_date_to = $_GET["accounting_date_to"] ? date("Y-m-d", strtotime($_GET["accounting_date_to"])) : "";
+		$income_date_from = $_GET["income_date_from"] ? date("Y-m-d", strtotime($_GET["income_date_from"])) : "";
+		$income_date_to = $_GET["income_date_to"] ? date("Y-m-d", strtotime($_GET["income_date_to"])) : "";
 
 		$incomes = [];
 		
@@ -148,22 +148,34 @@ class PersonController extends Controller
 				if(strlen($accounting_date_to) > 0){
 					$query->whereDate('incomes.accounting_date', "<", $accounting_date_to);
 				}
-				/*if(strlen($income_date_from) > 0){
+				if(strlen($income_date_from) > 0){
 					$query->whereDate('incomes.income_date', ">=", $income_date_from);
 				}
 				if(strlen($income_date_to) > 0){
 					$query->whereDate('incomes.income_date', "<=", $income_date_to);
-				}*/
+				}
 			})
+			->join("people", "incomes.person_id", "=", "people.id")
 			->join("users", "incomes.user_id", "=", "users.id")
 			->join("bank_accounts", "incomes.bank_account_id", "=", "bank_accounts.id")
-			->select("incomes.id AS income_id" , "users.name AS username", "incomes.sum", "bank_accounts.bank_name", "incomes.number", "incomes.package_number", "incomes.invoice", "incomes.accounting_date", "incomes.note", "incomes.income_date")
+			->select("incomes.id AS income_id" , "people.name1", "people.city", "users.name AS username", "incomes.sum AS income_sum", "bank_accounts.bank_name", "incomes.number", "incomes.package_number", "incomes.invoice", "incomes.accounting_date", "incomes.note", "incomes.income_date")
 			->orderBy("incomes.income_date", "desc")
 			->get();
 
 		$data = array('result' => 1);
 
 		$data["incomes"] = $incomes;
+
+		return response()->json($data);	
+	}
+
+	/*
+		GET JSON
+		nacitat prevody pre vybrany prijem
+	*/
+	public function getTransfersForIncome()
+	{
+		$data = array('result' => 1);
 
 		return response()->json($data);	
 	}

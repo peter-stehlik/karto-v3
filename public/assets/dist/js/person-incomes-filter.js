@@ -65,7 +65,7 @@ var PersonIncomesFilter = {
       for (var i = 0; i < incomes.length; i++) {
         var income_id = incomes[i].income_id;
         var username = incomes[i].username;
-        var sum = Help.beautifyDecimal(incomes[i].sum);
+        var income_sum = Help.beautifyDecimal(incomes[i].income_sum);
         var bank_name = incomes[i].bank_name;
         var number = incomes[i].number;
         var package_number = incomes[i].package_number;
@@ -73,12 +73,36 @@ var PersonIncomesFilter = {
         var accounting_date = Help.beautifyDate(incomes[i].accounting_date);
         var note = incomes[i].note;
         var income_date = Help.beautifyDate(incomes[i].income_date);
-        var row = "\n            <tr>\n              <td>".concat(income_id, "</td>\n              <td>").concat(username, "</td>\n              <td>").concat(sum, " &euro;</td>\n              <td>").concat(bank_name, "</td>\n              <td>").concat(number, "</td>\n              <td>").concat(package_number, "</td>\n              <td>").concat(invoice, "</td>\n              <td>").concat(accounting_date, "</td>\n              <td>").concat(note, "</td>\n              <td>").concat(income_date, "</td>\n            </tr>\n          ");
+        var row = "\n            <tr class=\"income-row\">\n              <td>".concat(income_id, "</td>\n              <td>").concat(username, "</td>\n              <td>").concat(income_sum, " &euro;</td>\n              <td>").concat(bank_name, "</td>\n              <td>").concat(number, "</td>\n              <td>").concat(package_number, "</td>\n              <td>").concat(invoice, "</td>\n              <td>").concat(accounting_date, "</td>\n              <td>").concat(note, "</td>\n              <td>").concat(income_date, "</td>\n              <td><a class=\"js-toggle-transfers btn btn-primary btn-sm\" href=\"javascript:void(0);\" data-income-id=\"").concat(income_id, "\">prevody</a></td>\n            </tr>\n            <tr class=\"transfers-row bg-light\" style=\"display: none;\">\n              <td colspan=\"11\">prevody</td>\n            </tr>\n          ");
         htmlResults += row;
       }
 
       $("#personIncomeFilterTableResults").html(htmlResults);
+      PersonIncomesFilter.toggleTransfers();
     }
+  },
+  toggleTransfers: function toggleTransfers() {
+    $(document).on("click", ".js-toggle-transfers", function () {
+      Help.showPreloader();
+      var income_id = parseInt($(this).attr("data-income-id"));
+      var $incomeRow = $(this).closest(".income-row");
+      $incomeRow.toggleClass("bg-light").next(".transfers-row").slideToggle();
+      /***
+       * GET DATA FROM SERVER
+       */
+
+      $.getJSON("/dobrodinec/prijmy-filter-zobraz-prevody", {
+        income_id: income_id
+      }, function (data) {
+        if (data.transfers) {
+          console.log(data.transfers);
+        } else {
+          alert("Nič som nenašiel.");
+        }
+
+        Help.hidePreloader();
+      });
+    });
   }
 };
 $("document").ready(function () {

@@ -25,8 +25,8 @@ class IncomeUnconfirmedController extends Controller
                     ->get();
         $periodicals = PeriodicalPublication::get();
         $nonperiodicals = NonperiodicalPublication::get();
-
-       return view('v-kartoteka/nepotvrdene-prijmy/index')
+        
+        return view('v-kartoteka/nepotvrdene-prijmy/index')
                     ->with('incomes', $incomes)
                     ->with('periodicals', $periodicals)
                     ->with('nonperiodicals', $nonperiodicals);
