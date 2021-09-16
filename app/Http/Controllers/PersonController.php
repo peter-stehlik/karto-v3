@@ -9,6 +9,7 @@ use App\Models\PeriodicalOrder;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\BankAccount;
+use App\Models\Transfer;
 use DB;
 
 class PersonController extends Controller
@@ -175,7 +176,17 @@ class PersonController extends Controller
 	*/
 	public function getTransfersForIncome()
 	{
+		$income_id = $_GET["income_id"];
+		$transfers = Transfer::where("income_id", $income_id)
+							->leftJoin("periodical_publications", "transfers.periodical_publication_id", "=", "periodical_publications.id")
+							->leftJoin("nonperiodical_publications", "transfers.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
+							->select("income_id", "transfers.sum", "transfer_date", "transfers.note", "periodical_publications.name AS pp_name", "nonperiodical_publications.name AS np_name")
+							->orderBy("transfers.transfer_date", "desc")
+							->get();
+		
 		$data = array('result' => 1);
+		
+		$data["transfers"] = $transfers;
 
 		return response()->json($data);	
 	}

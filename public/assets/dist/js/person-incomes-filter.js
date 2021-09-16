@@ -49,7 +49,7 @@ var PersonIncomesFilter = {
       income_date_from: income_date_from,
       income_date_to: income_date_to
     }, function (data) {
-      if (data.incomes) {
+      if (data.incomes.length) {
         PersonIncomesFilter.populateSearchedPeople(data.incomes);
       } else {
         alert("Nič som nenašiel.");
@@ -73,7 +73,7 @@ var PersonIncomesFilter = {
         var accounting_date = Help.beautifyDate(incomes[i].accounting_date);
         var note = incomes[i].note;
         var income_date = Help.beautifyDate(incomes[i].income_date);
-        var row = "\n            <tr class=\"income-row\">\n              <td>".concat(income_id, "</td>\n              <td>").concat(username, "</td>\n              <td>").concat(income_sum, " &euro;</td>\n              <td>").concat(bank_name, "</td>\n              <td>").concat(number, "</td>\n              <td>").concat(package_number, "</td>\n              <td>").concat(invoice, "</td>\n              <td>").concat(accounting_date, "</td>\n              <td>").concat(note, "</td>\n              <td>").concat(income_date, "</td>\n              <td><a class=\"js-toggle-transfers btn btn-primary btn-sm\" href=\"javascript:void(0);\" data-income-id=\"").concat(income_id, "\">prevody</a></td>\n            </tr>\n            <tr class=\"transfers-row bg-light\" style=\"display: none;\">\n              <td colspan=\"11\">prevody</td>\n            </tr>\n          ");
+        var row = "\n            <tr class=\"income-row\">\n              <td>".concat(income_id, "</td>\n              <td>").concat(username, "</td>\n              <td>").concat(income_sum, " &euro;</td>\n              <td>").concat(bank_name, "</td>\n              <td>").concat(number, "</td>\n              <td>").concat(package_number, "</td>\n              <td>").concat(invoice, "</td>\n              <td>").concat(accounting_date, "</td>\n              <td>").concat(note, "</td>\n              <td>").concat(income_date, "</td>\n              <td><a class=\"js-toggle-transfers btn btn-primary btn-sm\" href=\"javascript:void(0);\" data-income-id=\"").concat(income_id, "\">prevody</a></td>\n            </tr>\n            <tr class=\"transfers-row bg-light\" style=\"display: none;\">\n              <td id=\"income-").concat(income_id, "\" colspan=\"11\"></td>\n            </tr>\n          ");
         htmlResults += row;
       }
 
@@ -82,20 +82,26 @@ var PersonIncomesFilter = {
     }
   },
   toggleTransfers: function toggleTransfers() {
-    $(document).on("click", ".js-toggle-transfers", function () {
+    $(document).off("click", ".js-toggle-transfers").on("click", ".js-toggle-transfers", function () {
       Help.showPreloader();
       var income_id = parseInt($(this).attr("data-income-id"));
       var $incomeRow = $(this).closest(".income-row");
       $incomeRow.toggleClass("bg-light").next(".transfers-row").slideToggle();
+
+      if ($incomeRow.next(".transfers-row").find(".transfers-list").length) {
+        Help.hidePreloader();
+        return;
+      }
       /***
        * GET DATA FROM SERVER
        */
 
+
       $.getJSON("/dobrodinec/prijmy-filter-zobraz-prevody", {
         income_id: income_id
       }, function (data) {
-        if (data.transfers) {
-          console.log(data.transfers);
+        if (data.transfers.length) {
+          PersonIncomesFilter.populateTransfers(data.transfers);
         } else {
           alert("Nič som nenašiel.");
         }
@@ -103,11 +109,33 @@ var PersonIncomesFilter = {
         Help.hidePreloader();
       });
     });
+  },
+  populateTransfers: function populateTransfers(transfers) {
+    if (transfers) {
+      var htmlResults = "<ul class='transfers-list'>";
+      var income_id;
+
+      for (var i = 0; i < transfers.length; i++) {
+        income_id = transfers[i].income_id;
+        var pp_name = transfers[i].pp_name;
+        var np_name = transfers[i].np_name;
+        var sum = Help.beautifyDecimal(transfers[i].sum);
+        var note = transfers[i].note;
+        var transfer_date = Help.beautifyDate(transfers[i].transfer_date);
+        var goal = pp_name ? pp_name : np_name;
+        var row = "\n              <li>".concat(goal, ": <strong>").concat(sum, " &euro;</strong>, <span class=\"text-secondary\">").concat(transfer_date, "</span> ").concat(note, "</li>\n          ");
+        htmlResults += row;
+      }
+
+      htmlResults += "</ul>";
+      console.log(htmlResults);
+      $("#income-" + income_id + "").html(htmlResults);
+    }
   }
 };
-$("document").ready(function () {
+$(document).ready(function () {
   if ($("#personIncomeFilterTable").length) {
-    $(document).on("click", "#initPersonIncomesFilter", function () {
+    $(document).off("click", "#initPersonIncomesFilter").on("click", "#initPersonIncomesFilter", function () {
       PersonIncomesFilter.filterPersonIncomes();
     });
   }

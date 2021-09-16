@@ -66,7 +66,7 @@ let PersonIncomesFilter = {
             income_date_to: income_date_to
         },
         function (data) {
-          if (data.incomes) {
+          if (data.incomes.length) {
             PersonIncomesFilter.populateSearchedPeople(data.incomes);
           } else {
             alert("Nič som nenašiel.");
@@ -107,7 +107,7 @@ let PersonIncomesFilter = {
               <td><a class="js-toggle-transfers btn btn-primary btn-sm" href="javascript:void(0);" data-income-id="${income_id}">prevody</a></td>
             </tr>
             <tr class="transfers-row bg-light" style="display: none;">
-              <td colspan="11">prevody</td>
+              <td id="income-${income_id}" colspan="11"></td>
             </tr>
           `;
   
@@ -119,12 +119,18 @@ let PersonIncomesFilter = {
       }
     },
     toggleTransfers: () => {
-      $(document).on("click", ".js-toggle-transfers", function(){
+      $(document).off("click", ".js-toggle-transfers").on("click", ".js-toggle-transfers", function(){
         Help.showPreloader();
 
         let income_id = parseInt($(this).attr("data-income-id"));
         let $incomeRow = $(this).closest(".income-row");
         $incomeRow.toggleClass("bg-light").next(".transfers-row").slideToggle();
+
+        if( $incomeRow.next(".transfers-row").find(".transfers-list").length ){
+          Help.hidePreloader();
+
+          return;
+        }
 
         /***
          * GET DATA FROM SERVER
@@ -135,8 +141,8 @@ let PersonIncomesFilter = {
               income_id: income_id,
           },
           function (data) {
-            if (data.transfers) {
-              console.log( data.transfers );
+            if (data.transfers.length) {
+              PersonIncomesFilter.populateTransfers(data.transfers);
             } else {
               alert("Nič som nenašiel.");
             }
@@ -146,11 +152,38 @@ let PersonIncomesFilter = {
         );
       });
     },
+    populateTransfers: transfers => {
+      if (transfers) {
+        let htmlResults = "<ul class='transfers-list'>";
+        let income_id;
+  
+        for (let i = 0; i < transfers.length; i++) {
+          income_id = transfers[i].income_id;
+          let pp_name = transfers[i].pp_name;
+          let np_name = transfers[i].np_name;
+          let sum = Help.beautifyDecimal(transfers[i].sum);
+          let note = transfers[i].note;
+          let transfer_date = Help.beautifyDate(transfers[i].transfer_date);
+          let goal = pp_name ? pp_name : np_name;
+
+          let row = `
+              <li>${goal}: <strong>${sum} &euro;</strong>, <span class="text-secondary">${transfer_date}</span> ${note}</li>
+          `;
+  
+          htmlResults += row;
+        }
+        htmlResults += "</ul>";
+  
+        console.log(htmlResults);
+
+        $("#income-" + income_id + "").html(htmlResults);
+      }
+    },
   };
   
-  $("document").ready(function () {
+  $(document).ready(function () {
     if ($("#personIncomeFilterTable").length) {
-      $(document).on("click", "#initPersonIncomesFilter", function () {
+      $(document).off("click", "#initPersonIncomesFilter").on("click", "#initPersonIncomesFilter", function () {
         PersonIncomesFilter.filterPersonIncomes();
       });
     }
