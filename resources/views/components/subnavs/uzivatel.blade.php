@@ -1,12 +1,12 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-right-sidebar">
+		<a class="nav-link @if( request()->route()->getName() === 'uzivatel.zoznam-prijmov' ) active @endif" href="{{ route('uzivatel.zoznam-prijmov') }}">
 			Zoznam príjmov
 		</a>
 	</li><!-- / .nav-item -->
 
-	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-no-sidebar">
+	<li class="nav-item @if( request()->route()->getName() === 'uzivatel.zoznam-prevodov' ) active @endif">
+		<a class="nav-link" href="{{ route('uzivatel.zoznam-prevodov') }}">
 			Zoznam prevodov
 		</a>
 	</li><!-- / .nav-item -->

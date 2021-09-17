@@ -90,6 +90,8 @@ Route::name('dobrodinec.')->group(function () {
     Route::get('/dobrodinec/{id}/prijmy', [PersonController::class, 'getIncomes'])->middleware(['auth'])->name('getincomes');
     Route::get('/dobrodinec/prijmy-filter', [PersonController::class, 'getIncomesFilter'])->middleware(['auth'])->name('getincomesfilter');
     Route::get('/dobrodinec/prijmy-filter-zobraz-prevody', [PersonController::class, 'getTransfersForIncome'])->middleware(['auth'])->name('gettransfersforincome');
+
+    Route::get('/dobrodinec/prevody-filter', [PersonController::class, 'getTransfersFilter'])->middleware(['auth'])->name('gettransfersfilter');
 });
 
 
@@ -119,6 +121,10 @@ Route::name('uzivatel.')->group(function () {
     Route::post('/uzivatel/zmenit-heslo', [UserController::class, 'changePassword'])->middleware(['auth'])->name('zmenit-heslo-post');
 
     Route::get('/uzivatel/uctovny-datum', [UserController::class, 'updateAccountingDate'])->middleware(['auth'])->name('update-accounting-date-get');
+
+    Route::get('/uzivatel/zoznam-prijmov', [PersonFilterController::class, 'getAllIncomes'])->middleware(['auth'])->name('zoznam-prijmov');
+
+    Route::get('/uzivatel/zoznam-prevodov', [PersonFilterController::class, 'getAllTransfers'])->middleware(['auth'])->name('zoznam-prevodov');
 });
 
 require __DIR__.'/auth.php';

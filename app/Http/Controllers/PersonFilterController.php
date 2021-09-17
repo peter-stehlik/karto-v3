@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\BankAccount;
+use App\Models\PeriodicalPublication;
+use App\Models\NonperiodicalPublication;
 use DB;
 
 class PersonFilterController extends Controller
 {
+	/*
+		filter osob sablonka
+	*/
 	public function index()
 	{
 		$categories = Category::get();
@@ -16,6 +23,9 @@ class PersonFilterController extends Controller
 				->with('categories', $categories);
 	}
 
+	/**
+	 * AJAX filter osob
+	 */
 	public function filter()
 	{
 		$id = $_GET["person_id"];
@@ -67,5 +77,35 @@ class PersonFilterController extends Controller
 		$data["people"] = $people;
 
 		return response()->json($data);
+	}
+
+	/**
+	 * sablonka pre filter vsetkych prijmov
+	 * podobne ako PersonController:getIncomes
+	 * samotny AJAX filter sa pouziva rovnaky - PersonController:getIncomesFilter
+	 */
+	public function getAllIncomes()
+	{
+		$users = User::get();
+		$bank_accounts = BankAccount::get();
+
+		return view('v-uzivatel/zoznam-prijmov')
+			->with('users', $users)
+			->with('bank_accounts', $bank_accounts);
+	}
+
+	/**
+	 * sablonka pre filter vsetkych prevodov
+	 * podobne ako PersonController:getTransfers
+	 * samotny AJAX filter sa pouziva rovnaky - PersonController:getTransfersFilter
+	 */
+	public function getAllTransfers()
+	{
+		$periodical_publications = PeriodicalPublication::get();
+		$nonperiodical_publications = NonperiodicalPublication::get();
+
+		return view('v-uzivatel/zoznam-prevodov')
+			->with('periodical_publications', $periodical_publications)
+			->with('nonperiodical_publications', $nonperiodical_publications);
 	}
 }

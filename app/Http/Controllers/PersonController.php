@@ -77,8 +77,8 @@ class PersonController extends Controller
 	}
 
 	/*
-		GET
-		zobrazit filter prijmov
+		GET prijmy
+		zobrazit filter prijmov pre konkretnu osobu
 	*/
 	public function getIncomes($id)
 	{
@@ -93,8 +93,9 @@ class PersonController extends Controller
 	}
 
 	/*
-		GET JSON
+		GET JSON prijmy
 		nacitat vysledky filtra
+		rovnaka metoda sa pouziva pri osobe aj vseobecne 
 	*/
 	public function getIncomesFilter()
 	{
@@ -115,6 +116,7 @@ class PersonController extends Controller
 		$incomes = [];
 		
 		$incomes = DB::table('incomes')
+			->where("confirmed", 1)
 			->where(function($query) use ($person_id, $user_id, $sum_from, $sum_to, $bank_account_id, $number_from, $number_to, $package_number, $invoice, $accounting_date_from, $accounting_date_to, $income_date_from, $income_date_to) {
 				if($person_id > 0){
 					$query->where('incomes.person_id', $person_id);
@@ -186,6 +188,61 @@ class PersonController extends Controller
 		
 		$data = array('result' => 1);
 		
+		$data["transfers"] = $transfers;
+
+		return response()->json($data);	
+	}
+
+	/*
+		GET JSON prevody
+		nacitat vysledky filtra
+		rovnaka metoda sa pouziva pri osobe aj vseobecne 
+	*/
+	public function getTransfersFilter()
+	{
+		$person_id = $_GET["person_id"];
+		$sum_from = $_GET["sum_from"];
+		$sum_to = $_GET["sum_to"];
+		$periodical_publication_id = $_GET["periodical_publication_id"];
+		$nonperiodical_publication_id = $_GET["nonperiodical_publication_id"];
+		$transfer_date_from = $_GET["transfer_date_from"] ? date("Y-m-d", strtotime($_GET["transfer_date_from"])) : "";
+		$transfer_date_to = $_GET["transfer_date_to"] ? date("Y-m-d", strtotime($_GET["transfer_date_to"])) : "";
+
+		$transfers = [];
+		
+		$transfers = DB::table('transfers')
+			->where(function($query) use ($person_id, $sum_from, $sum_to, $periodical_publication_id, $nonperiodical_publication_id, $transfer_date_from, $transfer_date_to) {
+				if($person_id > 0){
+					$query->where('incomes.person_id', $person_id);
+				}
+				if($sum_from){
+					$query->where('transfers.sum', '>=', $sum_from);
+				}
+				if($sum_to){
+					$query->where('transfers.sum', '<=', $sum_to);
+				}
+				if($periodical_publication_id > 0){
+					$query->where('transfers.periodical_publication_id', $periodical_publication_id);
+				}
+				if($nonperiodical_publication_id > 0){
+					$query->where('transfers.nonperiodical_publication_id', $nonperiodical_publication_id);
+				}
+				if(strlen($transfer_date_from) > 0){
+					$query->whereDate('transfers.transfer_date', ">=", $transfer_date_from);
+				}
+				if(strlen($transfer_date_to) > 0){
+					$query->whereDate('transfers.transfer_date', "<", $transfer_date_to);
+				}
+			})
+			->join("incomes", "incomes.id", "=", "transfers.income_id")
+			->join("periodical_publications", "transfers.periodical_publication_id", "=", "periodical_publications.id")
+			->join("nonperiodical_publications", "transfers.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
+			->select("incomes.id AS income_id" , "periodical_publications.name AS pp_name", "nonperiodical_publications.name AS np_name", "transfers.sum AS transfer_sum", "transfers.transfer_date", "transfers.note")
+			->orderBy("transfers.transfer_date", "desc")
+			->get();
+
+		$data = array('result' => 1);
+
 		$data["transfers"] = $transfers;
 
 		return response()->json($data);	
