@@ -4,6 +4,8 @@
 	</h1>
 
 	<div class="col-lg-12 p-3 bg-warning">
+		<input id="person_id" type="hidden" value="0">
+
         <div class="row">
             <div class="col-lg-1">
                 <div class="mb-3">

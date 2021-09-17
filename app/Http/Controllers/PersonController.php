@@ -9,6 +9,7 @@ use App\Models\PeriodicalOrder;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\BankAccount;
+use App\Models\Income;
 use App\Models\Transfer;
 use DB;
 
@@ -211,6 +212,7 @@ class PersonController extends Controller
 		$transfers = [];
 		
 		$transfers = DB::table('transfers')
+			->where("confirmed", 1)
 			->where(function($query) use ($person_id, $sum_from, $sum_to, $periodical_publication_id, $nonperiodical_publication_id, $transfer_date_from, $transfer_date_to) {
 				if($person_id > 0){
 					$query->where('incomes.person_id', $person_id);
@@ -237,13 +239,33 @@ class PersonController extends Controller
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->join("periodical_publications", "transfers.periodical_publication_id", "=", "periodical_publications.id")
 			->join("nonperiodical_publications", "transfers.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
-			->select("incomes.id AS income_id" , "periodical_publications.name AS pp_name", "nonperiodical_publications.name AS np_name", "transfers.sum AS transfer_sum", "transfers.transfer_date", "transfers.note")
+			->select("incomes.id AS income_id" , "transfers.id AS transfer_id", "periodical_publications.name AS pp_name", "nonperiodical_publications.name AS np_name", "transfers.sum AS transfer_sum", "transfers.transfer_date", "transfers.note")
 			->orderBy("transfers.transfer_date", "desc")
 			->get();
 
 		$data = array('result' => 1);
 
 		$data["transfers"] = $transfers;
+
+		return response()->json($data);	
+	}
+
+	/*
+		GET JSON
+		nacitat prijem pre vybrany prevod
+	*/
+	public function getIncomeForTransfer()
+	{
+		$income_id = $_GET["income_id"];
+		$income = Income::where("incomes.id", $income_id)
+							->join("bank_accounts", "incomes.bank_account_id", "=", "bank_accounts.id")
+							->join("users", "incomes.user_id", "=", "users.id")
+							->select("incomes.id", "incomes.sum", "incomes.number", "package_number", "invoice", "incomes.note", "incomes.accounting_date", "bank_accounts.bank_name AS bank_account_name", "users.name AS username")
+							->get();
+		
+		$data = array('result' => 1);
+		
+		$data["income"] = $income;
 
 		return response()->json($data);	
 	}

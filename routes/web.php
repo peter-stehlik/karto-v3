@@ -92,6 +92,8 @@ Route::name('dobrodinec.')->group(function () {
     Route::get('/dobrodinec/prijmy-filter-zobraz-prevody', [PersonController::class, 'getTransfersForIncome'])->middleware(['auth'])->name('gettransfersforincome');
 
     Route::get('/dobrodinec/prevody-filter', [PersonController::class, 'getTransfersFilter'])->middleware(['auth'])->name('gettransfersfilter');
+    Route::get('/dobrodinec/prevody-filter-zobraz-prijem', [PersonController::class, 'getIncomeForTransfer'])->middleware(['auth'])->name('getincomefortransfer');
+    
 });
 
 
