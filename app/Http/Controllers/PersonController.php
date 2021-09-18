@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\BankAccount;
 use App\Models\Income;
 use App\Models\Transfer;
+use App\Models\PeriodicalPublication;
+use App\Models\NonperiodicalPublication;
 use DB;
 
 class PersonController extends Controller
@@ -195,6 +197,22 @@ class PersonController extends Controller
 	}
 
 	/*
+		GET prevody
+		zobrazit filter prevodov pre konkretnu osobu
+	*/
+	public function getTransfers($id)
+	{
+		$person = Person::find($id);
+		$periodical_publications = PeriodicalPublication::get();
+		$nonperiodical_publications = NonperiodicalPublication::get();
+
+		return view('v-osoba/dobrodinec/prevody')
+			->with('periodical_publications', $periodical_publications)
+			->with('nonperiodical_publications', $nonperiodical_publications)
+			->with('person', $person);
+	}
+
+	/*
 		GET JSON prevody
 		nacitat vysledky filtra
 		rovnaka metoda sa pouziva pri osobe aj vseobecne 
@@ -237,8 +255,8 @@ class PersonController extends Controller
 				}
 			})
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
-			->join("periodical_publications", "transfers.periodical_publication_id", "=", "periodical_publications.id")
-			->join("nonperiodical_publications", "transfers.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
+			->leftJoin("periodical_publications", "transfers.periodical_publication_id", "=", "periodical_publications.id")
+			->leftJoin("nonperiodical_publications", "transfers.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
 			->select("incomes.id AS income_id" , "transfers.id AS transfer_id", "periodical_publications.name AS pp_name", "nonperiodical_publications.name AS np_name", "transfers.sum AS transfer_sum", "transfers.transfer_date", "transfers.note")
 			->orderBy("transfers.transfer_date", "desc")
 			->get();
@@ -256,11 +274,13 @@ class PersonController extends Controller
 	*/
 	public function getIncomeForTransfer()
 	{
+		$transfer_id = $_GET["transfer_id"];
 		$income_id = $_GET["income_id"];
-		$income = Income::where("incomes.id", $income_id)
+		$income = Transfer::where("transfers.id", $transfer_id)
+							->join("incomes", "transfers.income_id", "=", "incomes.id")
 							->join("bank_accounts", "incomes.bank_account_id", "=", "bank_accounts.id")
 							->join("users", "incomes.user_id", "=", "users.id")
-							->select("incomes.id", "incomes.sum", "incomes.number", "package_number", "invoice", "incomes.note", "incomes.accounting_date", "bank_accounts.bank_name AS bank_account_name", "users.name AS username")
+							->select("transfers.id AS transfer_id", "incomes.id AS income_id", "incomes.sum", "incomes.number", "package_number", "invoice", "incomes.note", "incomes.accounting_date", "bank_accounts.bank_name AS bank_account_name", "users.name AS username")
 							->get();
 		
 		$data = array('result' => 1);

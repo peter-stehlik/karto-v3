@@ -75,14 +75,14 @@ let PersonTransfersFilter = {
             <tr class="transfer-row">
               <td>${transfer_id}</td>
               <td>${transfer_sum} &euro;</td>
-              <td>${pp_name}</td>
-              <td>${np_name}</td>
+              <td>${pp_name ? pp_name : ''}</td>
+              <td>${np_name ? np_name : ''}</td>
               <td>${note}</td>
               <td>${transfer_date}</td>
-              <td><a class="js-toggle-income btn btn-primary btn-sm" href="javascript:void(0);" data-income-id="${income_id}">príjem</a></td>
+              <td><a class="js-toggle-income btn btn-primary btn-sm" href="javascript:void(0);" data-income-id="${income_id}" data-transfer-id="${transfer_id}">príjem</a></td>
             </tr>
             <tr class="income-row bg-light" style="display: none;">
-              <td id="income-${income_id}" colspan="11"></td>
+              <td id="transfer-${transfer_id}" colspan="11"></td>
             </tr>
           `;
   
@@ -97,6 +97,7 @@ let PersonTransfersFilter = {
       $(document).off("click", ".js-toggle-income").on("click", ".js-toggle-income", function(){
         Help.showPreloader();
 
+        let transfer_id = parseInt($(this).attr("data-transfer-id"));
         let income_id = parseInt($(this).attr("data-income-id"));
         let $transferRow = $(this).closest(".transfer-row");
         $transferRow.toggleClass("bg-light").next(".income-row").slideToggle();
@@ -113,6 +114,7 @@ let PersonTransfersFilter = {
         $.getJSON(
           "/dobrodinec/prevody-filter-zobraz-prijem",
           {
+              transfer_id: transfer_id,
               income_id: income_id,
           },
           function (data) {
@@ -130,10 +132,10 @@ let PersonTransfersFilter = {
     populateIncome: income => {
       if (income) {
         let htmlResults = "<ul class='income-list'>";
-        let income_id;
-  
+		let transfer_id;
+
         for (let i = 0; i < income.length; i++) {
-          income_id = income[i].id;
+          transfer_id = income[i].transfer_id;
           let sum = Help.beautifyDecimal(income[i].sum);
           let username = income[i].username;
           let bank_account_name = income[i].bank_account_name;
@@ -151,7 +153,7 @@ let PersonTransfersFilter = {
         }
         htmlResults += "</ul>";
 
-        $("#income-" + income_id + "").html(htmlResults);
+        $("#transfer-" + transfer_id + "").html(htmlResults);
       }
     },
   };

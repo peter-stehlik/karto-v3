@@ -58,7 +58,7 @@ var PersonTransfersFilter = {
         var np_name = transfers[i].np_name;
         var transfer_date = Help.beautifyDate(transfers[i].transfer_date);
         var note = transfers[i].note;
-        var row = "\n            <tr class=\"transfer-row\">\n              <td>".concat(transfer_id, "</td>\n              <td>").concat(transfer_sum, " &euro;</td>\n              <td>").concat(pp_name, "</td>\n              <td>").concat(np_name, "</td>\n              <td>").concat(note, "</td>\n              <td>").concat(transfer_date, "</td>\n              <td><a class=\"js-toggle-income btn btn-primary btn-sm\" href=\"javascript:void(0);\" data-income-id=\"").concat(income_id, "\">pr\xEDjem</a></td>\n            </tr>\n            <tr class=\"income-row bg-light\" style=\"display: none;\">\n              <td id=\"income-").concat(income_id, "\" colspan=\"11\"></td>\n            </tr>\n          ");
+        var row = "\n            <tr class=\"transfer-row\">\n              <td>".concat(transfer_id, "</td>\n              <td>").concat(transfer_sum, " &euro;</td>\n              <td>").concat(pp_name ? pp_name : '', "</td>\n              <td>").concat(np_name ? np_name : '', "</td>\n              <td>").concat(note, "</td>\n              <td>").concat(transfer_date, "</td>\n              <td><a class=\"js-toggle-income btn btn-primary btn-sm\" href=\"javascript:void(0);\" data-income-id=\"").concat(income_id, "\" data-transfer-id=\"").concat(transfer_id, "\">pr\xEDjem</a></td>\n            </tr>\n            <tr class=\"income-row bg-light\" style=\"display: none;\">\n              <td id=\"transfer-").concat(transfer_id, "\" colspan=\"11\"></td>\n            </tr>\n          ");
         htmlResults += row;
       }
 
@@ -69,6 +69,7 @@ var PersonTransfersFilter = {
   toggleIncome: function toggleIncome() {
     $(document).off("click", ".js-toggle-income").on("click", ".js-toggle-income", function () {
       Help.showPreloader();
+      var transfer_id = parseInt($(this).attr("data-transfer-id"));
       var income_id = parseInt($(this).attr("data-income-id"));
       var $transferRow = $(this).closest(".transfer-row");
       $transferRow.toggleClass("bg-light").next(".income-row").slideToggle();
@@ -83,6 +84,7 @@ var PersonTransfersFilter = {
 
 
       $.getJSON("/dobrodinec/prevody-filter-zobraz-prijem", {
+        transfer_id: transfer_id,
         income_id: income_id
       }, function (data) {
         if (data.income.length) {
@@ -98,10 +100,10 @@ var PersonTransfersFilter = {
   populateIncome: function populateIncome(income) {
     if (income) {
       var htmlResults = "<ul class='income-list'>";
-      var income_id;
+      var transfer_id;
 
       for (var i = 0; i < income.length; i++) {
-        income_id = income[i].id;
+        transfer_id = income[i].transfer_id;
         var sum = Help.beautifyDecimal(income[i].sum);
         var username = income[i].username;
         var bank_account_name = income[i].bank_account_name;
@@ -115,7 +117,7 @@ var PersonTransfersFilter = {
       }
 
       htmlResults += "</ul>";
-      $("#income-" + income_id + "").html(htmlResults);
+      $("#transfer-" + transfer_id + "").html(htmlResults);
     }
   }
 };

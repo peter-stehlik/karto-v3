@@ -5,8 +5,8 @@
 		</a>
 	</li><!-- / .nav-item -->
 
-	<li class="nav-item @if( request()->route()->getName() === 'uzivatel.zoznam-prevodov' ) active @endif">
-		<a class="nav-link" href="{{ route('uzivatel.zoznam-prevodov') }}">
+	<li class="nav-item">
+		<a class="nav-link @if( request()->route()->getName() === 'uzivatel.zoznam-prevodov' ) active @endif" href="{{ route('uzivatel.zoznam-prevodov') }}">
 			Zoznam prevodov
 		</a>
 	</li><!-- / .nav-item -->

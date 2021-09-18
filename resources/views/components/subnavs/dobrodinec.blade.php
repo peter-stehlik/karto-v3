@@ -20,7 +20,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="{{ route('osoba.kategorie.index') }}">
+		<a class="nav-link @if( request()->route()->getName() == 'dobrodinec.gettransfers' ) active @endif" href="{{ route('dobrodinec.gettransfers', $dobrodinec_id) }}">
 			Zoznam prevodov
 		</a>
 	</li><!-- / .nav-item -->
