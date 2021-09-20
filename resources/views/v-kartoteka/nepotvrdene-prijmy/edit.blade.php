@@ -95,10 +95,20 @@
 							<p><em>Ak chcete účel vymazať, jednoducho nastavte sumu na 0.</em></p>
 
 							<!-- UCELY -->
-							@for( $i=0; $i <= 3; $i++)
-								<div class="col-lg-5 @if( $i % 2 == 1 ) offset-lg-1 @endif">
+							@for( $i=0; $i <= 5; $i++)
+								<div class="col-lg-5 pt-2
+									@if( $i % 2 == 1 )
+										 offset-lg-1 
+									@endif
+										 
+									@if( isset($_GET['transfer_id']) && isset($income->transfers[$i]->id) ) 
+										@if( $_GET['transfer_id'] == $income->transfers[$i]->id )
+											 bg-success 
+										@endif
+									@endif
+								">
 									<div class="row">
-										<h3 class="text-center mb-2">Účel</h3>
+										<h3 class="text-center mb-2">Účel ID: {{ isset($income->transfers[$i]) ? $income->transfers[$i]->id : '' }}</h3>
 
 										<input type="hidden" name="transfer_id[]" value="{{ isset($income->transfers[$i]) ? $income->transfers[$i]->id : '' }}">
 

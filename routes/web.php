@@ -53,7 +53,7 @@ Route::name('kartoteka.')->group(function () {
     Route::resource('/kartoteka/nepotvrdene-prijmy', IncomeUnconfirmedController::class)->middleware(['auth']);
 
     Route::get('/kartoteka/nepotvrdene-prevody', [TransferUnconfirmedController::class, 'index'])->middleware(['auth'])->name('nepotvrdene-prevody-get');
-    Route::get('/kartoteka/nepotvrdene-prevody-filter', [TransferUnconfirmedController::class, 'filter'])->middleware(['auth'])->name('nepotvrdene-prevody-filter-get');
+    Route::get('/kartoteka/nepotvrdene-prevody-vymazat/{id}', [TransferUnconfirmedController::class, 'destroy'])->middleware(['auth'])->name('nepotvrdene-prevody-vymazat');
 });
 
 /* ---------------------- */

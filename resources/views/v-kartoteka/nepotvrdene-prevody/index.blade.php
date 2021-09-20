@@ -4,13 +4,13 @@
     <div class="row">
         <div class="col-lg-5">
 			<div class="p-3 mb-3 bg-warning">
-				<label class="mb-2" for="transfer">Účel:</label>
+				<label class="mb-2" for="filterTransfers">Účel:</label>
 
-				<select class="form-control" id="transfer">
-					<option>Vyberte</option>
+				<select class="form-control" id="filterTransfers">
+					<option value="0">Zobraz všetky</option>
 
 					@foreach( $periodicals as $p )
-						<option value="{{ $p->id }}">{{ $p->name }}</option>
+						<option value="{{ $p->id+100 }}">{{ $p->name }}</option>
 					@endforeach
 					
 					@foreach( $nonperiodicals as $p )
@@ -20,7 +20,25 @@
 			</div>
 		</div>
 
-		<div class="col-lg-10">
+        <script>
+            /**
+             * filtruj prevody podla ucelu
+             */
+            $(document).ready(function(){
+                $("#filterTransfers").change(function(){
+                    let id = parseInt($(this).val());
+
+                    $(".unconfirmedTransfers tr").hide();
+                    $(".unconfirmedTransfers tr[data-ucel-id='" + id + "']").show();
+
+                    if( !id ){
+                        $(".unconfirmedTransfers tr").show();
+                    }
+                });
+            });
+        </script>
+
+		<div class="col-lg-12">
 			<table class="table">
                 <thead>
                     <tr>
@@ -30,21 +48,30 @@
                         <th>Suma</th>
                         <th>Poznámka</th>
                         <th>Dátum prevodu</th>
-                        <th>Upraviť</th>
+						<th>Príjem</th>
+                        <th>Upraviť (v rámci príjmu)</th>
                         <th>Vymazať</th>
                     </tr>
                 </thead>
 
-				<tbody>
+				<tbody class="unconfirmedTransfers">
 					@foreach( $transfers as $transfer )
-					<tr>
+					<tr data-ucel-id="{{ $transfer->pp_id ? $transfer->pp_id+100 : $transfer->np_id }}">
 						<td>{{ $transfer->id }}</td>					
 						<td>{{ $transfer->name1 }}</td>					
 						<td>{{ $transfer->pp_name ? $transfer->pp_name : $transfer->np_name }}</td>					
-						<td>{{ date("j.n.Y", strtotime($transfer->transfer_date)) }}</td>					
+						<td>{{ number_format($transfer->sum, 2, ",", " ") }} &euro;</td>					
 						<td>{{ $transfer->note }}</td>					
-						<td>{{ number_format($transfer->sum, 2, ",", " ") }}</td>					
-						<td class="text-center"><a href=" route('kartoteka.nepotvrdene-prijmy.edit', [$income->id]) ">
+						<td>{{ date("j.n.Y", strtotime($transfer->transfer_date)) }}</td>
+						<td>
+							<ul>
+								<li>ID: {{ $transfer->income_id }}</li>
+								<li><span class="text-secondary">Banka:</span> {{ $transfer->bank_name }}, <span class="text-secondary">Suma:</span> {{ number_format($transfer->income_sum, 2, ",", " ") }} &euro;</li>
+								<li><span class="text-secondary">Číslo:</span> {{ $transfer->number }}, <span class="text-secondary">Balík:</span> {{ $transfer->package_number }}, <span class="text-secondary">Faktúra:</span> {{ $transfer->invoice }}</li>
+								<li><span class="text-secondary">Dátum príjmu:</span> {{ date("j.n.Y", strtotime($transfer->income_date)) }}</li>
+							</ul>
+						</td>		
+						<td class="text-center"><a href="{{ route('kartoteka.nepotvrdene-prijmy.edit', [$transfer->income_id, 'transfer_id' => $transfer->id]) }}">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 									fill="currentColor" class="bi bi-pencil-square text-success"
 									viewBox="0 0 16 16">
@@ -57,7 +84,7 @@
 						</td>
 
 						<td class="text-center">
-							<a class="js-delete-income" data-id="" data-bs-toggle="modal" data-bs-target="#deleteTransferModal" href="javascript:void(0);">
+							<a class="js-delete-transfer" data-id="{{ $transfer->id }}" data-bs-toggle="modal" data-bs-target="#deleteTransferModal" href="javascript:void(0);">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 									fill="currentColor" class="bi bi-trash text-danger"
 									viewBox="0 0 16 16">
@@ -74,4 +101,67 @@
 			</table>
 		</div>
 	</div>
+
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- ----------------------------------- -->
+    <!-- FILL DELETE MODAL WITH DYNAMIC DATA -->
+    <!-- ----------------------------------- -->
+    <script>
+        $(document).ready(function(){
+            $(document).on("click", ".js-delete-transfer", function(){
+                let id = $(this).attr("data-id");
+
+                $(".js-confirm-delete").attr("data-id", id);
+            });
+
+            $(document).on("click", ".js-confirm-delete", function(){
+                let id = $(this).attr("data-id");
+                let token = $("meta[name='csrf-token']").attr("content");
+
+                $.ajax({
+                    url: "/kartoteka/nepotvrdene-prevody-vymazat/" + id,
+                    type: 'GET',
+                    data: {
+                        "id": id,
+                        "_token": token,
+                    },
+                    success: function (data){
+                        if( data.success != "1" ){
+                            alert("Došlo k chybe!");
+
+                            return;
+                        }
+                        alert( "Vymazanie prebehlo úspešne." );
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- ------------ -->
+    <!-- DELETE MODAL -->
+    <!-- ------------ -->
+    <div class="modal fade" id="deleteTransferModal" tabindex="-1" aria-labelledby="deleteTransferModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Potvrďte vymazanie</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Naozaj chcete <strong>vymazať</strong> tento prevod?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zrušiť</button>
+                    <button type="button" class="js-confirm-delete btn btn-danger" data-id="">vymazať</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

@@ -142,8 +142,8 @@
 					<!-- ///////////////////// -->
 					<div class="bg-light pt-3 p-2 mb-3">
 						<div class="row">
-							<!-- 4 UCELY -->
-							@for( $i=1; $i <= 4; $i++)
+							<!-- 6 UCELOV -->
+							@for( $i=1; $i <= 6; $i++)
 								<div class="col-lg-5 @if( $i % 2 == 0 ) offset-lg-1 @endif">
 									<div class="row">
 										<h3 class="text-center mb-2">Účel</h3>
