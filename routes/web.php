@@ -13,6 +13,7 @@ use App\Http\Controllers\IncomeUnconfirmedController;
 use App\Http\Controllers\TransferUnconfirmedController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonFilterController;
+use App\Http\Controllers\ListingController;
 
 
 /*
@@ -107,6 +108,10 @@ Route::name('kancelaria.')->group(function () {
     })->middleware(['auth'])->name('uvod');
 
     Route::resource('/kancelaria/bankove-ucty', BankAccountController::class)->middleware(['auth']);
+
+    Route::get('/kancelaria/denny-mesacny-vypis', [ListingController::class, 'dailyMonthlyListingFilter'])->middleware(['auth'])->name('denny-mesacny-vypis');
+
+    Route::post('/kancelaria/denny-mesacny-vypis', [ListingController::class, 'dailyMonthlyListingPdf'])->middleware(['auth'])->name('pdf-denny-mesacny-vypis');
 });
 
 /* ----------------- */
