@@ -174,18 +174,24 @@ class ListingController extends Controller
 
             $data["people"] = Transfer::where("nonperiodical_publication_id", $transfer_type_id)
                                         ->where("incomes.confirmed", 1)
+                                        ->whereDate('transfer_date','<=', $date_to)
+                                        ->whereDate('transfer_date','>=', $date_from)
                                         ->join("incomes", "incomes.id", "=", "transfers.income_id")
                                         ->join("people", "people.id", "=", "incomes.person_id")
                                         ->select("transfer_date", "people.title", "name1", "address1", "city", "zip_code", "transfers.sum", "transfers.note")
+                                        ->orderBy("transfer_date", "desc")
                                         ->get();
         } else { // periodical
             $transfer_type_name = PeriodicalPublication::find($transfer_type_id)->name;
 
             $data["people"] = Transfer::where("periodical_publication_id", $transfer_type_id)
                                         ->where("incomes.confirmed", 1)
+                                        ->whereDate('transfer_date','<=', $date_to)
+                                        ->whereDate('transfer_date','>=', $date_from)
                                         ->join("incomes", "incomes.id", "=", "transfers.income_id")
                                         ->join("people", "people.id", "=", "incomes.person_id")
                                         ->select("transfer_date", "people.title", "name1", "address1", "city", "zip_code", "transfers.sum", "transfers.note")
+                                        ->orderBy("transfer_date", "desc")
                                         ->get();
         }
 
