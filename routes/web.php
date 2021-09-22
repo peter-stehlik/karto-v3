@@ -68,6 +68,8 @@ Route::name('vydavatelstvo.')->group(function () {
     Route::resource('/vydavatelstvo/publikacie', PeriodicalController::class)->middleware(['auth']);
 
     Route::resource('/vydavatelstvo/neperiodika', NonperiodicalController::class)->middleware(['auth']);
+
+    Route::get('/vydavatelstvo/zoznam', [ListingController::class, 'getListFilter'])->middleware(['auth'])->name('get-list-filter');
 });
 
 /* -------------- */

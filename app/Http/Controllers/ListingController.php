@@ -205,4 +205,18 @@ class ListingController extends Controller
         $pdf = PDF::loadView('pdf.tlac-pre-ucel', $data);
 		return $pdf->stream('tlac-pre-ucel.pdf');
     }
+
+    /**
+     * Vydavatelstvo - Zoznam
+     * zobraz filter periodik podla datumu stitkov
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getListFilter()
+    {
+        $periodical_publications = PeriodicalPublication::get();
+
+        return view('v-vydavatelstvo/zoznam')
+            ->with("periodical_publications", $periodical_publications);
+    }
 }
