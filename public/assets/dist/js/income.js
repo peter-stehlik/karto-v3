@@ -27,7 +27,9 @@ var Income = {
       $("#search_zip_code").val(localStorage.getItem('searchZipCode'));
       $("#search_address").val(localStorage.getItem('searchAddress'));
       $("#search_city").val(localStorage.getItem('searchCity'));
+      $("#person_id").val(localStorage.getItem('person_id'));
       $("#name1").val(localStorage.getItem('name1'));
+      $("#income_sum").val(localStorage.getItem('income_sum'));
       $("#package_number").val(localStorage.getItem('packageNumber'));
       var number = localStorage.getItem('number');
       $("#number").val(++number);
@@ -50,7 +52,9 @@ var Income = {
       localStorage.setItem('searchZipCode', $("#search_zip_code").val());
       localStorage.setItem('searchAddress', $("#search_address").val());
       localStorage.setItem('searchCity', $("#search_city").val());
+      localStorage.setItem('person_id', $("#person_id").val());
       localStorage.setItem('name1', $("#name1").val());
+      localStorage.setItem('income_sum', $("#income_sum").val());
       localStorage.setItem('bankAccount', $("#bank_account_id").val());
       localStorage.setItem('packageNumber', $("#package_number").val());
       localStorage.setItem('incomeDate', $("#income_date").val());
@@ -63,7 +67,9 @@ var Income = {
       localStorage.setItem('searchZipCode', "");
       localStorage.setItem('searchAddress', "");
       localStorage.setItem('searchCity', "");
+      localStorage.setItem('person_id', "");
       localStorage.setItem('name1', "");
+      localStorage.setItem('income_sum', "");
       localStorage.setItem('bankAccount', $("#bank_account_id").val());
       localStorage.setItem('packageNumber', $("#package_number").val());
       localStorage.setItem('incomeDate', $("#income_date").val());
@@ -71,7 +77,7 @@ var Income = {
     };
 
     $("#incomeForm").submit(saveNewValOnSubmit);
-    $(document).on("input", "#search_name, #search_zip_code, #search_address, #search_city, #name1, #income_date, #package_number, #number", function () {
+    $(document).on("input", "#search_name, #search_zip_code, #search_address, #search_city, #person_id, #name1, #income_sum, #income_date, #package_number, #number", function () {
       saveNewValOnInput();
     });
   },
