@@ -1,8 +1,8 @@
 <x-app-layout>
-    <h1 class="h3 py-2 border-bottom text-uppercase">Denný/mesačný výpis</h1>
+    <h1 class="h3 py-2 border-bottom text-uppercase">Tlač pre účel</h1>
 
     <div class="col-lg-12 p-3 bg-warning">
-        {!! Form::open(['action' => 'App\Http\Controllers\ListingController@dailyMonthlyListingPdf', 'id' => 'dailyMonthlyListingPdf', 'target' => 'blank']) !!}
+        {!! Form::open(['action' => 'App\Http\Controllers\ListingController@printForTransferPdf', 'id' => 'printForTransferPdf', 'target' => 'blank']) !!}
             <div class="row">
                 <div class="col-lg-2">
                     <label class="mb-2" for="date_from">Dátum od:</label>
@@ -29,7 +29,23 @@
                 </div>
 
                 <div class="col-lg-2">
-                    <label class="d-block mb-2" for="date_to">&nbsp;</label>
+                    <label class="mb-2" for="transfer_type_id">Účel:</label>
+
+                    <select class="form-control" id="transfer_type_id" name="transfer_type_id" required>
+                        <option value="">Nezáleží</option>
+
+                        @foreach( $periodical_publications as $pp )
+                            <option value="{{ $pp->id }}">{{ $pp->name }}</option>
+                        @endforeach
+
+                        @foreach( $nonperiodical_publications as $np )
+                            <option value="np_{{ $np->id }}">{{ $np->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-lg-2">
+                    <label class="d-block mb-2" for="">&nbsp;</label>
 
                     <button class="btn btn-info" type="submit">Vybrať</button>
                 </div>

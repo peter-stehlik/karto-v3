@@ -112,6 +112,10 @@ Route::name('kancelaria.')->group(function () {
     Route::get('/kancelaria/denny-mesacny-vypis', [ListingController::class, 'dailyMonthlyListingFilter'])->middleware(['auth'])->name('denny-mesacny-vypis');
 
     Route::post('/kancelaria/denny-mesacny-vypis', [ListingController::class, 'dailyMonthlyListingPdf'])->middleware(['auth'])->name('pdf-denny-mesacny-vypis');
+
+    Route::get('/kancelaria/tlac-pre-ucel', [ListingController::class, 'printForTransfer'])->middleware(['auth'])->name('tlac-pre-ucel');
+
+    Route::post('/kancelaria/tlac-pre-ucel', [ListingController::class, 'printForTransferPdf'])->middleware(['auth'])->name('pdf-tlac-pre-ucel');
 });
 
 /* ----------------- */
