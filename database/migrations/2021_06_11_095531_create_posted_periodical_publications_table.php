@@ -8,6 +8,7 @@ class CreatePostedPeriodicalPublicationsTable extends Migration
 {
     /**
      * Run the migrations.
+     * Zaúčtované periodiká.
      *
      * @return void
      */
