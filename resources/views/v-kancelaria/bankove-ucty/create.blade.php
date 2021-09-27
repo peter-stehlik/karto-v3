@@ -11,7 +11,7 @@
 
 							<div>
 								<input class="form-control" id="bank_name" type="text" name="bank_name"
-								 autocomplete="off" required>
+								 autocomplete="off" autofocus required>
 							</div>
 						</div>
 					</div>
