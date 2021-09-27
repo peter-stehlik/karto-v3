@@ -2,7 +2,7 @@
     <h1 class="h3 py-2 border-bottom text-uppercase">Nepotvrdené prevody</h1>   
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-3">
 			<div class="p-3 mb-3 bg-warning">
 				<label class="mb-2" for="filterTransfers">Účel:</label>
 

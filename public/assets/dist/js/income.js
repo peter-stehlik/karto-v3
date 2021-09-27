@@ -478,4 +478,29 @@ $(document).on("input", "#s3", function () {
   if (sum3) {
     $s4.val(total - sum1 - sum2 - sum3);
   }
+});
+$(document).on("input", "#s4", function () {
+  var total = parseInt($("#income_sum").val());
+  var sum1 = parseInt($("#s1").val());
+  var sum2 = parseInt($("#s2").val());
+  var sum3 = parseInt($("#s3").val());
+  var sum4 = parseInt($("#s4").val());
+  var $s5 = $("#s5");
+
+  if (sum4) {
+    $s5.val(total - sum1 - sum2 - sum3 - sum4);
+  }
+});
+$(document).on("input", "#s5", function () {
+  var total = parseInt($("#income_sum").val());
+  var sum1 = parseInt($("#s1").val());
+  var sum2 = parseInt($("#s2").val());
+  var sum3 = parseInt($("#s3").val());
+  var sum4 = parseInt($("#s4").val());
+  var sum5 = parseInt($("#s5").val());
+  var $s6 = $("#s6");
+
+  if (sum5) {
+    $s6.val(total - sum1 - sum2 - sum3 - sum4 - sum5);
+  }
 }); ///////////////////////////////////////////

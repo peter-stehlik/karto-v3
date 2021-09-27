@@ -75,7 +75,7 @@
                         </td>
 
                         <td class="text-center">
-                            <a class="" data-id="{{ $income->id }}" data-bs-toggle="modal" data-bs-target="#deleteIncomeModal" href="javascript:void(0);">
+                            <a class="js-delete-income" data-id="{{ $income->id }}" data-bs-toggle="modal" data-bs-target="#deleteIncomeModal" href="javascript:void(0);">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-trash text-danger"
                                     viewBox="0 0 16 16">

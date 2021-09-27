@@ -153,7 +153,7 @@
 												<label class="pr-2 mb-1" for="p{{ $i }}">Publikácia</label>
 
 												<select class="form-control" id="p{{ $i }}" name="periodical_publication[]">
-													<option value="0">Vyberte</option>
+													<option value="">Vyberte</option>
 
 													@foreach( $periodicals as $item )
 													<option value="{!! $item->id !!}">{!! $item->name !!}</option>
@@ -167,7 +167,7 @@
 												<label class="pr-2 mb-1" for="np{{ $i }}">Neperiodikum</label>
 
 												<select class="form-control" id="np{{ $i }}" name="nonperiodical_publication[]">
-													<option value="0">Vyberte</option>
+													<option value="">Vyberte</option>
 
 													@foreach( $nonperiodicals as $item )
 													<option value="{!! $item->id !!}">{!! $item->name !!}</option>

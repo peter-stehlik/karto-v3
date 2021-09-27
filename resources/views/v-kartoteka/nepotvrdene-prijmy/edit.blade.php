@@ -92,7 +92,11 @@
 					<!-- ///////////////////// -->
 					<div class="bg-light pt-3 p-2 mb-3">
 						<div class="row">
-							<p><em>Ak chcete účel vymazať, jednoducho nastavte sumu na 0.</em></p>
+							<div class="col-lg-12">
+								<div class="alert alert-warning" role="alert">
+									<em>Ak chcete účel vymazať, jednoducho nastavte sumu na 0.</em>
+								</div>
+							</div>
 
 							<!-- UCELY -->
 							@for( $i=0; $i <= 5; $i++)

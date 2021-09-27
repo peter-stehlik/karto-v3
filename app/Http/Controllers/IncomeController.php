@@ -68,7 +68,7 @@ class IncomeController extends Controller
         $note = $request->note;
         $transfer_date = $request->transfer_date;
         foreach( $sum as $key=>$value ){
-			if( $value ){
+			if( $value && ( isset( $periodical_publication[$key] ) || isset( $nonperiodical_publication[$key] ) ) ){
 				if( isset( $periodical_publication[$key] ) ){
 					$pp = $periodical_publication[$key];
 				}else{
