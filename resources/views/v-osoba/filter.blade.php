@@ -17,7 +17,7 @@
                         <label class="mb-2" for="category_id">Kategória:</label>
                         
                         <select class="form-control" id="category_id" name="category_id">
-                            <option>Vyberte</option>
+                            <option value="0">Vyberte</option>
                             @foreach( $categories as $cat )
                             <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                             @endforeach
