@@ -28,11 +28,35 @@
 					</div>
 				</div>
 
-				<div class="mb-3">
-					<label class="pr-2 mb-1" for="price">Cena</label>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="mb-3">
+							<label class="pr-2 mb-1" for="price">Cena</label>
 
-					<div class="">
-						<input class="form-control" id="price" type="number" name="price" autocomplete="off" value="{{ number_format($periodical->price, 2) }}" step=".01">
+							<div class="">
+								<input class="form-control" id="price" type="number" name="price" autocomplete="off" step=".01" value="{{ number_format($periodical->price, 2) }}">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="mb-3">
+							<label class="pr-2 mb-1" for="label_date">Štítky</label>
+
+							<div class="">
+								<input class="form-control" id="label_date" type="text" name="label_date" autocomplete="off" value="{{ date('j.n.Y', strtotime($periodical->label_date)) }}">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="mb-3">
+							<label class="pr-2 mb-1" for="current_number">Aktuálne číslo</label>
+
+							<div class="">
+								<input class="form-control" id="current_number" type="text" name="current_number" autocomplete="off" value="{{ $periodical->current_number }}">
+							</div>
+						</div>
 					</div>
 				</div>
 

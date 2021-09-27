@@ -11,7 +11,7 @@
 
 							<div>
 								<input class="form-control" id="name" type="text" name="name"
-								 autocomplete="off" required>
+								 autocomplete="off" autofocus required>
 							</div>
 						</div>
 					</div>

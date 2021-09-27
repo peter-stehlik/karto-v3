@@ -11,7 +11,7 @@
 
 							<div>
 								<input class="form-control" id="name" type="text" name="name"
-								 autocomplete="off" required>
+								 autocomplete="off" autofocus required>
 							</div>
 						</div>
 					</div>
@@ -28,13 +28,38 @@
 					</div>
 				</div>
 
-				<div class="mb-3">
-					<label class="pr-2 mb-1" for="price">Cena</label>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="mb-3">
+							<label class="pr-2 mb-1" for="price">Cena</label>
 
-					<div class="">
-						<input class="form-control" id="price" type="number" name="price" autocomplete="off" step=".01">
+							<div class="">
+								<input class="form-control" id="price" type="number" name="price" autocomplete="off" step=".01">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="mb-3">
+							<label class="pr-2 mb-1" for="label_date">Štítky</label>
+
+							<div class="">
+								<input class="form-control" id="label_date" type="text" name="label_date" autocomplete="off">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="mb-3">
+							<label class="pr-2 mb-1" for="current_number">Aktuálne číslo</label>
+
+							<div class="">
+								<input class="form-control" id="current_number" type="text" name="current_number" autocomplete="off">
+							</div>
+						</div>
 					</div>
 				</div>
+
 
 				<div class="mb-3">
 					<label class="pr-2 mb-1" for="note">Poznámka</label>

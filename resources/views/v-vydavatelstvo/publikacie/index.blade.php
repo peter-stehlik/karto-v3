@@ -24,8 +24,8 @@
                         <td>{{ $periodical->id }}</td>
                         <td>{{ $periodical->name }}</td>
                         <td>{{ $periodical->abbreviation }}</td>
-                        <td>{{ $periodical->label_date }}</td>
-                        <td>{{ number_format($periodical->price, 2, ",", " ") }}</td>
+                        <td>{{ date('j.n.Y', strtotime($periodical->label_date)) }}</td>
+                        <td>{{ number_format($periodical->price, 2, ",", " ") }} &euro;</td>
                         <td>{{ $periodical->current_number }}</td>
                         <td>{{ $periodical->note }}</td>
                         <td class="text-center"><a href="{{ route('vydavatelstvo.publikacie.edit', [$periodical->id]) }}">

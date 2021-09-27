@@ -41,12 +41,16 @@ class PeriodicalController extends Controller
         $name = $request->name; 
         $abbreviation = $request->abbreviation; 
         $price = $request->price;
+        $label_date = date('Y-m-d', strtotime($request->label_date));
+        $current_number = $request->current_number;
         $note = $request->note;
 
         PeriodicalPublication::create([
             'name' => $name,
             'abbreviation' => $abbreviation,
             'price' => $price,
+            'label_date' => $label_date,
+            'current_number' => $current_number,
             'note' => $note,
         ]);
 
@@ -90,6 +94,8 @@ class PeriodicalController extends Controller
         $name = $request->name; 
         $abbreviation = $request->abbreviation; 
         $price = $request->price;
+        $label_date = date('Y-m-d', strtotime($request->label_date));
+        $current_number = $request->current_number;
         $note = $request->note;
 
         PeriodicalPublication::where('id', $id)
@@ -97,6 +103,8 @@ class PeriodicalController extends Controller
                 'name' => $name,
                 'abbreviation' => $abbreviation,
                 'price' => $price,
+                'label_date' => $label_date,
+                'current_number' => $current_number,
                 'note' => $note,
             ]);
 

@@ -7,7 +7,7 @@
 
 	<li class="nav-item">
 		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.publikacie.index' ) active @endif" href="{{ route('vydavatelstvo.publikacie.index') }}">
-			Publikácie
+			Periodiká (Publikácie)
 		</a>
 	</li><!-- / .nav-item -->
 
