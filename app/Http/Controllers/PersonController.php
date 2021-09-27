@@ -23,7 +23,7 @@ class PersonController extends Controller
 	*/
 	public function index($id)
 	{
-		$person = Person::find($id);
+		$person = Person::withTrashed()->find($id);
 		$periodical_orders = PeriodicalOrder::where("person_id", $id)
 								->join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id")
 								->select("name", "credit")
@@ -45,7 +45,7 @@ class PersonController extends Controller
 	*/
 	public function getBio($id)
 	{
-		$person = Person::find($id);
+		$person = Person::withTrashed()->find($id);
 		$categories = Category::get();
 
 		return view('v-osoba/dobrodinec/osobne-udaje')
@@ -61,7 +61,7 @@ class PersonController extends Controller
 	{
 		$id = $request->person_id;
 
-		Person::where('id', $id)
+		Person::withTrashed()->where('id', $id)
 		->update([
 			'category_id' => $request->category_id,
 			'title' => $request->title,
@@ -85,7 +85,7 @@ class PersonController extends Controller
 	*/
 	public function getIncomes($id)
 	{
-		$person = Person::find($id);
+		$person = Person::withTrashed()->find($id);
 		$users = User::get();
 		$bank_accounts = BankAccount::get();
 
@@ -202,7 +202,7 @@ class PersonController extends Controller
 	*/
 	public function getTransfers($id)
 	{
-		$person = Person::find($id);
+		$person = Person::withTrashed()->find($id);
 		$periodical_publications = PeriodicalPublication::get();
 		$nonperiodical_publications = NonperiodicalPublication::get();
 
