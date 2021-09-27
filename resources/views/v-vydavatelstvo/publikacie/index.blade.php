@@ -1,5 +1,5 @@
 <x-app-layout>
-    <h1 class="h3 py-2 border-bottom text-uppercase">Publikácie <a class="btn btn-sm btn-success" href="{{ route('vydavatelstvo.publikacie.create') }}">Pridať nový</a></h1>   
+    <h1 class="h3 py-2 border-bottom text-uppercase">Periodiká (Publikácie) <a class="btn btn-sm btn-success" href="{{ route('vydavatelstvo.publikacie.create') }}">Pridať nový</a></h1>   
 
     <div class="row">
         <div class="col-lg-7">
