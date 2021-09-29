@@ -68,7 +68,7 @@
 										selected="selected"
 									@endif
 								>
-									{{ $bank_account->bank_name }}, {{ $bank_account->number }}
+									{{ $bank_account->bank_name }} {{ $bank_account->number }}
 								</option>
 							@endforeach
 						</select>

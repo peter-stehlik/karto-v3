@@ -44,51 +44,55 @@
 				<td>{!! str_replace(".", ",", $incomeThisYearTotal) !!}</td>
 			</tr>
 
+			@if( count($periodicalThisYearInvoice) || count($nonperiodicalThisYearInvoice) )
 			<tr>
 				<td><em>do aktuálneho roku na faktúru</em></td>
 				<td></td>
 			</tr>
 			@foreach( $periodicalThisYearInvoice as $pty )
-			<tr>
-				<td>{!! $pty->name !!}</td>
-				<td>{!! str_replace(".", ",", $pty->sum) !!}</td>
-			</tr>
-				<?php $incomeInvoiceThisYearTotal += $pty->sum; ?>
+				<tr>
+					<td>{!! $pty->name !!}</td>
+					<td>{!! str_replace(".", ",", $pty->sum) !!}</td>
+				</tr>
+					<?php $incomeInvoiceThisYearTotal += $pty->sum; ?>
 			@endforeach
 			@foreach( $nonperiodicalThisYearInvoice as $oty )
-			<tr>
-				<td>{!! $oty->name !!}</td>
-				<td>{!! str_replace(".", ",", $oty->sum) !!}</td>
-			</tr>
+				<tr>
+					<td>{!! $oty->name !!}</td>
+					<td>{!! str_replace(".", ",", $oty->sum) !!}</td>
+				</tr>
 				<?php $incomeInvoiceThisYearTotal += $oty->sum; ?>
 			@endforeach
-			<tr>
-				<td><em>Spolu</em></td>
-				<td>{!! str_replace(".", ",", $incomeInvoiceThisYearTotal) !!}</td>
-			</tr>
+				<tr>
+					<td><em>Spolu</em></td>
+					<td>{!! str_replace(".", ",", $incomeInvoiceThisYearTotal) !!}</td>
+				</tr>
+			@endif
 
-			<tr>
-				<td><em>do nasledujúceho roku</em></td>
-				<td></td>
-			</tr>
-			@foreach( $periodicalNextYear as $pty )
-			<tr>
-				<td>{!! $pty->name !!}</td>
-				<td>{!! str_replace(".", ",", $pty->sum) !!}</td>
-			</tr>
-				<?php $incomeNextYearTotal += $pty->sum; ?>
-			@endforeach
-			@foreach( $periodicalNextYear as $oty )
-			<tr>
-				<td>{!! $oty->name !!}</td>
-				<td>{!! str_replace(".", ",", $oty->sum) !!}</td>
-			</tr>
+			@if( count($periodicalNextYear) || count($nonperiodicalNextYear) )
+				<tr>
+					<td><em>do nasledujúceho roku</em></td>
+					<td></td>
+				</tr>
+				@foreach( $periodicalNextYear as $pty )
+				<tr>
+					<td>{!! $pty->name !!}</td>
+					<td>{!! str_replace(".", ",", $pty->sum) !!}</td>
+				</tr>
+					<?php $incomeNextYearTotal += $pty->sum; ?>
+				@endforeach
+				@foreach( $nonperiodicalNextYear as $oty )
+				<tr>
+					<td>{!! $oty->name !!}</td>
+					<td>{!! str_replace(".", ",", $oty->sum) !!}</td>
+				</tr>
 				<?php $incomeNextYearTotal += $oty->sum; ?>
-			@endforeach
-			<tr>
-				<td><em>Spolu</em></td>
-				<td>{!! str_replace(".", ",", $incomeNextYearTotal) !!}</td>
-			</tr>
+				@endforeach
+				<tr>
+					<td><em>Spolu</em></td>
+					<td>{!! str_replace(".", ",", $incomeNextYearTotal) !!}</td>
+				</tr>
+			@endif
 			<tr>
 				<th>Zostatok</th>
 				<th></th>

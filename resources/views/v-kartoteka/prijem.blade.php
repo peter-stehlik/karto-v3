@@ -2,7 +2,7 @@
 	<h1 class="h3 py-2 border-bottom text-uppercase">Zadať príjem</h1>
 
 	<div class="row">
-		<div class="col-lg-5">
+		<div class="col-lg-5" style="z-index: 7;">
 		{!! Form::open(['action' => 'App\Http\Controllers\IncomeController@store', 'id' => 'incomeForm']) !!}	
 				<div class="row">
 					<div class="bg-warning p-3 mb-4">
@@ -140,11 +140,11 @@
 					<!-- ///   U C E L Y   /// -->
 					<!-- ///////////////////// -->
 					<!-- ///////////////////// -->
-					<div class="bg-light pt-3 p-2 mb-3" id="transfers" style="display: none;">
+					<div class="bg-light pt-3 p-2 mb-3" id="transfers" style="width: 210%; max-width: 210%; display: none;">
 						<div class="row">
 							<!-- 6 UCELOV -->
 							@for( $i=1; $i <= 6; $i++)
-								<div class="col-lg-5 @if( $i % 2 == 0 ) offset-lg-1 @endif" id="transfer-{{ $i }}" style="display: none;">
+								<div class="col-lg-4" id="transfer-{{ $i }}" style="display: none;">
 									<div class="row">
 										<h3 class="text-center mb-2">Účel</h3>
 
@@ -202,7 +202,7 @@
 									</div>
 								</div>
 
-								@if( $i % 2 == 0 ) <hr class="my-4"> @endif
+								@if( $i % 3 == 0 ) <hr class="my-4"> @endif
 							@endfor
 						</div>
 					</div>
