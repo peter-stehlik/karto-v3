@@ -99,5 +99,7 @@
 
             </tbody>
         </table>
+
+        <div id="personFilterTabulator"></div>
     </div>    
 </x-app-layout>

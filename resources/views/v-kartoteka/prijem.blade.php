@@ -104,8 +104,8 @@
 					<div class="col-lg-6 mb-3">
 						<label class="pr-2 mb-1" for="bank_account_id">Bankový účet</label>
 						
-						<select class="form-control" name="bank_account_id" id="bank_account_id">
-							<option value="0">Vyberte</option>
+						<select class="form-control" name="bank_account_id" id="bank_account_id" required>
+							<option value="">Vyberte</option>
 							@foreach( $bank_accounts as $bank_account )
 								<option
 									value="{!! $bank_account->id !!}"
@@ -118,7 +118,7 @@
 										selected="selected"
 									@endif
 								>
-									{!! $bank_account->bank_name !!}, {!! $bank_account->number !!}
+									{!! $bank_account->bank_name !!}  {!! $bank_account->number !!}
 								</option>
 							@endforeach
 						</select>

@@ -52,6 +52,26 @@ let Filter = {
         function (data) {
           if (data.people) {
             Filter.populateSearchedPeople(data.people);
+
+            let table = new Tabulator("#personFilterTabulator", {
+                data:data.people, //assign data to table
+                autoColumns:true, //create columns from data field names
+            });
+
+            var newColumns = [
+              {title:"ID", field:"id", sorter:"number"},
+              {title:"titul", field:"title", sorter:"string"},
+              {title:"meno", field:"name1", sorter:"string", width:200},
+              {title:"organizácia", field:"organization", sorter:"string"},
+              {title:"adresa", field:"address1", sorter:"string"},
+              {title:"PSČ", field:"zip_code", sorter:"string"},
+              {title:"mesto", field:"city", sorter:"string"},
+              {title:"štát", field:"state", sorter:"string"},
+              {title:"kategória", field:"category_name", sorter:"string"},
+              {title:"poznámka", field:"note", sorter:"string"},
+            ];
+         
+          table.setColumns(newColumns); //overwrite existing columns with new columns definition array
           } else {
             alert("Nič som nenašiel.");
           }

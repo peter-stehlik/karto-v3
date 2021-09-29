@@ -16,6 +16,7 @@
 
 	<link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap.5.0.0.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/dist/css/dashboard-template.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/dist/plugins/tabulator/css/tabulator.css') }}">
 
 	<script src="{{ asset('assets/dist/js/jquery-3.6.0.min.js') }}"></script>
 	<script src="{{ asset('assets/dist/js/dashboard-template.js') }}" defer></script>
@@ -27,6 +28,7 @@
 	<script src="{{ asset('assets/dist/js/people-filter.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/person-incomes-filter.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/person-transfers-filter.js') }}" defer></script>
+	<script src="{{ asset('assets/dist/plugins/tabulator/js/tabulator.min.js') }}" defer></script>
 </head>
 <body>
 	@include('layouts/header')

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <h1 class="h3 py-2 border-bottom text-uppercase">Nepotvrdené prevody</h1>   
+    <h1 class="h3 py-2 border-bottom text-uppercase">Nepotvrdené prevody <a class="btn btn-sm btn-success" href="{{ route('kartoteka.prijem-get') }}">Pridať nový príjem</a></h1>   
 
     <div class="row">
         <div class="col-lg-3">
@@ -50,6 +50,7 @@
                         <th>Dátum prevodu</th>
 						<th>Príjem</th>
                         <th>Upraviť (v rámci príjmu)</th>
+                        <th>Zaúčtovať</th>
                         <th>Vymazať</th>
                     </tr>
                 </thead>
@@ -82,6 +83,10 @@
 								</svg>
 							</a>
 						</td>
+
+                        <td class="text-center">
+                            
+                        </td>
 
 						<td class="text-center">
 							<a class="js-delete-transfer" data-id="{{ $transfer->id }}" data-bs-toggle="modal" data-bs-target="#deleteTransferModal" href="javascript:void(0);">
