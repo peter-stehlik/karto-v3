@@ -51,6 +51,7 @@ Route::name('kartoteka.')->group(function () {
     Route::get('/kartoteka/prijem/potvrdit-prijmy', [IncomeController::class, 'unconfirmedIncomesSummary'])->middleware(['auth'])->name('unconfirmed-incomes-summary-get');
     Route::post('/kartoteka/prijem/potvrdit-prijmy', [IncomeController::class, 'confirmIncomes'])->middleware(['auth'])->name('confirm-incomes-post');
 
+    Route::get('/kartoteka/nepotvrdeny-prijem-potvrdit/{id}', [IncomeUnconfirmedController::class, 'confirmIncomeIndividually'])->middleware(['auth'])->name('nepotvrdeny-prijem-potvrdit');
     Route::resource('/kartoteka/nepotvrdene-prijmy', IncomeUnconfirmedController::class)->middleware(['auth']);
 
     Route::get('/kartoteka/nepotvrdene-prevody', [TransferUnconfirmedController::class, 'index'])->middleware(['auth'])->name('nepotvrdene-prevody-get');

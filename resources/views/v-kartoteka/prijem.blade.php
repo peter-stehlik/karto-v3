@@ -58,7 +58,7 @@
 							<label class="pr-2 mb-1" for="name1">Meno</label>
 
 							<div>
-								<input class="form-control" id="name1" type="text" name="name1" autocomplete="off">
+								<input class="form-control" id="name1" type="text" name="name1" autocomplete="off" readonly>
 							</div>
 						</div>
 					</div>
@@ -140,11 +140,11 @@
 					<!-- ///   U C E L Y   /// -->
 					<!-- ///////////////////// -->
 					<!-- ///////////////////// -->
-					<div class="bg-light pt-3 p-2 mb-3">
+					<div class="bg-light pt-3 p-2 mb-3" id="transfers" style="display: none;">
 						<div class="row">
 							<!-- 6 UCELOV -->
 							@for( $i=1; $i <= 6; $i++)
-								<div class="col-lg-5 @if( $i % 2 == 0 ) offset-lg-1 @endif">
+								<div class="col-lg-5 @if( $i % 2 == 0 ) offset-lg-1 @endif" id="transfer-{{ $i }}" style="display: none;">
 									<div class="row">
 										<h3 class="text-center mb-2">Účel</h3>
 

@@ -261,6 +261,8 @@ var Income = {
     $("#name1").val(name); // Income.saveIncomeDataToLocalStorage();
 
     $("#income_sum").focus();
+    $("#transfers").show();
+    Income.clearSearchResults();
   },
 
   /*
@@ -316,10 +318,9 @@ var Income = {
   *
   */
   hideAddNewPersonOnIncome: function hideAddNewPersonOnIncome() {
-    var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
-      keyboard: false
-    });
-    myModal.hide();
+    $('#myModal').removeClass("show").hide();
+    $(".modal-backdrop").removeClass("show").remove();
+    $("body").removeClass("modal-open");
   },
 
   /*
@@ -446,6 +447,7 @@ $(document).on("input", "#income_sum", function () {
   var $s1 = $("#s1");
 
   if (sum) {
+    $("#transfer-1").show();
     $s1.val(sum);
   }
 });
@@ -455,6 +457,7 @@ $(document).on("input", "#s1", function () {
   var $s2 = $("#s2");
 
   if (sum) {
+    $("#transfer-2").show();
     $s2.val(total - sum);
   }
 });
@@ -465,6 +468,7 @@ $(document).on("input", "#s2", function () {
   var $s3 = $("#s3");
 
   if (sum2) {
+    $("#transfer-3").show();
     $s3.val(total - sum1 - sum2);
   }
 });
@@ -476,6 +480,7 @@ $(document).on("input", "#s3", function () {
   var $s4 = $("#s4");
 
   if (sum3) {
+    $("#transfer-4").show();
     $s4.val(total - sum1 - sum2 - sum3);
   }
 });
@@ -488,6 +493,7 @@ $(document).on("input", "#s4", function () {
   var $s5 = $("#s5");
 
   if (sum4) {
+    $("#transfer-5").show();
     $s5.val(total - sum1 - sum2 - sum3 - sum4);
   }
 });
@@ -501,6 +507,7 @@ $(document).on("input", "#s5", function () {
   var $s6 = $("#s6");
 
   if (sum5) {
+    $("#transfer-6").show();
     $s6.val(total - sum1 - sum2 - sum3 - sum4 - sum5);
   }
 }); ///////////////////////////////////////////

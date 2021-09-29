@@ -50,7 +50,6 @@
                         <th>Dátum prevodu</th>
 						<th>Príjem</th>
                         <th>Upraviť (v rámci príjmu)</th>
-                        <th>Zaúčtovať</th>
                         <th>Vymazať</th>
                     </tr>
                 </thead>
@@ -83,10 +82,6 @@
 								</svg>
 							</a>
 						</td>
-
-                        <td class="text-center">
-                            
-                        </td>
 
 						<td class="text-center">
 							<a class="js-delete-transfer" data-id="{{ $transfer->id }}" data-bs-toggle="modal" data-bs-target="#deleteTransferModal" href="javascript:void(0);">

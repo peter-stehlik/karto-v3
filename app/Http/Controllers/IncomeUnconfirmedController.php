@@ -8,6 +8,8 @@ use App\Models\Income;
 use App\Models\BankAccount;
 use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
+use App\Models\PeriodicalOrder;
+use App\Models\NonperiodicalOrder;
 use Auth;
 
 class IncomeUnconfirmedController extends Controller
@@ -193,5 +195,65 @@ class IncomeUnconfirmedController extends Controller
         return response()->json([
             'success' => '1'
         ]);
+    }
+
+    /**
+     * Confirm only one chosen income from the list.
+     * method copied from IncomeController.confirmIncomes and modified
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function confirmIncomeIndividually($id)
+    {
+        $incomes = Income::where("id", $id)
+                ->get();
+
+        foreach( $incomes as $income ){
+            foreach( $income->transfers as $transfer ){
+                if( $transfer->periodical_publication_id ){
+                    $exists = PeriodicalOrder::where("person_id", $income->person_id)
+                                        ->where("periodical_publication_id", $transfer->periodical_publication_id)
+                                        ->first();
+
+                    if ( $exists ) {
+                        PeriodicalOrder::where("person_id", $income->person_id)
+                            ->where("periodical_publication_id", $transfer->periodical_publication_id)
+                            ->increment("credit", $transfer->sum);
+                    } else {
+                        PeriodicalOrder::create([
+                            "person_id" => $income->person_id,
+                            "periodical_publication_id" => $transfer->periodical_publication_id,
+                            "credit" => $transfer->sum,
+                        ]);
+                    }
+                }
+                
+                if( $transfer->nonperiodical_publication_id ){
+                    $exists = NonperiodicalOrder::where("person_id", $income->person_id)
+                                        ->where("nonperiodical_publication_id", $transfer->nonperiodical_publication_id)
+                                        ->first();
+
+                    if ( $exists ) {
+                        NonperiodicalOrder::where("person_id", $income->person_id)
+                            ->where("nonperiodical_publication_id", $transfer->nonperiodical_publication_id)
+                            ->increment("credit", $transfer->sum);
+                    } else {
+                        NonperiodicalOrder::create([
+                            "person_id" => $income->person_id,
+                            "nonperiodical_publication_id" => $transfer->nonperiodical_publication_id,
+                            "credit" => $transfer->sum,
+                        ]);
+                    }
+                }
+            }
+
+            Income::where("id", $income->id)
+                ->update([
+                    "confirmed" => 1
+                ]);
+        }
+
+        return redirect('/kartoteka/nepotvrdene-prijmy')->with('message', 'Operácia sa podarila!');
     }
 }
