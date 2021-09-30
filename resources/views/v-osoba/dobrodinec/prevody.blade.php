@@ -88,6 +88,7 @@
             Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
         </div>
 
+        <!-- 
         <table class="table" id="personTransferFilterTable">
             <thead>
                 <tr>
@@ -105,5 +106,10 @@
 
             </tbody>
         </table>
+        -->
+
+        <div class="mt-3">
+            <div id="personTransfersFilterTabulator"></div>
+        </div>
     </div> 
 </x-app-layout> 

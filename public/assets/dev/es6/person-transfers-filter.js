@@ -50,6 +50,66 @@ let PersonTransfersFilter = {
         function (data) {
           if (data.transfers.length) {
             PersonTransfersFilter.populateSearchedTransfers(data.transfers);
+
+            let table = new Tabulator("#personTransfersFilterTabulator", {
+              layout: "fitColumns",
+              pagination: "local",
+              paginationSize: 20,
+              paginationSizeSelector: [10, 20, 50, 100],
+              data: data.transfers, //assign data to table
+              rowFormatter:function(row){
+                let data = row.getData(); //get data object for row
+                let transfer_id = data["transfer_id"];
+                let html_id = "transfer-" + transfer_id;
+
+                row.getElement().setAttribute("id", html_id);
+              },
+              columns: [
+                {title:"ID", field:"transfer_id", sorter:"number", width: 50},
+                {title:"income_id", field:"income_id", sorter:"string", visible:false},
+                {title:"dátum prevodu", field:"transfer_date", sorter:"date", formatter: function(cell, formatterParams){
+                  let value = cell.getValue();
+                  let transfer_date = Help.beautifyDate(value);
+
+                  return transfer_date;
+                }},
+                {title:"suma", field:"transfer_sum", sorter:"number", formatter: function(cell, formatterParams){
+                  let value = cell.getValue();
+                  let transfer_sum = Help.beautifyDecimal(value);
+
+                  return transfer_sum + " &euro;";
+                }},
+                {title:"periodikum", field:"pp_name", sorter:"string"},
+                {title:"neperiodikum", field:"np_name", sorter:"string"},
+                {title:"poznámka", field:"note", sorter:"string"},
+                {title:"príjem", field: "income", width: 300, formatter: function(cell, formatterParams){
+                  let transfer_id = cell.getRow().getCells()[0].getValue();
+                  let income_id = cell.getRow().getCells()[1].getValue();
+
+
+                  return "<a class='js-toggle-income btn btn-primary btn-sm' href='javascript:void(0);' data-transfer-id='" + transfer_id + "' data-income-id='" + income_id + "'>zobraziť</a>";
+                } },
+              ],
+              locale: "sk",
+              langs: {
+                "sk": {
+                  "pagination":{
+                    "first":"prvá",
+                    "first_title":"prvá strana",
+                    "last":"posledná",
+                    "last_title":"posledná strana",
+                    "prev":"predošlá",
+                    "prev_title":"predošlá strana",
+                    "next":"ďalšia",
+                    "next_title":"ďalšia strana",
+                    "all":"všetky",
+                    "page_size": "počet na stranu",
+                  },
+                }
+              },
+            });
+
+            PersonTransfersFilter.toggleIncome();
           } else {
             alert("Nič som nenašiel.");
           }
@@ -58,6 +118,9 @@ let PersonTransfersFilter = {
         }
       );
     },
+    /**
+     * NOT USED, OLD WAY, REPLACED BY TABULATOR.JS
+     */
     populateSearchedTransfers: transfers => {
       if (transfers) {
         let htmlResults = "";
@@ -99,14 +162,16 @@ let PersonTransfersFilter = {
 
         let transfer_id = parseInt($(this).attr("data-transfer-id"));
         let income_id = parseInt($(this).attr("data-income-id"));
-        let $transferRow = $(this).closest(".transfer-row");
+
+        // OLD WAY
+        /*let $transferRow = $(this).closest(".transfer-row");
         $transferRow.toggleClass("bg-light").next(".income-row").slideToggle();
 
         if( $transferRow.next(".income-row").find(".income-list").length ){
           Help.hidePreloader();
 
           return;
-        }
+        }*/
 
         /***
          * GET DATA FROM SERVER
@@ -131,7 +196,7 @@ let PersonTransfersFilter = {
     },
     populateIncome: income => {
       if (income) {
-        let htmlResults = "<ul class='income-list'>";
+        let htmlResults = "<ul class='income-list' style='margin: 0; padding: 0;'>";
 		let transfer_id;
 
         for (let i = 0; i < income.length; i++) {
@@ -146,20 +211,24 @@ let PersonTransfersFilter = {
           let accounting_date = Help.beautifyDate(income[i].accounting_date);
 
           let row = `
-              <li>Nahrala: ${username}, bankový účet: ${bank_account_name}, <strong>${sum} &euro;</strong>, číslo: ${number}, balík: ${package_number}, faktúra: ${invoice}, <span class="text-secondary">${accounting_date}</span> ${note}</li>
+              <li>Nahral(a): ${username}, <br> bankový účet: ${bank_account_name}, <strong>${sum} &euro;</strong>, <br> číslo: ${number}, balík: ${package_number}, <br> faktúra: ${invoice}, <br> <span class="text-secondary">${accounting_date}</span> ${note}</li>
           `;
   
           htmlResults += row;
         }
         htmlResults += "</ul>";
 
-        $("#transfer-" + transfer_id + "").html(htmlResults);
+        // OLD WAY $("#transfer-" + transfer_id + "").html(htmlResults);
+
+        $("#transfer-" + transfer_id + " .tabulator-cell").css("height", "auto");
+        $("#transfer-" + transfer_id + " .tabulator-cell[tabulator-field='income']").prepend(htmlResults);
+        $("#transfer-" + transfer_id + " .tabulator-cell[tabulator-field='income']").find(".js-toggle-income").remove();
       }
     },
   };
   
   $(document).ready(function () {
-    if ($("#personTransferFilterTable").length) {
+    if ($("#personTransfersFilterTabulator").length) {
       $(document).off("click", "#initPersonTransfersFilter").on("click", "#initPersonTransfersFilter", function () {
         PersonTransfersFilter.filterPersonTransfers();
       });
