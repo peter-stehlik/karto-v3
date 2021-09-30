@@ -1,4 +1,5 @@
 let Filter = {
+    /* NOT USED, OLD WAY */
     emptySearchResults: () => {
       $("#filterResults").empty();
     },
@@ -51,27 +52,50 @@ let Filter = {
         },
         function (data) {
           if (data.people) {
-            Filter.populateSearchedPeople(data.people);
+            // Filter.populateSearchedPeople(data.people); OLD WAY TO DISPLAY AJAX RESULT
 
             let table = new Tabulator("#personFilterTabulator", {
-                data:data.people, //assign data to table
-                autoColumns:true, //create columns from data field names
+                layout: "fitColumns",
+                pagination: "local",
+                paginationSize: 20,
+                paginationSizeSelector: [10, 20, 50, 100],
+                data: data.people, //assign data to table
+                columns: [
+                  {title:"ID", field:"id", sorter:"number", width: 50},
+                  {title:"titul", field:"title", sorter:"string", visible:false},
+                  {title:"meno", field:"name1", sorter:"string", width:250, formatter: function(cell, formatterParams){
+                    let value = cell.getValue();
+                    let id = cell.getRow().getCells()[0].getValue();
+                    let titul = cell.getRow().getCells()[1].getValue();
+    
+                    return "<a href='/dobrodinec/" + id + "/ucty' target='_blank'>" + titul + " " + value + "</a>";
+                  }},
+                  {title:"organizácia", field:"organization", sorter:"string"},
+                  {title:"adresa", field:"address1", sorter:"string"},
+                  {title:"PSČ", field:"zip_code", sorter:"string"},
+                  {title:"mesto", field:"city", sorter:"string"},
+                  {title:"štát", field:"state", sorter:"string"},
+                  {title:"kategória", field:"category_name", sorter:"string"},
+                  {title:"poznámka", field:"note", sorter:"string"},
+                ],
+                locale: "sk",
+                langs: {
+                  "sk": {
+                    "pagination":{
+                      "first":"prvá",
+                      "first_title":"prvá strana",
+                      "last":"posledná",
+                      "last_title":"posledná strana",
+                      "prev":"predošlá",
+                      "prev_title":"predošlá strana",
+                      "next":"ďalšia",
+                      "next_title":"ďalšia strana",
+                      "all":"všetky",
+                      "page_size": "počet na stranu",
+                    },
+                  }
+                },
             });
-
-            var newColumns = [
-              {title:"ID", field:"id", sorter:"number"},
-              {title:"titul", field:"title", sorter:"string"},
-              {title:"meno", field:"name1", sorter:"string", width:200},
-              {title:"organizácia", field:"organization", sorter:"string"},
-              {title:"adresa", field:"address1", sorter:"string"},
-              {title:"PSČ", field:"zip_code", sorter:"string"},
-              {title:"mesto", field:"city", sorter:"string"},
-              {title:"štát", field:"state", sorter:"string"},
-              {title:"kategória", field:"category_name", sorter:"string"},
-              {title:"poznámka", field:"note", sorter:"string"},
-            ];
-         
-          table.setColumns(newColumns); //overwrite existing columns with new columns definition array
           } else {
             alert("Nič som nenašiel.");
           }
@@ -80,6 +104,11 @@ let Filter = {
         }
       );
     },
+    /**
+     * OLD WAY HOW TO DISPLAY
+     * AJAX RESULTS
+     * REPLACED BY TABULATOR.JS PLUGIN
+     */
     populateSearchedPeople: people => {
       if (people) {
         var htmlResults = "";
@@ -110,7 +139,7 @@ let Filter = {
   };
   
   $("document").ready(function () {
-    if ($("#filterTable").length) {
+    if ($("#personFilterTabulator").length) {
       $(document).on("click", "#initFilter", function () {
         Filter.filterPeople();
       });
