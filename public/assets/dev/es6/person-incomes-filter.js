@@ -67,7 +67,73 @@ let PersonIncomesFilter = {
         },
         function (data) {
           if (data.incomes.length) {
-            PersonIncomesFilter.populateSearchedPeople(data.incomes);
+            /* OLD WAY REPLACED BY TABULAR.JS */
+            // PersonIncomesFilter.populateSearchedPeople(data.incomes);
+
+            let table = new Tabulator("#personIncomesFilterTabulator", {
+              layout: "fitColumns",
+              pagination: "local",
+              paginationSize: 20,
+              paginationSizeSelector: [10, 20, 50, 100],
+              data: data.incomes, //assign data to table
+              rowFormatter:function(row){
+                let data = row.getData(); //get data object for row
+                let income_id = data["income_id"];
+                let html_id = "income-" + income_id;
+
+                row.getElement().setAttribute("id", html_id);
+              },
+              columns: [
+                {title:"ID", field:"income_id", sorter:"number", width: 50},
+                {title:"dátum príjmu", field:"income_date", sorter:"date", formatter: function(cell, formatterParams){
+                  let value = cell.getValue();
+                  let income_date = Help.beautifyDate(value);
+
+                  return income_date;
+                }},
+                {title:"suma", field:"income_sum", sorter:"number", formatter: function(cell, formatterParams){
+                  let value = cell.getValue();
+                  let income_sum = Help.beautifyDecimal(value);
+
+                  return income_sum;
+                }},
+                {title:"bankový účet", field:"bank_name", sorter:"string"},
+                {title:"číslo", field:"number", sorter:"number"},
+                {title:"balík", field:"package_number", sorter:"number"},
+                {title:"účt. dátum", field:"accounting_date", sorter:"date", formatter: function(cell, formatterParams){
+                  let value = cell.getValue();
+                  let accounting_date = Help.beautifyDate(value);
+
+                  return accounting_date;
+                }},
+                {title:"poznámka", field:"note", sorter:"string"},
+                {title:"nahral(a)", field:"username", sorter:"string" },
+                {title:"prevody (účely)", field: "transfers", width: 300, formatter: function(cell, formatterParams){
+                  let id = cell.getRow().getCells()[0].getValue();
+
+                  return "<a class='js-toggle-transfers btn btn-primary btn-sm' href='javascript:void(0);' data-income-id='" + id + "'>zobraziť</a>";
+                } },
+              ],
+              locale: "sk",
+              langs: {
+                "sk": {
+                  "pagination":{
+                    "first":"prvá",
+                    "first_title":"prvá strana",
+                    "last":"posledná",
+                    "last_title":"posledná strana",
+                    "prev":"predošlá",
+                    "prev_title":"predošlá strana",
+                    "next":"ďalšia",
+                    "next_title":"ďalšia strana",
+                    "all":"všetky",
+                    "page_size": "počet na stranu",
+                  },
+                }
+              },
+            });
+
+            PersonIncomesFilter.toggleTransfers();
           } else {
             alert("Nič som nenašiel.");
           }
@@ -76,6 +142,9 @@ let PersonIncomesFilter = {
         }
       );
     },
+    /**
+     * OLD WAY, REPLACED BY TABULAR.JS
+     */
     populateSearchedPeople: incomes => {
       if (incomes) {
         let htmlResults = "";
@@ -125,12 +194,13 @@ let PersonIncomesFilter = {
         let income_id = parseInt($(this).attr("data-income-id"));
         let $incomeRow = $(this).closest(".income-row");
         $incomeRow.toggleClass("bg-light").next(".transfers-row").slideToggle();
-
+        
+        /* OLD WAY, LOAD DATA ONLY ONCE
         if( $incomeRow.next(".transfers-row").find(".transfers-list").length ){
           Help.hidePreloader();
 
           return;
-        }
+        }*/
 
         /***
          * GET DATA FROM SERVER
@@ -154,7 +224,7 @@ let PersonIncomesFilter = {
     },
     populateTransfers: transfers => {
       if (transfers) {
-        let htmlResults = "<ul class='transfers-list'>";
+        let htmlResults = "<ul class='transfers-list' style='margin: 0; padding: 0;'>";
         let income_id;
   
         for (let i = 0; i < transfers.length; i++) {
@@ -173,16 +243,16 @@ let PersonIncomesFilter = {
           htmlResults += row;
         }
         htmlResults += "</ul>";
-  
-        console.log(htmlResults);
 
-        $("#income-" + income_id + "").html(htmlResults);
+        $("#income-" + income_id + " .tabulator-cell").css("height", "auto");
+        $("#income-" + income_id + " .tabulator-cell[tabulator-field='transfers']").prepend(htmlResults);
+        $("#income-" + income_id + " .tabulator-cell[tabulator-field='transfers']").find(".js-toggle-transfers").remove();
       }
     },
   };
   
   $(document).ready(function () {
-    if ($("#personIncomeFilterTable").length) {
+    if ($("#personIncomesFilterTabulator").length) {
       $(document).off("click", "#initPersonIncomesFilter").on("click", "#initPersonIncomesFilter", function () {
         PersonIncomesFilter.filterPersonIncomes();
       });
