@@ -65,7 +65,7 @@ let PersonTransfersFilter = {
                 row.getElement().setAttribute("id", html_id);
               },
               columns: [
-                {title:"ID", field:"transfer_id", sorter:"number", width: 50},
+                {title:"ID", field:"transfer_id", sorter:"number", width: 60},
                 {title:"income_id", field:"income_id", sorter:"string", visible:false},
                 {title:"dátum prevodu", field:"transfer_date", sorter:"date", formatter: function(cell, formatterParams){
                   let value = cell.getValue();

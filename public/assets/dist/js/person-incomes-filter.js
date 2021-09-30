@@ -70,7 +70,7 @@ var PersonIncomesFilter = {
             title: "ID",
             field: "income_id",
             sorter: "number",
-            width: 50
+            width: 70
           }, {
             title: "dátum príjmu",
             field: "income_date",
@@ -96,11 +96,13 @@ var PersonIncomesFilter = {
           }, {
             title: "číslo",
             field: "number",
-            sorter: "number"
+            sorter: "number",
+            width: 70
           }, {
             title: "balík",
             field: "package_number",
-            sorter: "number"
+            sorter: "number",
+            width: 70
           }, {
             title: "účt. dátum",
             field: "accounting_date",
@@ -189,7 +191,7 @@ var PersonIncomesFilter = {
       /* OLD WAY, LOAD DATA ONLY ONCE
       if( $incomeRow.next(".transfers-row").find(".transfers-list").length ){
         Help.hidePreloader();
-         return;
+          return;
       }*/
 
       /***

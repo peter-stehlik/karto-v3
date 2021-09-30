@@ -57,7 +57,7 @@ var PersonTransfersFilter = {
             title: "ID",
             field: "transfer_id",
             sorter: "number",
-            width: 50
+            width: 60
           }, {
             title: "income_id",
             field: "income_id",
@@ -161,9 +161,9 @@ var PersonTransfersFilter = {
 
       /*let $transferRow = $(this).closest(".transfer-row");
       $transferRow.toggleClass("bg-light").next(".income-row").slideToggle();
-       if( $transferRow.next(".income-row").find(".income-list").length ){
+        if( $transferRow.next(".income-row").find(".income-list").length ){
         Help.hidePreloader();
-         return;
+          return;
       }*/
 
       /***

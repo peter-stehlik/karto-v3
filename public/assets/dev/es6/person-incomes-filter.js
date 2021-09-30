@@ -84,7 +84,7 @@ let PersonIncomesFilter = {
                 row.getElement().setAttribute("id", html_id);
               },
               columns: [
-                {title:"ID", field:"income_id", sorter:"number", width: 50},
+                {title:"ID", field:"income_id", sorter:"number", width: 70},
                 {title:"dátum príjmu", field:"income_date", sorter:"date", formatter: function(cell, formatterParams){
                   let value = cell.getValue();
                   let income_date = Help.beautifyDate(value);
@@ -98,8 +98,8 @@ let PersonIncomesFilter = {
                   return income_sum;
                 }},
                 {title:"bankový účet", field:"bank_name", sorter:"string"},
-                {title:"číslo", field:"number", sorter:"number"},
-                {title:"balík", field:"package_number", sorter:"number"},
+                {title:"číslo", field:"number", sorter:"number", width: 70},
+                {title:"balík", field:"package_number", sorter:"number", width: 70},
                 {title:"účt. dátum", field:"accounting_date", sorter:"date", formatter: function(cell, formatterParams){
                   let value = cell.getValue();
                   let accounting_date = Help.beautifyDate(value);

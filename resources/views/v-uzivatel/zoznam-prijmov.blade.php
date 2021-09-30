@@ -132,6 +132,7 @@
             Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
         </div>
 
+        <!-- OLD WAY, REPLACED BY TABULATOR.JS
         <table class="table" id="personIncomeFilterTable">
             <thead>
                 <tr>
@@ -152,6 +153,10 @@
             <tbody id="personIncomeFilterTableResults">
 
             </tbody>
-        </table>
+        </table>-->
+
+        <div class="mt-3">
+            <div id="personIncomesFilterTabulator"></div>
+        </div>
     </div>  
 </x-app-layout> 
