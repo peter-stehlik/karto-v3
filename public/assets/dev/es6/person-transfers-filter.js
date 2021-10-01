@@ -67,6 +67,8 @@ let PersonTransfersFilter = {
               columns: [
                 {title:"ID", field:"transfer_id", sorter:"number", width: 60},
                 {title:"income_id", field:"income_id", sorter:"string", visible:false},
+                {title:"meno", field:"name1", sorter:"string"},
+                {title:"mesto", field:"city", sorter:"string"},
                 {title:"dátum prevodu", field:"transfer_date", sorter:"date", formatter: function(cell, formatterParams){
                   let value = cell.getValue();
                   let transfer_date = Help.beautifyDate(value);
@@ -76,8 +78,9 @@ let PersonTransfersFilter = {
                 {title:"suma", field:"transfer_sum", sorter:"number", formatter: function(cell, formatterParams){
                   let value = cell.getValue();
                   let transfer_sum = Help.beautifyDecimal(value);
+                  transfer_sum += " &euro;"
 
-                  return transfer_sum + " &euro;";
+                  return transfer_sum;
                 }},
                 {title:"periodikum", field:"pp_name", sorter:"string"},
                 {title:"neperiodikum", field:"np_name", sorter:"string"},

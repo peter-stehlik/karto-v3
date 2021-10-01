@@ -85,6 +85,8 @@ let PersonIncomesFilter = {
               },
               columns: [
                 {title:"ID", field:"income_id", sorter:"number", width: 70},
+                {title:"meno", field:"name1", sorter:"string"},
+                {title:"mesto", field:"city", sorter:"string"},
                 {title:"dátum príjmu", field:"income_date", sorter:"date", formatter: function(cell, formatterParams){
                   let value = cell.getValue();
                   let income_date = Help.beautifyDate(value);
@@ -94,6 +96,7 @@ let PersonIncomesFilter = {
                 {title:"suma", field:"income_sum", sorter:"number", formatter: function(cell, formatterParams){
                   let value = cell.getValue();
                   let income_sum = Help.beautifyDecimal(value);
+                  income_sum += " &euro;";
 
                   return income_sum;
                 }},

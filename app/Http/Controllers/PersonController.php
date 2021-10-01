@@ -255,9 +255,10 @@ class PersonController extends Controller
 				}
 			})
 			->join("incomes", "incomes.id", "=", "transfers.income_id")
+			->join("people", "incomes.person_id", "=", "people.id")
 			->leftJoin("periodical_publications", "transfers.periodical_publication_id", "=", "periodical_publications.id")
 			->leftJoin("nonperiodical_publications", "transfers.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
-			->select("incomes.id AS income_id" , "transfers.id AS transfer_id", "periodical_publications.name AS pp_name", "nonperiodical_publications.name AS np_name", "transfers.sum AS transfer_sum", "transfers.transfer_date", "transfers.note")
+			->select("incomes.id AS income_id", "people.name1", "people.city", "transfers.id AS transfer_id", "periodical_publications.name AS pp_name", "nonperiodical_publications.name AS np_name", "transfers.sum AS transfer_sum", "transfers.transfer_date", "transfers.note")
 			->orderBy("transfers.transfer_date", "desc")
 			->get();
 

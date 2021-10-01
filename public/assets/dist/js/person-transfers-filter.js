@@ -64,6 +64,14 @@ var PersonTransfersFilter = {
             sorter: "string",
             visible: false
           }, {
+            title: "meno",
+            field: "name1",
+            sorter: "string"
+          }, {
+            title: "mesto",
+            field: "city",
+            sorter: "string"
+          }, {
             title: "dátum prevodu",
             field: "transfer_date",
             sorter: "date",
@@ -79,7 +87,8 @@ var PersonTransfersFilter = {
             formatter: function formatter(cell, formatterParams) {
               var value = cell.getValue();
               var transfer_sum = Help.beautifyDecimal(value);
-              return transfer_sum + " &euro;";
+              transfer_sum += " &euro;";
+              return transfer_sum;
             }
           }, {
             title: "periodikum",
