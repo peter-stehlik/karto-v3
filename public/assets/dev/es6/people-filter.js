@@ -1,7 +1,7 @@
 let Filter = {
     /* NOT USED, OLD WAY */
     emptySearchResults: () => {
-      $("#filterResults").empty();
+      $("#personFilterTabulator").empty();
     },
     filterPeople: () => {
       Help.showPreloader();

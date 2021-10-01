@@ -2,7 +2,7 @@
 
 var PersonIncomesFilter = {
   emptySearchResults: function emptySearchResults() {
-    $("#personIncomeFilterTableResults").empty();
+    $("#personIncomesFilterTabulator").empty();
   },
   filterPersonIncomes: function filterPersonIncomes() {
     Help.showPreloader();
@@ -191,7 +191,7 @@ var PersonIncomesFilter = {
       /* OLD WAY, LOAD DATA ONLY ONCE
       if( $incomeRow.next(".transfers-row").find(".transfers-list").length ){
         Help.hidePreloader();
-          return;
+         return;
       }*/
 
       /***

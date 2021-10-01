@@ -1,6 +1,6 @@
 let PersonTransfersFilter = {
     emptySearchResults: () => {
-      $("#personTransferFilterTableResults").empty();
+      $("#personIncomesFilterTabulator").empty();
     },
     filterPersonTransfers: () => {
       Help.showPreloader();

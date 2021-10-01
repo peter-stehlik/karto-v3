@@ -3,7 +3,7 @@
 var Filter = {
   /* NOT USED, OLD WAY */
   emptySearchResults: function emptySearchResults() {
-    $("#filterResults").empty();
+    $("#personFilterTabulator").empty();
   },
   filterPeople: function filterPeople() {
     Help.showPreloader();
