@@ -12,9 +12,15 @@
 	</script>
 
 	<div class="col-lg-12">
+		@if( $peniaze_na_ceste )
+			<p class="d-flex align-items-center mb-3">
+				<span class="pt-1">Peniaze na ceste: <strong> {{ number_format($peniaze_na_ceste, 2, ",", " ") }} &euro;</strong></span>
+			</p>
+		@endif
+
 		@foreach( $periodical_orders as $po )
 			<p class="d-flex align-items-center mb-1">
-				<span class="pt-1">{{ $po->name }}: {{ number_format($po->credit, 2, ",", " ") }} &euro;</span>
+				<span class="pt-1 @if( $po->credit < 0 ) text-danger @endif">{{ $po->name }}: {{ number_format($po->credit, 2, ",", " ") }} &euro;</span>
 				
 				<a class="d-inline-block ml-1" href="#">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" stroke="black" class="bi bi-star-fill" viewBox="0 0 16 16">
@@ -26,7 +32,7 @@
 
 		@foreach( $nonperiodical_orders as $po )
 			<p class="d-flex align-items-center mb-1">
-				<span class="pt-1">{{ $po->name }}: {{ number_format($po->credit, 2, ",", " ") }} &euro;</span>
+				<span class="pt-1 @if( $po->credit < 0 ) text-danger @endif">{{ $po->name }}: {{ number_format($po->credit, 2, ",", " ") }} &euro;</span>
 				
 				<a class="d-inline-block ml-1" href="#">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" stroke="black" class="bi bi-star-fill" viewBox="0 0 16 16">

@@ -32,10 +32,21 @@ class PersonController extends Controller
 								->join("nonperiodical_publications", "nonperiodical_orders.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
 								->select("name", "credit")
 								->get();
+		
+		// vyratat Peniaze na ceste
+		$incomes_sum = Income::where("person_id", $id)
+							->where("confirmed", 1)
+							->sum("sum");
+		$transfers_sum = Transfer::join("incomes", "incomes.id", "=", "transfers.income_id")
+									->where("person_id", $id)
+									->sum("transfers.sum");
+		$peniaze_na_ceste = $incomes_sum - $transfers_sum;
+
 
 		return view('v-osoba/dobrodinec/ucty')
 			->with('periodical_orders', $periodical_orders)
 			->with('nonperiodical_orders', $nonperiodical_orders)
+			->with('peniaze_na_ceste', $peniaze_na_ceste)
 			->with('person', $person);
 	}
 

@@ -214,7 +214,15 @@ let PersonTransfersFilter = {
           let accounting_date = Help.beautifyDate(income[i].accounting_date);
 
           let row = `
-              <li>Nahral(a): ${username}, <br> bankový účet: ${bank_account_name}, <strong>${sum} &euro;</strong>, <br> číslo: ${number}, balík: ${package_number}, <br> faktúra: ${invoice}, <br> <span class="text-secondary">${accounting_date}</span> ${note}</li>
+              <li>
+                Nahral(a): ${username} <br>
+                ${bank_account_name}, <strong>${sum} &euro;</strong> <br>
+                ${number ? `číslo: ${number}<br>` : ""}
+                ${package_number ? `balík: ${package_number}<br>` : ""}
+                ${invoice ? `faktúra: ${invoice}<br>` : ""} 
+                <span class="text-secondary">${accounting_date}</span><br>
+                ${note ? note : ""}
+              </li>
           `;
   
           htmlResults += row;
@@ -223,6 +231,7 @@ let PersonTransfersFilter = {
 
         // OLD WAY $("#transfer-" + transfer_id + "").html(htmlResults);
 
+        $(".tabulator-tableHolder").css("height", "auto");
         $("#transfer-" + transfer_id + " .tabulator-cell").css("height", "auto");
         $("#transfer-" + transfer_id + " .tabulator-cell[tabulator-field='income']").prepend(htmlResults);
         $("#transfer-" + transfer_id + " .tabulator-cell[tabulator-field='income']").find(".js-toggle-income").remove();

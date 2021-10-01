@@ -208,12 +208,13 @@ var PersonTransfersFilter = {
         var invoice = income[i].invoice;
         var note = income[i].note;
         var accounting_date = Help.beautifyDate(income[i].accounting_date);
-        var row = "\n              <li>Nahral(a): ".concat(username, ", <br> bankov\xFD \xFA\u010Det: ").concat(bank_account_name, ", <strong>").concat(sum, " &euro;</strong>, <br> \u010D\xEDslo: ").concat(number, ", bal\xEDk: ").concat(package_number, ", <br> fakt\xFAra: ").concat(invoice, ", <br> <span class=\"text-secondary\">").concat(accounting_date, "</span> ").concat(note, "</li>\n          ");
+        var row = "\n              <li>\n                Nahral(a): ".concat(username, " <br>\n                ").concat(bank_account_name, ", <strong>").concat(sum, " &euro;</strong> <br>\n                ").concat(number ? "\u010D\xEDslo: ".concat(number, "<br>") : "", "\n                ").concat(package_number ? "bal\xEDk: ".concat(package_number, "<br>") : "", "\n                ").concat(invoice ? "fakt\xFAra: ".concat(invoice, "<br>") : "", " \n                <span class=\"text-secondary\">").concat(accounting_date, "</span><br>\n                ").concat(note ? note : "", "\n              </li>\n          ");
         htmlResults += row;
       }
 
       htmlResults += "</ul>"; // OLD WAY $("#transfer-" + transfer_id + "").html(htmlResults);
 
+      $(".tabulator-tableHolder").css("height", "auto");
       $("#transfer-" + transfer_id + " .tabulator-cell").css("height", "auto");
       $("#transfer-" + transfer_id + " .tabulator-cell[tabulator-field='income']").prepend(htmlResults);
       $("#transfer-" + transfer_id + " .tabulator-cell[tabulator-field='income']").find(".js-toggle-income").remove();

@@ -135,7 +135,8 @@ var PersonIncomesFilter = {
             width: 300,
             formatter: function formatter(cell, formatterParams) {
               var id = cell.getRow().getCells()[0].getValue();
-              return "<a class='js-toggle-transfers btn btn-primary btn-sm' href='javascript:void(0);' data-income-id='" + id + "'>zobraziť</a>";
+              var income_sum = cell.getRow().getCells()[4].getValue();
+              return "<a class='js-toggle-transfers btn btn-primary btn-sm' href='javascript:void(0);' data-income-sum='" + income_sum + "' data-income-id='" + id + "'>zobraziť</a>";
             }
           }],
           locale: "sk",
@@ -224,6 +225,7 @@ var PersonIncomesFilter = {
     if (transfers) {
       var htmlResults = "<ul class='transfers-list' style='margin: 0; padding: 0;'>";
       var income_id;
+      var transfer_sum = 0;
 
       for (var i = 0; i < transfers.length; i++) {
         income_id = transfers[i].income_id;
@@ -235,9 +237,18 @@ var PersonIncomesFilter = {
         var goal = pp_name ? pp_name : np_name;
         var row = "\n              <li>".concat(goal, ": <strong>").concat(sum, " &euro;</strong>, <span class=\"text-secondary\">").concat(transfer_date, "</span> ").concat(note, "</li>\n          ");
         htmlResults += row;
+        transfer_sum += parseFloat(transfers[i].sum);
       }
 
       htmlResults += "</ul>";
+      var income_sum = parseFloat($("#income-" + income_id + " .tabulator-cell[tabulator-field='transfers']").find(".js-toggle-transfers").attr("data-income-sum"));
+      var peniaze_na_ceste = income_sum - transfer_sum;
+
+      if (peniaze_na_ceste) {
+        htmlResults += "<span class='text-danger'>PENIAZE NA CESTE</span>";
+      }
+
+      $(".tabulator-tableHolder").css("height", "auto");
       $("#income-" + income_id + " .tabulator-cell").css("height", "auto");
       $("#income-" + income_id + " .tabulator-cell[tabulator-field='transfers']").prepend(htmlResults);
       $("#income-" + income_id + " .tabulator-cell[tabulator-field='transfers']").find(".js-toggle-transfers").remove();

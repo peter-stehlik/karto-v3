@@ -113,8 +113,9 @@ let PersonIncomesFilter = {
                 {title:"nahral(a)", field:"username", sorter:"string" },
                 {title:"prevody (účely)", field: "transfers", width: 300, formatter: function(cell, formatterParams){
                   let id = cell.getRow().getCells()[0].getValue();
+                  let income_sum = cell.getRow().getCells()[4].getValue();
 
-                  return "<a class='js-toggle-transfers btn btn-primary btn-sm' href='javascript:void(0);' data-income-id='" + id + "'>zobraziť</a>";
+                  return "<a class='js-toggle-transfers btn btn-primary btn-sm' href='javascript:void(0);' data-income-sum='" + income_sum + "' data-income-id='" + id + "'>zobraziť</a>";
                 } },
               ],
               locale: "sk",
@@ -229,6 +230,7 @@ let PersonIncomesFilter = {
       if (transfers) {
         let htmlResults = "<ul class='transfers-list' style='margin: 0; padding: 0;'>";
         let income_id;
+        let transfer_sum = 0;
   
         for (let i = 0; i < transfers.length; i++) {
           income_id = transfers[i].income_id;
@@ -244,9 +246,19 @@ let PersonIncomesFilter = {
           `;
   
           htmlResults += row;
+
+          transfer_sum += parseFloat(transfers[i].sum);
         }
         htmlResults += "</ul>";
 
+        let income_sum = parseFloat($("#income-" + income_id + " .tabulator-cell[tabulator-field='transfers']").find(".js-toggle-transfers").attr("data-income-sum"));
+        let peniaze_na_ceste = income_sum - transfer_sum;
+
+        if( peniaze_na_ceste ){
+          htmlResults += "<span class='text-danger'>PENIAZE NA CESTE</span>";
+        }
+
+        $(".tabulator-tableHolder").css("height", "auto");
         $("#income-" + income_id + " .tabulator-cell").css("height", "auto");
         $("#income-" + income_id + " .tabulator-cell[tabulator-field='transfers']").prepend(htmlResults);
         $("#income-" + income_id + " .tabulator-cell[tabulator-field='transfers']").find(".js-toggle-transfers").remove();
