@@ -60,7 +60,9 @@ Route::name('kartoteka.')->group(function () {
 
     Route::get('/kartoteka/nepotvrdene-opravy', [CorrectionController::class, 'listUnconfirmedCorrections'])->middleware(['auth'])->name('nepotvrdene-opravy-get');
     Route::get('/kartoteka/nepotvrdena-oprava-potvrdit/{id}', [CorrectionController::class, 'confirmCorrectionIndividually'])->middleware(['auth'])->name('nepotvrdena-oprava-potvrdit');
-    Route::get('/kartoteka/nepotvrdene-opravy-upravit/{id}', [CorrectionController::class, 'edit'])->middleware(['auth'])->name('nepotvrdene-opravy-upravit');
+    Route::get('/kartoteka/nepotvrdene-opravy-upravit/{id}', [CorrectionController::class, 'editGet'])->middleware(['auth'])->name('nepotvrdene-opravy-upravit-get');
+    Route::post('/kartoteka/nepotvrdene-opravy-upravit', [CorrectionController::class, 'editPost'])->middleware(['auth'])->name('nepotvrdene-opravy-upravit-post');
+    Route::get('/kartoteka/nepotvrdene-opravy-vymazat/{id}', [CorrectionController::class, 'destroy'])->middleware(['auth'])->name('nepotvrdene-opravy-vymazat');
 });
 
 /* ---------------------- */

@@ -94,8 +94,49 @@ class CorrectionController extends Controller
 		
 	}
 
-	public function edit()
+	public function editGet($id)
+	{
+		$correction = Correction::find($id);
+		$periodical_publications = PeriodicalPublication::get();
+		$nonperiodical_publications = NonperiodicalPublication::get();
+		$from_person_name = Person::find($correction->from_person_id)->name1;
+		$for_person_name = Person::find($correction->for_person_id)->name1;
+		$transfer_name = "";
+
+		if( $correction->from_periodical_id ){
+			$transfer_name = PeriodicalPublication::find($correction->from_periodical_id)->name;
+		}
+
+		if( $correction->from_nonperiodical_id ){
+			$transfer_name = NonperiodicalPublication::find($correction->from_nonperiodical_id)->name;
+		}
+
+		return view('v-kartoteka/nepotvrdene-opravy/edit')
+				->with('correction', $correction)
+				->with('from_person_name', $from_person_name)
+				->with('for_person_name', $for_person_name)
+				->with('transfer_name', $transfer_name)
+				->with('periodical_publications', $periodical_publications)
+				->with('nonperiodical_publications', $nonperiodical_publications);
+	}
+
+	public function editPost()
 	{
 
 	}
+
+	/**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        Correction::find($id)->delete($id);
+
+        return response()->json([
+            'success' => '1'
+        ]);
+    }
 }

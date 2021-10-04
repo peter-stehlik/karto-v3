@@ -32,7 +32,7 @@
 							<td>{!! number_format($correction->correction_sum, 2, ",", " ") !!} &euro;</td>
 							<td>{!! $correction->correction_note !!}</td>
 							<td class="text-center">
-								<a href="{{ route('kartoteka.nepotvrdene-opravy-upravit', [$correction->correction_id]) }}">
+								<a href="{{ route('kartoteka.nepotvrdene-opravy-upravit-get', [$correction->correction_id]) }}">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 										fill="currentColor" class="bi bi-pencil-square text-success"
 										viewBox="0 0 16 16">
@@ -69,4 +69,66 @@
 			</table>
 		</div>
 	</div>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- ----------------------------------- -->
+    <!-- FILL DELETE MODAL WITH DYNAMIC DATA -->
+    <!-- ----------------------------------- -->
+    <script>
+        $(document).ready(function(){
+            $(document).on("click", ".js-delete-correction", function(){
+                let id = $(this).attr("data-id");
+
+                $(".js-confirm-delete").attr("data-id", id);
+            });
+
+            $(document).on("click", ".js-confirm-delete", function(){
+                let id = $(this).attr("data-id");
+                let token = $("meta[name='csrf-token']").attr("content");
+
+                $.ajax({
+                    url: "/kartoteka/nepotvrdene-opravy-vymazat/" + id,
+                    type: 'GET',
+                    data: {
+                        "id": id,
+                        "_token": token,
+                    },
+                    success: function (data){
+                        if( data.success != "1" ){
+                            alert("Došlo k chybe!");
+
+                            return;
+                        }
+                        alert( "Vymazanie prebehlo úspešne." );
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- ------------ -->
+    <!-- DELETE MODAL -->
+    <!-- ------------ -->
+    <div class="modal fade" id="deleteCorrectionModal" tabindex="-1" aria-labelledby="deleteCorrectionModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Potvrďte vymazanie</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Naozaj chcete <strong>vymazať</strong> túto opravu?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zrušiť</button>
+                    <button type="button" class="js-confirm-delete btn btn-danger" data-id="">vymazať</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </x-app-layout>
