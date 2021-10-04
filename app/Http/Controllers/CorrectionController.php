@@ -7,6 +7,8 @@ use App\Models\Person;
 use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
 use App\Models\Correction;
+use App\Models\PeriodicalOrder;
+use App\Models\NonperiodicalOrder;
 use Auth;
 
 class CorrectionController extends Controller
@@ -89,9 +91,66 @@ class CorrectionController extends Controller
 		->with('corrections', $corrections);
 	}
 
-	public function confirmCorrectionIndividually()
+	public function confirmCorrectionIndividually($id)
 	{
+		$correction = Correction::find($id);
+
+		if( $correction->from_periodical_id ){
+			PeriodicalOrder::where("person_id", $correction->from_person_id)
+                            ->where("periodical_publication_id", $correction->from_periodical_id)
+                            ->decrement("credit", $correction->sum);
+		}
+
+		if( $correction->from_nonperiodical_id ){
+			NonperiodicalOrder::where("person_id", $correction->from_person_id)
+                            ->where("nonperiodical_publication_id", $correction->from_nonperiodical_id)
+                            ->decrement("credit", $correction->sum);
+		}
+
+		/////////////////////////////////////
+
+		if( $correction->for_periodical_id ){
+			$exists = PeriodicalOrder::where("person_id", $correction->for_person_id)
+                                        ->where("periodical_publication_id", $correction->for_periodical_id)
+                                        ->first();
+										
+			if( $exists ){
+				PeriodicalOrder::where("person_id", $correction->for_person_id)
+				->where("periodical_publication_id", $correction->for_periodical_id)
+				->increment("credit", $correction->sum);
+			} else {	
+				PeriodicalOrder::create([
+					"person_id" => $correction->for_person_id,
+					"periodical_publication_id" => $correction->for_periodical_id,
+					"credit" => $correction->sum,
+				]);
+			}
+		}
+
+		if( $correction->for_nonperiodical_id ){
+			$exists = NonperiodicalOrder::where("person_id", $correction->for_person_id)
+							->where("nonperiodical_publication_id", $correction->for_nonperiodical_id)
+							->first();
+			
+			if( $exists ){
+				NonperiodicalOrder::where("person_id", $correction->for_person_id)
+				->where("nonperiodical_publication_id", $correction->for_nonperiodical_id)
+				->increment("credit", $correction->sum);
+			} else {	
+				NonperiodicalOrder::create([
+					"person_id" => $correction->for_person_id,
+					"nonperiodical_publication_id" => $correction->for_nonperiodical_id,
+					"credit" => $correction->sum,
+				]);
+			}
+		}
+
+		Correction::where("id", $correction->id)
+                ->update([
+                    "confirmed" => 1
+                ]);
 		
+		return redirect('/kartoteka/nepotvrdene-opravy')->with('message', 'Operácia sa podarila!');
 	}
 
 	public function editGet($id)
@@ -120,9 +179,25 @@ class CorrectionController extends Controller
 				->with('nonperiodical_publications', $nonperiodical_publications);
 	}
 
-	public function editPost()
+	public function editPost(Request $request)
 	{
+		$correction_date = strtotime($request->correction_date);
+		$correction_date = date('Y-m-d', $correction_date);
 
+		Correction::where("id", $request->correction_id)
+					->update([
+						"from_person_id" => $request->from_person_id,
+						"for_person_id" => $request->for_person_id,
+						"sum" => floatval($request->sum),
+						"from_periodical_id" => $request->from_periodical_id,
+						"from_nonperiodical_id" => $request->from_nonperiodical_id,
+						"for_periodical_id" => $request->for_periodical_id,
+						"for_nonperiodical_id" => $request->for_nonperiodical_id,
+						"correction_date" => $correction_date,
+						"note" => $request->note,
+					]);
+
+		return redirect('/kartoteka/nepotvrdene-opravy')->with('message', 'Operácia sa podarila!');
 	}
 
 	/**
