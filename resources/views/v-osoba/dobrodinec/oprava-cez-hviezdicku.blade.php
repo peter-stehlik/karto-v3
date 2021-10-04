@@ -36,7 +36,7 @@
 						<input type="hidden" name="from_nonperiodical_id" value="<?php echo (isset($_GET["nonperiodical_publication_id"]) ? $_GET["nonperiodical_publication_id"] : 0 ); ?>">
 
 
-						<input type="text" name="for_person_id" id="for_person_id" value="{{ $person->id }}">
+						<input type="hidden" name="for_person_id" id="for_person_id" value="{{ $person->id }}">
 
 						<input class="form-control" id="name1" type="text" name="name1" value="{{ $person->name1 }}" style="border-top-right-radius: 0; border-bottom-right-radius: 0;" readonly>
 						
