@@ -42,6 +42,9 @@ class CorrectionController extends Controller
 			->with('person', $person);
 	}
 
+	/**
+	 * Uloz opravu cez hviezdicku
+	 */
 	public function store(Request $request)
 	{
 		$from_person_id = $request->from_person_id;
@@ -64,5 +67,35 @@ class CorrectionController extends Controller
 		]);
 
 		return redirect('/dobrodinec/' . $from_person_id . '/ucty')->with('message', 'Operácia sa podarila!');
+	}
+
+	/**
+	 * vypis zoznam zatial nepotvrdenych oprav
+	 */
+	public function listUnconfirmedCorrections()
+	{
+		$corrections = Correction::where("confirmed", 0)
+						->where("user_id", Auth::user()->id)
+						->join("people AS from_person_id", "from_person_id.id", "=", "corrections.from_person_id")
+						->join("people AS for_person_id", "for_person_id.id", "=", "corrections.for_person_id")
+						->leftJoin("periodical_publications AS from_periodical_publications", "from_periodical_publications.id", "=", "corrections.from_periodical_id")
+						->leftJoin("periodical_publications AS for_periodical_publications", "for_periodical_publications.id", "=", "corrections.for_periodical_id")
+						->leftJoin("nonperiodical_publications AS from_nonperiodical_publications", "from_nonperiodical_publications.id", "=", "corrections.from_nonperiodical_id")
+						->leftJoin("nonperiodical_publications AS for_nonperiodical_publications", "for_nonperiodical_publications.id", "=", "corrections.for_nonperiodical_id")
+						->select("corrections.id AS correction_id", "corrections.sum AS correction_sum", "correction_date", "corrections.note AS correction_note", "from_person_id.name1 AS from_person_id_name1", "for_person_id.name1 AS for_person_id_name1", "from_periodical_publications.name AS from_periodical_publications_name", "for_periodical_publications.name AS for_periodical_publications_name", "from_nonperiodical_publications.name AS from_nonperiodical_publications_name", "for_nonperiodical_publications.name AS for_nonperiodical_publications_name")
+						->get();
+
+		return view('v-kartoteka/nepotvrdene-opravy/index')
+		->with('corrections', $corrections);
+	}
+
+	public function confirmCorrectionIndividually()
+	{
+		
+	}
+
+	public function edit()
+	{
+
 	}
 }

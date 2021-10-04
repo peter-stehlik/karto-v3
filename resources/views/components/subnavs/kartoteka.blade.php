@@ -18,7 +18,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-no-sidebar">
+		<a class="nav-link @if( request()->route()->getName() === 'kartoteka.nepotvrdene-opravy-get' ) active @endif" href="{{ route('kartoteka.nepotvrdene-opravy-get') }}">
 			Zoznam opráv
 		</a>
 	</li><!-- / .nav-item -->

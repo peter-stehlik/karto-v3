@@ -57,6 +57,10 @@ Route::name('kartoteka.')->group(function () {
 
     Route::get('/kartoteka/nepotvrdene-prevody', [TransferUnconfirmedController::class, 'index'])->middleware(['auth'])->name('nepotvrdene-prevody-get');
     Route::get('/kartoteka/nepotvrdene-prevody-vymazat/{id}', [TransferUnconfirmedController::class, 'destroy'])->middleware(['auth'])->name('nepotvrdene-prevody-vymazat');
+
+    Route::get('/kartoteka/nepotvrdene-opravy', [CorrectionController::class, 'listUnconfirmedCorrections'])->middleware(['auth'])->name('nepotvrdene-opravy-get');
+    Route::get('/kartoteka/nepotvrdena-oprava-potvrdit/{id}', [CorrectionController::class, 'confirmCorrectionIndividually'])->middleware(['auth'])->name('nepotvrdena-oprava-potvrdit');
+    Route::get('/kartoteka/nepotvrdene-opravy-upravit/{id}', [CorrectionController::class, 'edit'])->middleware(['auth'])->name('nepotvrdene-opravy-upravit');
 });
 
 /* ---------------------- */
