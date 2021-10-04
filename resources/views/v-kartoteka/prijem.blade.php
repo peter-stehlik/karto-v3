@@ -1,4 +1,6 @@
 <x-app-layout>
+	<script src="{{ asset('assets/dist/js/income.js') }}" defer></script>
+
 	<h1 class="h3 py-2 border-bottom text-uppercase">Zadať príjem</h1>
 
 	<div class="row">

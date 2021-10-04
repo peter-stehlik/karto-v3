@@ -24,10 +24,7 @@
 	<script src="{{ asset('assets/dist/js/debounce.1.1.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/custom.js') }}" defer></script>
 	<script src="{{ asset('assets/dist/js/helper.js') }}" defer></script>
-	<script src="{{ asset('assets/dist/js/income.js') }}" defer></script>
-	<script src="{{ asset('assets/dist/js/people-filter.js') }}" defer></script>
-	<script src="{{ asset('assets/dist/js/person-incomes-filter.js') }}" defer></script>
-	<script src="{{ asset('assets/dist/js/person-transfers-filter.js') }}" defer></script>
+	
 	<script src="{{ asset('assets/dist/plugins/tabulator/js/tabulator.min.js') }}" defer></script>
 </head>
 <body>

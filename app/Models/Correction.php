@@ -24,7 +24,8 @@ class Correction extends Model
         'for_periodical_id',
         'for_nonperiodical_id',
         'user_id',
-        'posted',
+        'confirmed',
         'note',
+        'correction_date',
     ];
 }

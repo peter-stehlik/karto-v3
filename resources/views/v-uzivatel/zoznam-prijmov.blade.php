@@ -1,4 +1,6 @@
 <x-app-layout>
+    <script src="{{ asset('assets/dist/js/person-incomes-filter.js') }}" defer></script>
+
     <h1 class="h3 py-2 border-bottom text-uppercase">
 		Zoznam všetkých príjmov
 	</h1>

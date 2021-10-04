@@ -14,6 +14,7 @@ use App\Http\Controllers\TransferUnconfirmedController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonFilterController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\CorrectionController;
 
 
 /*
@@ -99,6 +100,9 @@ Route::name('dobrodinec.')->group(function () {
     Route::get('/dobrodinec/prevody-filter', [PersonController::class, 'getTransfersFilter'])->middleware(['auth'])->name('gettransfersfilter');
     Route::get('/dobrodinec/prevody-filter-zobraz-prijem', [PersonController::class, 'getIncomeForTransfer'])->middleware(['auth'])->name('getincomefortransfer');
     
+
+    Route::get('/dobrodinec/{id}/oprava-cez-hviezdicku', [CorrectionController::class, 'opravaCezHviezdicku'])->middleware(['auth'])->name('opravacezhviezdicku');
+    Route::post('/dobrodinec/oprava-cez-hviezdicku', [CorrectionController::class, 'store'])->middleware(['auth'])->name('storeopravacezhviezdicku');
 });
 
 

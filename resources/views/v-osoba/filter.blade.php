@@ -1,4 +1,6 @@
 <x-app-layout>
+    <script src="{{ asset('assets/dist/js/people-filter.js') }}" defer></script>
+
     <h1 class="h3 py-2 border-bottom text-uppercase">Filter osôb</h1>
 
     <div class="col-lg-12 p-3 bg-warning">
