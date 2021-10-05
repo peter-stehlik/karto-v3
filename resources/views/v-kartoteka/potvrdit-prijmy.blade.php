@@ -93,6 +93,51 @@
 					<td>{!! str_replace(".", ",", $incomeNextYearTotal) !!}</td>
 				</tr>
 			@endif
+
+			<tr>
+				<th>Opravy</th>
+				<th></th>
+			</tr>
+
+			<?php $correctionsTotal = 0; ?>
+			
+			@foreach( $periodicalCorrectionsFrom as $correction )
+			<tr>
+				<td>{!! $correction->name !!}</td>
+				<td>-{!! str_replace(".", ",", $correction->sum) !!}</td>
+			</tr>
+			<?php $correctionsTotal -= $correction->sum; ?>
+			@endforeach			
+		
+			@foreach( $nonperiodicalCorrectionsFrom as $correction )
+			<tr>
+				<td>{!! $correction->name !!}</td>
+				<td>-{!! str_replace(".", ",", $correction->sum) !!}</td>
+			</tr>
+			<?php $correctionsTotal -= $correction->sum; ?>
+			@endforeach
+
+			@foreach( $periodicalCorrectionsFor as $correction )
+			<tr>
+				<td>{!! $correction->name !!}</td>
+				<td>{!! str_replace(".", ",", $correction->sum) !!}</td>
+			</tr>
+			<?php $correctionsTotal += $correction->sum; ?>
+			@endforeach
+
+			@foreach( $nonperiodicalCorrectionsFor as $correction )
+			<tr>
+				<td>{!! $correction->name !!}</td>
+				<td>{!! str_replace(".", ",", $correction->sum) !!}</td>
+			</tr>
+			<?php $correctionsTotal += $correction->sum; ?>
+			@endforeach
+
+			<tr>
+				<td><em>Spolu</em></td>
+				<td><?php echo $correctionsTotal; ?></td>
+			</tr>
+
 			<tr>
 				<th>Zostatok</th>
 				<th></th>

@@ -12,6 +12,7 @@ use App\Models\Income;
 use App\Models\Transfer;
 use App\Models\Person;
 use App\Models\Category;
+use App\Models\Correction;
 use Auth;
 use DB;
 
@@ -276,6 +277,38 @@ class IncomeController extends Controller
 			->selectRaw("name, SUM(transfers.sum) AS sum")
 			->get();
 
+		$periodicalCorrectionsFrom = Correction::where("user_id", $user_id)
+									->where('confirmed', 0)
+									->where("corrections.deleted_at", NULL)
+									->join("periodical_publications", "periodical_publications.id", "=", "corrections.from_periodical_id")
+									->groupBy("periodical_publications.id")
+									->selectRaw("periodical_publications.name, SUM(corrections.sum) AS sum")
+									->get();
+									
+		$periodicalCorrectionsFor = Correction::where("user_id", $user_id)
+									->where('confirmed', 0)
+									->where("corrections.deleted_at", NULL)
+									->join("periodical_publications", "periodical_publications.id", "=", "corrections.for_periodical_id")
+									->groupBy("periodical_publications.id")
+									->selectRaw("periodical_publications.name, SUM(corrections.sum) AS sum")
+									->get();
+									
+		$nonperiodicalCorrectionsFrom = Correction::where("user_id", $user_id)
+									->where('confirmed', 0)
+									->where("corrections.deleted_at", NULL)
+									->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "corrections.from_nonperiodical_id")
+									->groupBy("nonperiodical_publications.id")
+									->selectRaw("nonperiodical_publications.name, SUM(corrections.sum) AS sum")
+									->get();
+
+		$nonperiodicalCorrectionsFor = Correction::where("user_id", $user_id)
+									->where('confirmed', 0)
+									->where("corrections.deleted_at", NULL)
+									->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "corrections.for_nonperiodical_id")
+									->groupBy("nonperiodical_publications.id")
+									->selectRaw("nonperiodical_publications.name, SUM(corrections.sum) AS sum")
+									->get();
+
 		return view('v-kartoteka/potvrdit-prijmy')
 				->with('all_incomes', $all_incomes)
 				->with('all_transfers', $all_transfers)
@@ -285,7 +318,11 @@ class IncomeController extends Controller
 				->with('periodicalThisYearInvoice', $periodicalThisYearInvoice)
 				->with('nonperiodicalThisYearInvoice', $nonperiodicalThisYearInvoice)
 				->with('periodicalNextYear', $periodicalNextYear)
-				->with('nonperiodicalNextYear', $nonperiodicalNextYear);
+				->with('nonperiodicalNextYear', $nonperiodicalNextYear)
+				->with('periodicalCorrectionsFrom', $periodicalCorrectionsFrom)
+				->with('periodicalCorrectionsFor', $periodicalCorrectionsFor)
+				->with('nonperiodicalCorrectionsFrom', $nonperiodicalCorrectionsFrom)
+				->with('nonperiodicalCorrectionsFor', $nonperiodicalCorrectionsFor);
 	}
 
 	/**
@@ -297,6 +334,10 @@ class IncomeController extends Controller
 	public function confirmIncomes()
 	{
 		$incomes = Income::where("confirmed", 0)
+                    ->where("user_id", Auth::user()->id)
+					->get();
+					
+		$corrections = Correction::where("confirmed", 0)
                     ->where("user_id", Auth::user()->id)
 					->get();
 
@@ -343,6 +384,70 @@ class IncomeController extends Controller
 				->update([
 					"confirmed" => 1
 				]);
+		}
+
+		foreach( $corrections as $correction ){
+			$from_person_id = $correction->from_person_id;
+			$from_periodical_id = $correction->from_periodical_id;
+			$from_nonperiodical_id = $correction->from_nonperiodical_id;
+			$for_person_id = $correction->for_person_id;
+			$for_periodical_id = $correction->for_periodical_id;
+			$for_nonperiodical_id = $correction->for_nonperiodical_id;
+
+			if( $from_periodical_id ){
+				PeriodicalOrder::where("person_id", $from_person_id)
+							->where("periodical_publication_id", $from_periodical_id)
+							->decrement("credit", $correction->sum);
+			}
+			
+			if( $from_nonperiodical_id ){
+				NonperiodicalOrder::where("person_id", $from_person_id)
+							->where("nonperiodical_publication_id", $from_nonperiodical_id)
+							->decrement("credit", $correction->sum);
+			}
+
+			/////////////////////////////////////
+
+			if( $for_periodical_id ){
+				$exists = PeriodicalOrder::where("person_id", $for_person_id)
+											->where("periodical_publication_id", $for_periodical_id)
+											->first();
+											
+				if( $exists ){
+					PeriodicalOrder::where("person_id", $for_person_id)
+					->where("periodical_publication_id", $for_periodical_id)
+					->increment("credit", $correction->sum);
+				} else {	
+					PeriodicalOrder::create([
+						"person_id" => $for_person_id,
+						"periodical_publication_id" => $for_periodical_id,
+						"credit" => $correction->sum,
+					]);
+				}
+			}
+
+			if( $correction->for_nonperiodical_id ){
+				$exists = NonperiodicalOrder::where("person_id", $for_person_id)
+								->where("nonperiodical_publication_id", $for_nonperiodical_id)
+								->first();
+				
+				if( $exists ){
+					NonperiodicalOrder::where("person_id", $for_person_id)
+					->where("nonperiodical_publication_id", $for_nonperiodical_id)
+					->increment("credit", $correction->sum);
+				} else {	
+					NonperiodicalOrder::create([
+						"person_id" => $for_person_id,
+						"nonperiodical_publication_id" => $for_nonperiodical_id,
+						"credit" => $correction->sum,
+					]);
+				}
+			}
+
+			Correction::where("id", $correction->id)
+					->update([
+						"confirmed" => 1
+					]);
 		}
 
 		return redirect('/kartoteka')->with('message', 'Operácia sa podarila!');
