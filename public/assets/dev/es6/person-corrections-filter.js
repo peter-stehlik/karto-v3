@@ -7,15 +7,16 @@ let PersonCorrectionsFilter = {
       PersonCorrectionsFilter.emptySearchResults();
   
       let person_id = $("#person_id").val();
+      let user_id = $("#user_id").val();
       let sum_from = $("#sum_from").val();
       let sum_to = $("#sum_to").val();
       let from_periodical_id = $("#from_periodical_id").val();
       let from_nonperiodical_id = $("#from_nonperiodical_id").val();
       let for_periodical_id = $("#for_periodical_id").val();
       let for_nonperiodical_id = $("#for_nonperiodical_id").val();
-      let corrections_date_from = $("#corrections_date_from").val();
-      let corrections_date_to = $("#corrections_date_to").val();
-  
+      let correction_date_from = $("#correction_date_from").val();
+      let correction_date_to = $("#correction_date_to").val();
+
       /***
        * VALIDATE IF SOME PARAMETER FILLED
        */
@@ -27,8 +28,8 @@ let PersonCorrectionsFilter = {
         from_nonperiodical_id == 0 &&
         for_periodical_id == 0 &&
         for_nonperiodical_id == 0 &&
-        corrections_date_from.length == 0 &&
-        corrections_date_to.length == 0
+        correction_date_from.length == 0 &&
+        correction_date_to.length == 0
       ) {
         alert("Zadajte aspoň jeden parameter do vyhľadávania.");
   
@@ -50,52 +51,57 @@ let PersonCorrectionsFilter = {
             from_nonperiodical_id: from_nonperiodical_id,
             for_periodical_id: for_periodical_id,
             for_nonperiodical_id: for_nonperiodical_id,
-            corrections_date_from: corrections_date_from,
-            corrections_date_to: corrections_date_to
+            correction_date_from: correction_date_from,
+            correction_date_to: correction_date_to,
+            user_id: user_id,
         },
         function (data) {
-          if (data.corrections.length) {
+         if (data.corrections.length) {
             let table = new Tabulator("#personCorrectionsFilterTabulator", {
               layout: "fitColumns",
               pagination: "local",
               paginationSize: 20,
               paginationSizeSelector: [10, 20, 50, 100],
               data: data.corrections, //assign data to table
-              rowFormatter:function(row){
-                let data = row.getData(); //get data object for row
-                let transfer_id = data["transfer_id"];
-                let html_id = "transfer-" + transfer_id;
-
-                row.getElement().setAttribute("id", html_id);
-              },
               columns: [
-                {title:"ID", field:"transfer_id", sorter:"number", width: 60},
-                {title:"income_id", field:"income_id", sorter:"string", visible:false},
-                {title:"meno", field:"name1", sorter:"string"},
-                {title:"mesto", field:"city", sorter:"string"},
-                {title:"dátum prevodu", field:"transfer_date", sorter:"date", formatter: function(cell, formatterParams){
+                {title:"ID", field:"correction_id", sorter:"number", width: 60},
+                {title:"nahral(a)", field:"username", sorter:"string"},
+                {title:"dátum opravy", field:"correction_date", sorter:"date", formatter: function(cell, formatterParams){
                   let value = cell.getValue();
-                  let transfer_date = Help.beautifyDate(value);
+                  let correction_date = Help.beautifyDate(value);
 
-                  return transfer_date;
+                  return correction_date;
                 }},
-                {title:"suma", field:"transfer_sum", sorter:"number", formatter: function(cell, formatterParams){
+                {title:"suma", field:"correction_sum", sorter:"number", formatter: function(cell, formatterParams){
                   let value = cell.getValue();
-                  let transfer_sum = Help.beautifyDecimal(value);
-                  transfer_sum += " &euro;"
+                  let correction_sum = Help.beautifyDecimal(value);
+                  correction_sum += " &euro;"
 
-                  return transfer_sum;
+                  return correction_sum;
                 }},
-                {title:"periodikum", field:"pp_name", sorter:"string"},
-                {title:"neperiodikum", field:"np_name", sorter:"string"},
-                {title:"poznámka", field:"note", sorter:"string"},
-                {title:"príjem", field: "income", width: 300, formatter: function(cell, formatterParams){
-                  let transfer_id = cell.getRow().getCells()[0].getValue();
-                  let income_id = cell.getRow().getCells()[1].getValue();
+                {title:"meno od", field:"from_person_id_name1", sorter:"string"},
+                {title:"mesto od", field:"from_person_id_city", sorter:"string", visible: false},
+                {title:"meno pre", field:"for_person_id_name1", sorter:"string"},
+                {title:"mesto do", field:"for_person_id_city", sorter:"string", visible: false},
+                {title:"periodikum od", field:"from_periodical_publications_name", sorter:"string", visible: false},
+                {title:"neperiodikum od", field:"from_nonperiodical_publications_name", sorter:"string", visible: false},
+                {title:"účel od", field:"transfer_from", sorter:"string", formatter: function(cell, formatterParams){
+                  let pp_from = cell.getRow().getCells()[8].getValue();
+                  let np_from = cell.getRow().getCells()[9].getValue();
+                  let transfer_from = pp_from ? pp_from : np_from;
 
+                  return transfer_from;
+                }},
+                {title:"periodikum do", field:"for_periodical_publications_name", sorter:"string", visible: false},
+                {title:"neperiodikum do", field:"for_nonperiodical_publications_name", sorter:"string", visible: false},
+                {title:"účel pre", field:"transfer_for", sorter:"string", formatter: function(cell, formatterParams){
+                  let pp_for = cell.getRow().getCells()[11].getValue();
+                  let np_for = cell.getRow().getCells()[12].getValue();
+                  let transfer_for = pp_for ? pp_for : np_for;
 
-                  return "<a class='js-toggle-income btn btn-primary btn-sm' href='javascript:void(0);' data-transfer-id='" + transfer_id + "' data-income-id='" + income_id + "'>zobraziť</a>";
-                } },
+                  return transfer_for;
+                }},
+                {title:"poznámka", field:"correction_note", sorter:"string"},
               ],
               locale: "sk",
               langs: {

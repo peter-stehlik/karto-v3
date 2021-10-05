@@ -8,19 +8,20 @@ var PersonCorrectionsFilter = {
     Help.showPreloader();
     PersonCorrectionsFilter.emptySearchResults();
     var person_id = $("#person_id").val();
+    var user_id = $("#user_id").val();
     var sum_from = $("#sum_from").val();
     var sum_to = $("#sum_to").val();
     var from_periodical_id = $("#from_periodical_id").val();
     var from_nonperiodical_id = $("#from_nonperiodical_id").val();
     var for_periodical_id = $("#for_periodical_id").val();
     var for_nonperiodical_id = $("#for_nonperiodical_id").val();
-    var corrections_date_from = $("#corrections_date_from").val();
-    var corrections_date_to = $("#corrections_date_to").val();
+    var correction_date_from = $("#correction_date_from").val();
+    var correction_date_to = $("#correction_date_to").val();
     /***
      * VALIDATE IF SOME PARAMETER FILLED
      */
 
-    if (person_id == 0 && sum_from.length == 0 && sum_to.length == 0 && from_periodical_id == 0 && from_nonperiodical_id == 0 && for_periodical_id == 0 && for_nonperiodical_id == 0 && corrections_date_from.length == 0 && corrections_date_to.length == 0) {
+    if (person_id == 0 && sum_from.length == 0 && sum_to.length == 0 && from_periodical_id == 0 && from_nonperiodical_id == 0 && for_periodical_id == 0 && for_nonperiodical_id == 0 && correction_date_from.length == 0 && correction_date_to.length == 0) {
       alert("Zadajte aspoň jeden parameter do vyhľadávania.");
       Help.hidePreloader();
       return;
@@ -38,8 +39,9 @@ var PersonCorrectionsFilter = {
       from_nonperiodical_id: from_nonperiodical_id,
       for_periodical_id: for_periodical_id,
       for_nonperiodical_id: for_nonperiodical_id,
-      corrections_date_from: corrections_date_from,
-      corrections_date_to: corrections_date_to
+      correction_date_from: correction_date_from,
+      correction_date_to: correction_date_to,
+      user_id: user_id
     }, function (data) {
       if (data.corrections.length) {
         var table = new Tabulator("#personCorrectionsFilterTabulator", {
@@ -49,71 +51,96 @@ var PersonCorrectionsFilter = {
           paginationSizeSelector: [10, 20, 50, 100],
           data: data.corrections,
           //assign data to table
-          rowFormatter: function rowFormatter(row) {
-            var data = row.getData(); //get data object for row
-
-            var transfer_id = data["transfer_id"];
-            var html_id = "transfer-" + transfer_id;
-            row.getElement().setAttribute("id", html_id);
-          },
           columns: [{
             title: "ID",
-            field: "transfer_id",
+            field: "correction_id",
             sorter: "number",
             width: 60
           }, {
-            title: "income_id",
-            field: "income_id",
-            sorter: "string",
-            visible: false
-          }, {
-            title: "meno",
-            field: "name1",
+            title: "nahral(a)",
+            field: "username",
             sorter: "string"
           }, {
-            title: "mesto",
-            field: "city",
-            sorter: "string"
-          }, {
-            title: "dátum prevodu",
-            field: "transfer_date",
+            title: "dátum opravy",
+            field: "correction_date",
             sorter: "date",
             formatter: function formatter(cell, formatterParams) {
               var value = cell.getValue();
-              var transfer_date = Help.beautifyDate(value);
-              return transfer_date;
+              var correction_date = Help.beautifyDate(value);
+              return correction_date;
             }
           }, {
             title: "suma",
-            field: "transfer_sum",
+            field: "correction_sum",
             sorter: "number",
             formatter: function formatter(cell, formatterParams) {
               var value = cell.getValue();
-              var transfer_sum = Help.beautifyDecimal(value);
-              transfer_sum += " &euro;";
-              return transfer_sum;
+              var correction_sum = Help.beautifyDecimal(value);
+              correction_sum += " &euro;";
+              return correction_sum;
             }
           }, {
-            title: "periodikum",
-            field: "pp_name",
+            title: "meno od",
+            field: "from_person_id_name1",
             sorter: "string"
           }, {
-            title: "neperiodikum",
-            field: "np_name",
+            title: "mesto od",
+            field: "from_person_id_city",
+            sorter: "string",
+            visible: false
+          }, {
+            title: "meno pre",
+            field: "for_person_id_name1",
             sorter: "string"
+          }, {
+            title: "mesto do",
+            field: "for_person_id_city",
+            sorter: "string",
+            visible: false
+          }, {
+            title: "periodikum od",
+            field: "from_periodical_publications_name",
+            sorter: "string",
+            visible: false
+          }, {
+            title: "neperiodikum od",
+            field: "from_nonperiodical_publications_name",
+            sorter: "string",
+            visible: false
+          }, {
+            title: "účel od",
+            field: "transfer_from",
+            sorter: "string",
+            formatter: function formatter(cell, formatterParams) {
+              var pp_from = cell.getRow().getCells()[8].getValue();
+              var np_from = cell.getRow().getCells()[9].getValue();
+              var transfer_from = pp_from ? pp_from : np_from;
+              return transfer_from;
+            }
+          }, {
+            title: "periodikum do",
+            field: "for_periodical_publications_name",
+            sorter: "string",
+            visible: false
+          }, {
+            title: "neperiodikum do",
+            field: "for_nonperiodical_publications_name",
+            sorter: "string",
+            visible: false
+          }, {
+            title: "účel pre",
+            field: "transfer_for",
+            sorter: "string",
+            formatter: function formatter(cell, formatterParams) {
+              var pp_for = cell.getRow().getCells()[11].getValue();
+              var np_for = cell.getRow().getCells()[12].getValue();
+              var transfer_for = pp_for ? pp_for : np_for;
+              return transfer_for;
+            }
           }, {
             title: "poznámka",
-            field: "note",
+            field: "correction_note",
             sorter: "string"
-          }, {
-            title: "príjem",
-            field: "income",
-            width: 300,
-            formatter: function formatter(cell, formatterParams) {
-              var transfer_id = cell.getRow().getCells()[0].getValue();
-              var income_id = cell.getRow().getCells()[1].getValue();
-              return "<a class='js-toggle-income btn btn-primary btn-sm' href='javascript:void(0);' data-transfer-id='" + transfer_id + "' data-income-id='" + income_id + "'>zobraziť</a>";
-            }
           }],
           locale: "sk",
           langs: {

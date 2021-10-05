@@ -63,7 +63,7 @@
                 <div class="mb-3">
                     <label class="mb-2" for="for_periodical_id">Periodikum do:</label>
                     
-                    <select class="form-control" id="for_periodical_publication_id">
+                    <select class="form-control" id="for_periodical_id">
 						<option value="0">Nezáleží</option>
 						@foreach( $periodical_publications as $pp )
 							<option value="{!! $pp->id !!}">{!! $pp->name !!}</option>
@@ -100,6 +100,20 @@
                     <label class="mb-2" for="correction_date_to">Dát. opravy do:</label>
                     
                     <input class="form-control" id="correction_date_to" type="text">
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+                <div class="mb-3">
+                    <label class="mb-2" for="user_id">Užívateľ:</label>
+                    
+                    <select class="form-control" id="user_id">
+                        <option value="0">Nezáleží</option>
+
+                        @foreach( $users as $user )
+                            <option value="{!! $user->id !!}">{!! $user->name !!}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 

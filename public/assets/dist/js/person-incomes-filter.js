@@ -201,7 +201,7 @@ var PersonIncomesFilter = {
       /* OLD WAY, LOAD DATA ONLY ONCE
       if( $incomeRow.next(".transfers-row").find(".transfers-list").length ){
         Help.hidePreloader();
-         return;
+          return;
       }*/
 
       /***
