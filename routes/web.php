@@ -109,6 +109,9 @@ Route::name('dobrodinec.')->group(function () {
 
     Route::get('/dobrodinec/{id}/oprava-cez-hviezdicku', [CorrectionController::class, 'opravaCezHviezdicku'])->middleware(['auth'])->name('opravacezhviezdicku');
     Route::post('/dobrodinec/oprava-cez-hviezdicku', [CorrectionController::class, 'store'])->middleware(['auth'])->name('storeopravacezhviezdicku');
+
+    Route::get('/dobrodinec/{id}/zoznam-oprav', [CorrectionController::class, 'listCorrections'])->middleware(['auth'])->name('listcorrections');
+    Route::get('/dobrodinec/opravy-filter', [CorrectionController::class, 'getCorrectionsFilter'])->middleware(['auth'])->name('getcorrectionsfilter');
 });
 
 

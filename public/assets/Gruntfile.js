@@ -91,6 +91,7 @@ module.exports = function (grunt) {
 					"dist/js/people-filter.js": "dev/es6/people-filter.js",
 					"dist/js/person-incomes-filter.js": "dev/es6/person-incomes-filter.js",
 					"dist/js/person-transfers-filter.js": "dev/es6/person-transfers-filter.js",
+					"dist/js/person-corrections-filter.js": "dev/es6/person-corrections-filter.js",
 					"dist/js/people-filter-subpages.js": "dev/es6/people-filter-subpages.js",
 				}
 			}

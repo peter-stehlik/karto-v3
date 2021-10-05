@@ -200,6 +200,25 @@ class CorrectionController extends Controller
 		return redirect('/kartoteka/nepotvrdene-opravy')->with('message', 'Operácia sa podarila!');
 	}
 
+	public function listCorrections($id)
+	{
+		$person = Person::withTrashed()->find($id);
+		$periodical_publications = PeriodicalPublication::get();
+		$nonperiodical_publications = NonperiodicalPublication::get();
+
+		return view('v-osoba/dobrodinec/opravy')
+				->with('person', $person)
+				->with('periodical_publications', $periodical_publications)
+				->with('nonperiodical_publications', $nonperiodical_publications);	
+	}
+
+	public function getCorrectionsFilter()
+	{
+		return response()->json([
+            'success' => '1'
+        ]);	
+	}
+
 	/**
      * Remove the specified resource from storage.
      *

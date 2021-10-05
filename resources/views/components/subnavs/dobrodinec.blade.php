@@ -26,7 +26,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="{{ route('osoba.kategorie.index') }}">
+		<a class="nav-link @if( request()->route()->getName() == 'dobrodinec.listcorrections' ) active @endif" href="{{ route('dobrodinec.listcorrections', $dobrodinec_id) }}">
 			Zoznam opráv
 		</a>
 	</li><!-- / .nav-item -->

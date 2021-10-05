@@ -170,9 +170,9 @@ var PersonTransfersFilter = {
 
       /*let $transferRow = $(this).closest(".transfer-row");
       $transferRow.toggleClass("bg-light").next(".income-row").slideToggle();
-        if( $transferRow.next(".income-row").find(".income-list").length ){
+       if( $transferRow.next(".income-row").find(".income-list").length ){
         Help.hidePreloader();
-          return;
+         return;
       }*/
 
       /***
