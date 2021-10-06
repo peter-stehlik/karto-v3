@@ -12,6 +12,12 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
+		<a class="nav-link @if( request()->route()->getName() == 'kancelaria.denne-mesacne-opravy' ) active @endif" href="{{ route('kancelaria.denne-mesacne-opravy') }}">
+			Denné (mesačné) opravy
+		</a>
+	</li><!-- / .nav-item -->
+
+	<li class="nav-item">
 		<a class="nav-link @if( request()->route()->getName() == 'kancelaria.tlac-pre-ucel' ) active @endif" href="{{ route('kancelaria.tlac-pre-ucel') }}">
 			Tlač pre účel
 		</a>

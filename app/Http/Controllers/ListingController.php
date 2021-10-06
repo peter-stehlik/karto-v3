@@ -9,6 +9,7 @@ use App\Models\BankAccount;
 use App\Models\Transfer;
 use App\Models\Income;
 use App\Models\Person;
+use App\Models\Correction;
 use PDF;
 
 class ListingController extends Controller
@@ -134,6 +135,69 @@ class ListingController extends Controller
 
         $pdf = PDF::loadView('pdf.denny-mesacny-vypis', $data);
 		return $pdf->stream('denny-mesacny-vypis.pdf');
+    }
+
+    /**
+     * Display daily/monthly correction filter.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dailyMonthlyCorrectionsFilter()
+    {
+        return view('v-kancelaria/denne-mesacne-opravy/filter');
+    }
+
+    /**
+     * Generate PDF from daily/mothly corrections filter.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dailyMonthlyCorrectionPdf(Request $request)
+    {
+		$corrections_from = date('Y-m-d', strtotime($request->corrections_from));
+        $corrections_to = date('Y-m-d', strtotime($request->corrections_to));
+
+		$data["corrections_from"] = $corrections_from;
+        $data["corrections_to"] = $corrections_to;
+
+        $data["corrections_pp_from"] = Correction::where("confirmed", 1)
+			//->where('user_id', $user_id)
+            ->whereDate('correction_date','<=', $corrections_to)
+            ->whereDate('correction_date','>=', $corrections_from)
+			->join("periodical_publications AS p_from", "p_from.id", "=", "corrections.from_periodical_id")
+			->groupBy("p_from.id")
+			->selectRaw("p_from.name, SUM(corrections.sum) AS sum")
+			->get();
+
+        $data["corrections_np_from"] = Correction::where("confirmed", 1)
+			//->where('user_id', $user_id)
+            ->whereDate('correction_date','<=', $corrections_to)
+            ->whereDate('correction_date','>=', $corrections_from)
+			->join("nonperiodical_publications AS p_from", "p_from.id", "=", "corrections.from_nonperiodical_id")
+			->groupBy("p_from.id")
+			->selectRaw("p_from.name, SUM(corrections.sum) AS sum")
+			->get();
+
+            $data["corrections_pp_for"] = Correction::where("confirmed", 1)
+			//->where('user_id', $user_id)
+            ->whereDate('correction_date','<=', $corrections_to)
+            ->whereDate('correction_date','>=', $corrections_from)
+			->join("periodical_publications AS p_for", "p_for.id", "=", "corrections.for_periodical_id")
+			->groupBy("p_for.id")
+			->selectRaw("p_for.name, SUM(corrections.sum) AS sum")
+			->get();
+
+        $data["corrections_np_for"] = Correction::where("confirmed", 1)
+			//->where('user_id', $user_id)
+            ->whereDate('correction_date','<=', $corrections_to)
+            ->whereDate('correction_date','>=', $corrections_from)
+			->join("nonperiodical_publications AS p_for", "p_for.id", "=", "corrections.for_nonperiodical_id")
+			->groupBy("p_for.id")
+			->selectRaw("p_for.name, SUM(corrections.sum) AS sum")
+			->get();
+
+        $pdf = PDF::loadView('pdf.denne-mesacne-opravy', $data);
+		return $pdf->stream('denne-mesacne-opravy.pdf');
     }
 
     /**

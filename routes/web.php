@@ -129,6 +129,10 @@ Route::name('kancelaria.')->group(function () {
 
     Route::post('/kancelaria/denny-mesacny-vypis', [ListingController::class, 'dailyMonthlyListingPdf'])->middleware(['auth'])->name('pdf-denny-mesacny-vypis');
 
+    Route::get('/kancelaria/denne-mesacne-opravy', [ListingController::class, 'dailyMonthlyCorrectionsFilter'])->middleware(['auth'])->name('denne-mesacne-opravy');
+
+    Route::post('/kancelaria/denne-mesacne-opravy', [ListingController::class, 'dailyMonthlyCorrectionPdf'])->middleware(['auth'])->name('pdf-denne-mesacne-opravy');
+
     Route::get('/kancelaria/tlac-pre-ucel', [ListingController::class, 'printForTransfer'])->middleware(['auth'])->name('tlac-pre-ucel');
 
     Route::post('/kancelaria/tlac-pre-ucel', [ListingController::class, 'printForTransferPdf'])->middleware(['auth'])->name('pdf-tlac-pre-ucel');
