@@ -1,5 +1,11 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
+		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.get-nove-cislo' ) active @endif" href="{{ route('vydavatelstvo.get-nove-cislo') }}">
+			Nové číslo
+		</a>
+	</li><!-- / .nav-item -->
+
+	<li class="nav-item">
 		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.get-list-filter' ) active @endif" href="{{ route('vydavatelstvo.get-list-filter') }}">
 			Zoznam
 		</a>

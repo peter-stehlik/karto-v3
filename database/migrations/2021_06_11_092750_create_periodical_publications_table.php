@@ -17,6 +17,7 @@ class CreatePeriodicalPublicationsTable extends Migration
             $table->id();
             $table->string('name', 20);
             $table->date('label_date')->nullable();
+            $table->date('accounting_date')->nullable()->comment("nema nic spolocne s uctovnym datumom pri uzivatelovi");
             $table->string('abbreviation', 20)->nullable();
             $table->decimal('price', 14, 2)->nullable();
             $table->integer('current_number')->nullable();

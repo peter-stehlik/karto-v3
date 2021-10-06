@@ -283,4 +283,17 @@ class ListingController extends Controller
         return view('v-vydavatelstvo/zoznam')
             ->with("periodical_publications", $periodical_publications);
     }
+
+    public function getVydavatelstvo()
+    {
+        $periodical_publications = PeriodicalPublication::get();
+
+        return view('v-vydavatelstvo/vydavatelstvo')
+            ->with("periodical_publications", $periodical_publications);
+    }
+
+    public function getNoveCislo()
+    {
+        return view('v-vydavatelstvo/nove-cislo');
+    }
 }

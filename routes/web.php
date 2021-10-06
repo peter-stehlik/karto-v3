@@ -69,13 +69,13 @@ Route::name('kartoteka.')->group(function () {
 /* --- VYDAVATELSTVO --- */
 /* -------------------- */
 Route::name('vydavatelstvo.')->group(function () {
-    Route::get('/vydavatelstvo', function () {
-        return view('v-vydavatelstvo/vydavatelstvo');
-    })->middleware(['auth'])->name('uvod');
+    Route::get('/vydavatelstvo', [ListingController::class, 'getVydavatelstvo'])->middleware(['auth'])->name('uvod');
 
     Route::resource('/vydavatelstvo/publikacie', PeriodicalController::class)->middleware(['auth']);
 
     Route::resource('/vydavatelstvo/neperiodika', NonperiodicalController::class)->middleware(['auth']);
+
+    Route::get('/vydavatelstvo/nove-cislo', [ListingController::class, 'getNoveCislo'])->middleware(['auth'])->name('get-nove-cislo');
 
     Route::get('/vydavatelstvo/zoznam', [ListingController::class, 'getListFilter'])->middleware(['auth'])->name('get-list-filter');
 });
