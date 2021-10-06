@@ -80,23 +80,35 @@ var PersonCorrectionsFilter = {
               return correction_sum;
             }
           }, {
-            title: "meno od",
-            field: "from_person_id_name1",
-            sorter: "string"
-          }, {
             title: "mesto od",
             field: "from_person_id_city",
             sorter: "string",
             visible: false
           }, {
-            title: "meno pre",
-            field: "for_person_id_name1",
-            sorter: "string"
+            title: "meno od",
+            field: "from_person_id_name1",
+            sorter: "string",
+            formatter: function formatter(cell, formatterParams) {
+              var name_from = cell.getValue();
+              var city_from = cell.getRow().getCells()[4].getValue();
+              var person_from = name_from + "<br>" + city_from;
+              return person_from;
+            }
           }, {
             title: "mesto do",
             field: "for_person_id_city",
             sorter: "string",
             visible: false
+          }, {
+            title: "meno pre",
+            field: "for_person_id_name1",
+            sorter: "string",
+            formatter: function formatter(cell, formatterParams) {
+              var name_for = cell.getValue();
+              var city_for = cell.getRow().getCells()[6].getValue();
+              var person_for = name_for + "<br>" + city_for;
+              return person_for;
+            }
           }, {
             title: "periodikum od",
             field: "from_periodical_publications_name",

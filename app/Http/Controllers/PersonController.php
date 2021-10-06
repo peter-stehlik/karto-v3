@@ -163,7 +163,7 @@ class PersonController extends Controller
 					$query->whereDate('incomes.accounting_date', ">=", $accounting_date_from);
 				}
 				if(strlen($accounting_date_to) > 0){
-					$query->whereDate('incomes.accounting_date', "<", $accounting_date_to);
+					$query->whereDate('incomes.accounting_date', "<=", $accounting_date_to);
 				}
 				if(strlen($income_date_from) > 0){
 					$query->whereDate('incomes.income_date', ">=", $income_date_from);
@@ -262,7 +262,7 @@ class PersonController extends Controller
 					$query->whereDate('transfers.transfer_date', ">=", $transfer_date_from);
 				}
 				if(strlen($transfer_date_to) > 0){
-					$query->whereDate('transfers.transfer_date', "<", $transfer_date_to);
+					$query->whereDate('transfers.transfer_date', "<=", $transfer_date_to);
 				}
 			})
 			->join("incomes", "incomes.id", "=", "transfers.income_id")

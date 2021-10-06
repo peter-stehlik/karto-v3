@@ -79,10 +79,22 @@ let PersonCorrectionsFilter = {
 
                   return correction_sum;
                 }},
-                {title:"meno od", field:"from_person_id_name1", sorter:"string"},
                 {title:"mesto od", field:"from_person_id_city", sorter:"string", visible: false},
-                {title:"meno pre", field:"for_person_id_name1", sorter:"string"},
+                {title:"meno od", field:"from_person_id_name1", sorter:"string", formatter: function(cell, formatterParams){
+                  let name_from = cell.getValue();
+                  let city_from = cell.getRow().getCells()[4].getValue();
+                  let person_from = name_from + "<br>" + city_from;
+
+                  return person_from;
+                }},
                 {title:"mesto do", field:"for_person_id_city", sorter:"string", visible: false},
+                {title:"meno pre", field:"for_person_id_name1", sorter:"string", formatter: function(cell, formatterParams){
+                  let name_for = cell.getValue();
+                  let city_for = cell.getRow().getCells()[6].getValue();
+                  let person_for = name_for + "<br>" + city_for;
+
+                  return person_for;
+                }},
                 {title:"periodikum od", field:"from_periodical_publications_name", sorter:"string", visible: false},
                 {title:"neperiodikum od", field:"from_nonperiodical_publications_name", sorter:"string", visible: false},
                 {title:"účel od", field:"transfer_from", sorter:"string", formatter: function(cell, formatterParams){

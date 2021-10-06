@@ -265,7 +265,7 @@ class CorrectionController extends Controller
 					$query->whereDate('corrections.correction_date', ">=", $correction_date_from);
 				}
 				if(strlen($correction_date_to) > 0){
-					$query->whereDate('corrections.correction_date', "<", $correction_date_to);
+					$query->whereDate('corrections.correction_date', "<=", $correction_date_to);
 				}
 			})
 			->join("people AS from_person_id", "from_person_id.id", "=", "corrections.from_person_id")
