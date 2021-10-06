@@ -11,8 +11,8 @@
 		</a>
 	</li><!-- / .nav-item -->
 
-	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-no-sidebar">
+	<li class="nav-item @if( request()->route()->getName() === 'uzivatel.zoznam-oprav' ) active @endif">
+		<a class="nav-link" href="{{ route('uzivatel.zoznam-oprav') }}">
 			Zoznam opráv
 		</a>
 	</li><!-- / .nav-item -->

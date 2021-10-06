@@ -21,7 +21,7 @@ var PersonCorrectionsFilter = {
      * VALIDATE IF SOME PARAMETER FILLED
      */
 
-    if (person_id == 0 && sum_from.length == 0 && sum_to.length == 0 && from_periodical_id == 0 && from_nonperiodical_id == 0 && for_periodical_id == 0 && for_nonperiodical_id == 0 && correction_date_from.length == 0 && correction_date_to.length == 0) {
+    if (person_id == 0 && sum_from.length == 0 && sum_to.length == 0 && from_periodical_id == 0 && from_nonperiodical_id == 0 && for_periodical_id == 0 && for_nonperiodical_id == 0 && correction_date_from.length == 0 && correction_date_to.length == 0 && user_id == 0) {
       alert("Zadajte aspoň jeden parameter do vyhľadávania.");
       Help.hidePreloader();
       return;

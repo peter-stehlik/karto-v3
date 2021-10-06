@@ -29,7 +29,8 @@ let PersonCorrectionsFilter = {
         for_periodical_id == 0 &&
         for_nonperiodical_id == 0 &&
         correction_date_from.length == 0 &&
-        correction_date_to.length == 0
+        correction_date_to.length == 0 &&
+        user_id == 0
       ) {
         alert("Zadajte aspoň jeden parameter do vyhľadávania.");
   

@@ -108,4 +108,21 @@ class PersonFilterController extends Controller
 			->with('periodical_publications', $periodical_publications)
 			->with('nonperiodical_publications', $nonperiodical_publications);
 	}
+
+	/**
+	 * sablonka pre filter vsetkych oprav
+	 * podobne ako CorrectionController:listCorrections
+	 * samotny AJAX filter sa pouziva rovnaky - CorrectionController:getCorrectionsFilter
+	 */
+	public function getAllCorrections()
+	{
+		$users = User::get();
+		$periodical_publications = PeriodicalPublication::get();
+		$nonperiodical_publications = NonperiodicalPublication::get();
+
+		return view('v-uzivatel/zoznam-oprav')
+			->with('users', $users)
+			->with('periodical_publications', $periodical_publications)
+			->with('nonperiodical_publications', $nonperiodical_publications);
+	}
 }

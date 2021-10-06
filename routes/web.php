@@ -153,6 +153,8 @@ Route::name('uzivatel.')->group(function () {
     Route::get('/uzivatel/zoznam-prijmov', [PersonFilterController::class, 'getAllIncomes'])->middleware(['auth'])->name('zoznam-prijmov');
 
     Route::get('/uzivatel/zoznam-prevodov', [PersonFilterController::class, 'getAllTransfers'])->middleware(['auth'])->name('zoznam-prevodov');
+
+    Route::get('/uzivatel/zoznam-oprav', [PersonFilterController::class, 'getAllCorrections'])->middleware(['auth'])->name('zoznam-oprav');
 });
 
 require __DIR__.'/auth.php';
