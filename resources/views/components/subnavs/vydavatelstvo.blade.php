@@ -4,6 +4,12 @@
 			Nové číslo
 		</a>
 	</li><!-- / .nav-item -->
+	
+	<li class="nav-item">
+		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.get-zauctovat' ) active @endif" href="{{ route('vydavatelstvo.get-zauctovat') }}">
+			Zaúčtovať
+		</a>
+	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
 		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.get-list-filter' ) active @endif" href="{{ route('vydavatelstvo.get-list-filter') }}">

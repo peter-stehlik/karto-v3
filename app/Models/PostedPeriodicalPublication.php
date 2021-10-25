@@ -20,5 +20,6 @@ class PostedPeriodicalPublication extends Model
         'periodical_publication_id',
         'label_date',
         'posted_number',
+        'posted_volume',
     ];
 }
