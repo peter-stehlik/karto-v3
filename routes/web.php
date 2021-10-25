@@ -76,6 +76,7 @@ Route::name('vydavatelstvo.')->group(function () {
     Route::resource('/vydavatelstvo/neperiodika', NonperiodicalController::class)->middleware(['auth']);
 
     Route::get('/vydavatelstvo/nove-cislo', [ListingController::class, 'getNoveCislo'])->middleware(['auth'])->name('get-nove-cislo');
+    Route::post('/vydavatelstvo/nove-cislo', [ListingController::class, 'postNoveCislo'])->middleware(['auth'])->name('post-nove-cislo');
 
     Route::get('/vydavatelstvo/zoznam', [ListingController::class, 'getListFilter'])->middleware(['auth'])->name('get-list-filter');
 });

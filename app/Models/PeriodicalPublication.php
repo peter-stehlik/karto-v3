@@ -21,6 +21,7 @@ class PeriodicalPublication extends Model
         'abbreviation',
         'price',
         'current_number',
+        'current_volume',
         'note',
     ];
 

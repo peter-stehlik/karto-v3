@@ -294,6 +294,29 @@ class ListingController extends Controller
 
     public function getNoveCislo()
     {
-        return view('v-vydavatelstvo/nove-cislo');
+        $periodical_publications = PeriodicalPublication::get();
+
+        return view('v-vydavatelstvo/nove-cislo')
+            ->with("periodical_publications", $periodical_publications);
+    }
+
+    public function postNoveCislo(Request $request)
+    {
+        $pp_id = $request->pp_id;
+
+        $pp = PeriodicalPublication::find($pp_id);
+
+        $current_number = ($pp->current_number === 12) ? 1 : ($pp->current_number+1);
+        $current_volume = ($pp->current_number === 12) ? ($pp->current_volume+1) : $pp->current_volume;
+        $label_date = $current_volume . "-" . $current_number . "-01";
+
+        PeriodicalPublication::where("id", $pp_id)
+            ->update([
+                "label_date" => $label_date,
+                "current_number" => $current_number,
+                "current_volume" => $current_volume,
+            ]);
+
+        return redirect('/vydavatelstvo')->with('message', 'Operácia sa podarila!');
     }
 }
