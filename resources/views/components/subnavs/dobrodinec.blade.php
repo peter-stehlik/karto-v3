@@ -38,6 +38,12 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
+		<a class="nav-link @if( request()->route()->getName() == 'dobrodinec.objednavky.index' ) active @endif" href="{{ route('dobrodinec.objednavky.index' , $dobrodinec_id) }}">
+			Objednávky periodické
+		</a>
+	</li><!-- / .nav-item -->
+
+	<li class="nav-item">
 		<a class="nav-link @if( request()->route()->getName() == 'dobrodinec.ucty' ) active @endif" href="{{ route('dobrodinec.ucty', $dobrodinec_id) }}">
 			Účty
 		</a>

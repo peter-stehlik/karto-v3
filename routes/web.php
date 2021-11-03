@@ -15,6 +15,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonFilterController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\CorrectionController;
+use App\Http\Controllers\PeriodicalOrderController;
 
 
 /*
@@ -116,6 +117,8 @@ Route::name('dobrodinec.')->group(function () {
 
     Route::get('/dobrodinec/{id}/zoznam-oprav', [CorrectionController::class, 'listCorrections'])->middleware(['auth'])->name('listcorrections');
     Route::get('/dobrodinec/opravy-filter', [CorrectionController::class, 'getCorrectionsFilter'])->middleware(['auth'])->name('getcorrectionsfilter');
+
+    Route::resource('/dobrodinec/{id}/objednavky', PeriodicalOrderController::class)->middleware(['auth']);
 });
 
 
