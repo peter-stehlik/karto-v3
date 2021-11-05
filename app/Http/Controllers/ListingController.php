@@ -10,6 +10,8 @@ use App\Models\Transfer;
 use App\Models\Income;
 use App\Models\Person;
 use App\Models\Correction;
+use App\Models\PostedPeriodicalPublication;
+use Auth;
 use PDF;
 
 class ListingController extends Controller
@@ -297,23 +299,53 @@ class ListingController extends Controller
         $periodical_publications = PeriodicalPublication::get();
 
         return view('v-vydavatelstvo/nove-cislo')
-                ->with("periodical_publications", $periodical_publications);;
+            ->with("periodical_publications", $periodical_publications);
     }
 
-    public function getNoveCisloDetail($id)
+    public function postNoveCislo(Request $request)
     {
-        /////////
-        $periodical_publication = PeriodicalPublication::find($id);
+        $pp_id = $request->pp_id;
 
-        return view('v-vydavatelstvo/nove-cislo-detail')
-                ->with("periodical_publication", $periodical_publication);
+        $pp = PeriodicalPublication::find($pp_id);
+
+        $current_number = ($pp->current_number === 12) ? 1 : ($pp->current_number+1);
+        $current_volume = ($pp->current_number === 12) ? ($pp->current_volume+1) : $pp->current_volume;
+        $label_date = $current_volume . "-" . $current_number . "-01";
+
+        PeriodicalPublication::where("id", $pp_id)
+            ->update([
+                "label_date" => $label_date,
+                "current_number" => $current_number,
+                "current_volume" => $current_volume,
+            ]);
+
+        return redirect('/vydavatelstvo')->with('message', 'Operácia sa podarila!');
     }
 
-    public function postNoveCisloDetail(Request $request)
+    public function getZauctovat()
     {
-        /////////
+        $periodical_publications = PeriodicalPublication::get();
 
-        return view('v-vydavatelstvo/nove-cislo')
-                ->with("periodical_publication", $periodical_publication);
+        return view('v-vydavatelstvo/zauctovat')
+            ->with("periodical_publications", $periodical_publications);
+    }
+
+    public function postZauctovat(Request $request)
+    {
+        $pp_id = $request->pp_id;
+        $user_id = Auth::user()->id;
+        $current_number = PeriodicalPublication::find($pp_id)->current_number;
+        $current_volume = PeriodicalPublication::find($pp_id)->current_volume;
+        $label_date = PeriodicalPublication::find($pp_id)->label_date;
+
+        PostedPeriodicalPublication::create([
+            "user_id" => $user_id,
+            "periodical_publication_id" => $pp_id,
+            "label_date" => $label_date,
+            "posted_number" => $current_number,
+            "posted_volume" => $current_volume,
+        ]);
+
+        return redirect('/vydavatelstvo')->with('message', 'Operácia sa podarila!');
     }
 }

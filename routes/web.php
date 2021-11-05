@@ -15,6 +15,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PersonFilterController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\CorrectionController;
+use App\Http\Controllers\PeriodicalOrderController;
 
 
 /*
@@ -76,6 +77,10 @@ Route::name('vydavatelstvo.')->group(function () {
     Route::resource('/vydavatelstvo/neperiodika', NonperiodicalController::class)->middleware(['auth']);
 
     Route::get('/vydavatelstvo/nove-cislo', [ListingController::class, 'getNoveCislo'])->middleware(['auth'])->name('get-nove-cislo');
+    Route::post('/vydavatelstvo/nove-cislo', [ListingController::class, 'postNoveCislo'])->middleware(['auth'])->name('post-nove-cislo');
+
+    Route::get('/vydavatelstvo/zauctovat', [ListingController::class, 'getZauctovat'])->middleware(['auth'])->name('get-zauctovat');
+    Route::post('/vydavatelstvo/zauctovat', [ListingController::class, 'postZauctovat'])->middleware(['auth'])->name('post-zauctovat');
 
     Route::get('/vydavatelstvo/zoznam', [ListingController::class, 'getListFilter'])->middleware(['auth'])->name('get-list-filter');
 });
@@ -112,6 +117,8 @@ Route::name('dobrodinec.')->group(function () {
 
     Route::get('/dobrodinec/{id}/zoznam-oprav', [CorrectionController::class, 'listCorrections'])->middleware(['auth'])->name('listcorrections');
     Route::get('/dobrodinec/opravy-filter', [CorrectionController::class, 'getCorrectionsFilter'])->middleware(['auth'])->name('getcorrectionsfilter');
+
+    Route::resource('/dobrodinec/{id}/objednavky', PeriodicalOrderController::class)->middleware(['auth']);
 });
 
 

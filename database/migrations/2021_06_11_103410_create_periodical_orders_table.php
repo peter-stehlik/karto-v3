@@ -17,11 +17,11 @@ class CreatePeriodicalOrdersTable extends Migration
             $table->id();
             $table->integer('person_id');
             $table->integer('periodical_publication_id');
-            $table->integer('count');
-            $table->decimal('credit', 14, 2);
-            $table->date('valid_from');
-            $table->date('valid_to');
-            $table->string('note');
+            $table->integer('count')->nullable();
+            $table->decimal('credit', 14, 2)->nullable();
+            $table->date('valid_from')->nullable();
+            $table->date('valid_to')->nullable();
+            $table->string('note')->nullable();
             $table->boolean('gratis');
             $table->timestamps();
             $table->softDeletes();
