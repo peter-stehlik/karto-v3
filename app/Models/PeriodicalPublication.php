@@ -18,9 +18,11 @@ class PeriodicalPublication extends Model
     protected $fillable = [
         'name',
         'label_date',
+        'accounting_date',
         'abbreviation',
         'price',
         'current_number',
+        'current_volume',
         'note',
     ];
 

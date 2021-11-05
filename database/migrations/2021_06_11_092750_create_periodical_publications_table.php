@@ -20,7 +20,8 @@ class CreatePeriodicalPublicationsTable extends Migration
             $table->date('accounting_date')->nullable()->comment("nema nic spolocne s uctovnym datumom pri uzivatelovi");
             $table->string('abbreviation', 20)->nullable();
             $table->decimal('price', 14, 2)->nullable();
-            $table->integer('current_number')->nullable();
+            $table->integer('current_number')->nullable()->comment("aktualne cislo");
+            $table->integer('current_volume')->nullable()->comment("aktualny rocnik");
             $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

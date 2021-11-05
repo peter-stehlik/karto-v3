@@ -294,6 +294,26 @@ class ListingController extends Controller
 
     public function getNoveCislo()
     {
-        return view('v-vydavatelstvo/nove-cislo');
+        $periodical_publications = PeriodicalPublication::get();
+
+        return view('v-vydavatelstvo/nove-cislo')
+                ->with("periodical_publications", $periodical_publications);;
+    }
+
+    public function getNoveCisloDetail($id)
+    {
+        /////////
+        $periodical_publication = PeriodicalPublication::find($id);
+
+        return view('v-vydavatelstvo/nove-cislo-detail')
+                ->with("periodical_publication", $periodical_publication);
+    }
+
+    public function postNoveCisloDetail(Request $request)
+    {
+        /////////
+
+        return view('v-vydavatelstvo/nove-cislo')
+                ->with("periodical_publication", $periodical_publication);
     }
 }
