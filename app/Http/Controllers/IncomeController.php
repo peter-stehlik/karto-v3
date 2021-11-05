@@ -393,21 +393,33 @@ class IncomeController extends Controller
 			$for_person_id = $correction->for_person_id;
 			$for_periodical_id = $correction->for_periodical_id;
 			$for_nonperiodical_id = $correction->for_nonperiodical_id;
+			$periodical_name = "";
 
+			// odpocitat peniaze za opravu
 			if( $from_periodical_id ){
 				PeriodicalOrder::where("person_id", $from_person_id)
 							->where("periodical_publication_id", $from_periodical_id)
 							->decrement("credit", $correction->sum);
+
+				$periodical_name = PeriodicalPublication::find($from_periodical_id)->name;
 			}
 			
 			if( $from_nonperiodical_id ){
 				NonperiodicalOrder::where("person_id", $from_person_id)
 							->where("nonperiodical_publication_id", $from_nonperiodical_id)
 							->decrement("credit", $correction->sum);
+
+				$periodical_name = PeriodicalPublication::find($from_nonperiodical_id)->name;
 			}
 
-			/////////////////////////////////////
+			// poznacit vydavok
+			Outcome::create([
+				"person_id" => $from_person_id,
+				"sum" => $correction->sum,
+				"goal" => "Oprava: " . $periodical_name . ", ID: " . $correction->id,
+			]);
 
+			// pridat peniaze za opravu
 			if( $for_periodical_id ){
 				$exists = PeriodicalOrder::where("person_id", $for_person_id)
 											->where("periodical_publication_id", $for_periodical_id)

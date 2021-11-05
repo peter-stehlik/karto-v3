@@ -10,6 +10,7 @@ use App\Models\NonperiodicalPublication;
 use App\Models\Correction;
 use App\Models\PeriodicalOrder;
 use App\Models\NonperiodicalOrder;
+use App\Models\Outcome;
 use Auth;
 use DB;
 
@@ -96,21 +97,33 @@ class CorrectionController extends Controller
 	public function confirmCorrectionIndividually($id)
 	{
 		$correction = Correction::find($id);
+		$periodical_name = "";
 
+		// odpocitat peniaze za opravu
 		if( $correction->from_periodical_id ){
 			PeriodicalOrder::where("person_id", $correction->from_person_id)
                             ->where("periodical_publication_id", $correction->from_periodical_id)
                             ->decrement("credit", $correction->sum);
+
+			$periodical_name = PeriodicalPublication::find($correction->from_periodical_id)->name;  
 		}
 
 		if( $correction->from_nonperiodical_id ){
 			NonperiodicalOrder::where("person_id", $correction->from_person_id)
                             ->where("nonperiodical_publication_id", $correction->from_nonperiodical_id)
                             ->decrement("credit", $correction->sum);
+			
+			$periodical_name = PeriodicalPublication::find($correction->from_nonperiodical_id)->name;
 		}
 
-		/////////////////////////////////////
+		// poznacit vydavok
+		Outcome::create([
+			"person_id" => $correction->from_person_id,
+			"sum" => $correction->sum,
+			"goal" => "Oprava: " . $periodical_name . ", ID: " . $correction->id,
+		]);
 
+		// pridat peniaze za opravu
 		if( $correction->for_periodical_id ){
 			$exists = PeriodicalOrder::where("person_id", $correction->for_person_id)
                                         ->where("periodical_publication_id", $correction->for_periodical_id)

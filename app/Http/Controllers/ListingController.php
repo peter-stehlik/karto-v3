@@ -8,11 +8,15 @@ use App\Models\NonperiodicalPublication;
 use App\Models\BankAccount;
 use App\Models\Transfer;
 use App\Models\Income;
+use App\Models\Outcome;
 use App\Models\Person;
 use App\Models\Correction;
+use App\Models\PeriodicalOrder;
 use App\Models\PostedPeriodicalPublication;
 use Auth;
 use PDF;
+use DB;
+use Carbon\Carbon;
 
 class ListingController extends Controller
 {
@@ -310,11 +314,11 @@ class ListingController extends Controller
 
         $current_number = ($pp->current_number === 12) ? 1 : ($pp->current_number+1);
         $current_volume = ($pp->current_number === 12) ? ($pp->current_volume+1) : $pp->current_volume;
-        $label_date = $current_volume . "-" . $current_number . "-01";
+        $label_date = $pp->label_date;
 
         PeriodicalPublication::where("id", $pp_id)
             ->update([
-                "label_date" => $label_date,
+                "label_date" => Carbon::parse($label_date)->addMonth(),
                 "current_number" => $current_number,
                 "current_volume" => $current_volume,
             ]);
@@ -334,17 +338,54 @@ class ListingController extends Controller
     {
         $pp_id = $request->pp_id;
         $user_id = Auth::user()->id;
+        $periodical_name = PeriodicalPublication::find($pp_id)->name; 
         $current_number = PeriodicalPublication::find($pp_id)->current_number;
         $current_volume = PeriodicalPublication::find($pp_id)->current_volume;
         $label_date = PeriodicalPublication::find($pp_id)->label_date;
 
-        PostedPeriodicalPublication::create([
+        // zaznamenat zauctovanie
+        $posted = PostedPeriodicalPublication::create([
             "user_id" => $user_id,
             "periodical_publication_id" => $pp_id,
             "label_date" => $label_date,
             "posted_number" => $current_number,
             "posted_volume" => $current_volume,
         ]);
+
+        // posunut uctovny datum na nasledujuci mesiac
+        $accounting_date = PeriodicalPublication::find($pp_id)->accounting_date;
+
+        PeriodicalPublication::where("id", $pp_id)
+            ->update([
+                "accounting_date" => Carbon::parse($accounting_date)->addMonth(),
+            ]);
+
+        // odobrat platbu za periodikum
+        $periodical_orders = PeriodicalOrder::whereDate("periodical_orders.valid_from", "<=", $accounting_date)
+                        ->whereDate("periodical_orders.valid_to", ">=", $accounting_date)
+                        ->where("periodical_publication_id", $pp_id)
+                        ->where("gratis", 0)
+                        ->get();
+
+        $periodical_price = PeriodicalPublication::find($pp_id)->price;
+
+        foreach( $periodical_orders as $order ){
+            $count = $order->count;
+            $minus = $count*$periodical_price;
+            $new_credit = $order->credit - $minus;
+
+            PeriodicalOrder::where("id", $order->id)
+            ->update([
+                "credit" => $new_credit,
+            ]);
+
+            // poznacit vydavok
+            Outcome::create([
+                "person_id" => $order->person_id,
+                "sum" => $minus,
+                "goal" => "Zauctovanie: " . $periodical_name . ", ID: " . $posted->id,
+            ]);
+        }
 
         return redirect('/vydavatelstvo')->with('message', 'Operácia sa podarila!');
     }
