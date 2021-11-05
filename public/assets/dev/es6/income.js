@@ -164,6 +164,15 @@ let Income = {
 	/*
 	*
 	*  HELPER:
+	*  SIMPLY HIDE SEARCH INPUTS
+	*
+	*/
+	toggleSearchInputs: () => {
+		$(".js-search-inputs").slideToggle();
+	},
+	/*
+	*
+	*  HELPER:
 	*  DISPLAY ALL PEOPLE FOUND IN DATABASE IN HTML TABLE
 	*
 	*/
@@ -333,6 +342,7 @@ let Income = {
 		$("#transfers").show();
 
 		Income.clearSearchResults();
+		Income.toggleSearchInputs();
 	},
 	/*
 	*
@@ -608,3 +618,7 @@ $(document).on("input", "#s5", function () {
 	}
 });
 ///////////////////////////////////////////
+/* toggle search inputs */
+$(document).on("click", ".js-toggle-search-inputs", function(){
+	Income.toggleSearchInputs();
+});

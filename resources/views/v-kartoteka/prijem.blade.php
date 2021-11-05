@@ -7,7 +7,7 @@
 		<div class="col-lg-5" style="z-index: 7;">
 		{!! Form::open(['action' => 'App\Http\Controllers\IncomeController@store', 'id' => 'incomeForm']) !!}	
 				<div class="row">
-					<div class="bg-warning p-3 mb-4">
+					<div class="js-search-inputs bg-warning p-3 mb-4">
 						<div class="row">
 							<div class="col-lg-7">
 								<div class="mb-2">
@@ -51,6 +51,10 @@
 								</div>
 							</div>
 						</div>
+					</div>
+
+					<div class="mb-3">
+						<a class="js-toggle-search-inputs btn btn-warning" href="javascript:void(0);">Vyhľadávanie</a>
 					</div>
 
 					<input type="hidden" name="person_id" id="person_id">
