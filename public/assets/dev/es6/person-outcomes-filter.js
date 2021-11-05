@@ -20,7 +20,7 @@ let PersonOutcomesFilter = {
         person_id == 0 &&
         sum_from.length == 0 &&
         sum_to.length == 0 &&
-        goal.length == 0 &&
+        goal == 0 &&
         outcome_date_from.length == 0 &&
         outcome_date_to.length == 0
       ) {

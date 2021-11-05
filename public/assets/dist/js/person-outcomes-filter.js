@@ -17,7 +17,7 @@ var PersonOutcomesFilter = {
      * VALIDATE IF SOME PARAMETER FILLED
      */
 
-    if (person_id == 0 && sum_from.length == 0 && sum_to.length == 0 && goal.length == 0 && outcome_date_from.length == 0 && outcome_date_to.length == 0) {
+    if (person_id == 0 && sum_from.length == 0 && sum_to.length == 0 && goal == 0 && outcome_date_from.length == 0 && outcome_date_to.length == 0) {
       alert("Zadajte aspoň jeden parameter do vyhľadávania.");
       Help.hidePreloader();
       return;

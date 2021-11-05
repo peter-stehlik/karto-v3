@@ -125,4 +125,19 @@ class PersonFilterController extends Controller
 			->with('periodical_publications', $periodical_publications)
 			->with('nonperiodical_publications', $nonperiodical_publications);
 	}
+
+	/**
+	 * sablonka pre filter vsetkych vydajov
+	 * podobne ako OutcomeController:getDobrodinecVydavky
+	 * samotny AJAX filter sa pouziva rovnaky - OutcomeController:getOutcomesFilter
+	 */
+	public function getAllOutcomes()
+	{
+		$periodical_publications = PeriodicalPublication::get();
+		$nonperiodical_publications = NonperiodicalPublication::get();
+
+		return view('v-uzivatel/zoznam-vydajov')
+			->with('periodical_publications', $periodical_publications)
+			->with('nonperiodical_publications', $nonperiodical_publications);
+	}
 }

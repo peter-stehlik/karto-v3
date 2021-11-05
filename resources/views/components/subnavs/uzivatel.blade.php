@@ -18,7 +18,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-no-sidebar">
+		<a class="nav-link @if( request()->route()->getName() === 'uzivatel.zoznam-vydajov' ) active @endif" href="{{ route('uzivatel.zoznam-vydajov') }}">
 			Zoznam výdajov
 		</a>
 	</li><!-- / .nav-item -->

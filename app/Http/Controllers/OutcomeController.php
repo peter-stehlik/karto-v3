@@ -23,11 +23,6 @@ class OutcomeController extends Controller
 				->with("nonperiodical_publications", $nonperiodical_publications);
 	}
 
-	public function getOverallVydavky()
-	{
-
-	}
-
 	public function getOutcomesFilter()
 	{
 		$person_id = $_GET["person_id"];
