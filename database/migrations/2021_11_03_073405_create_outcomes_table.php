@@ -19,6 +19,7 @@ class CreateOutcomesTable extends Migration
             $table->decimal("sum", 14, 2);
             $table->string("goal")->comment("Vydavok, napr. zauctovanie periodika, oprava");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

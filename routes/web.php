@@ -9,6 +9,7 @@ use App\Http\Controllers\PeriodicalController;
 use App\Http\Controllers\NonperiodicalController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\IncomeUnconfirmedController;
 use App\Http\Controllers\TransferUnconfirmedController;
 use App\Http\Controllers\PersonController;
@@ -117,6 +118,9 @@ Route::name('dobrodinec.')->group(function () {
 
     Route::get('/dobrodinec/{id}/zoznam-oprav', [CorrectionController::class, 'listCorrections'])->middleware(['auth'])->name('listcorrections');
     Route::get('/dobrodinec/opravy-filter', [CorrectionController::class, 'getCorrectionsFilter'])->middleware(['auth'])->name('getcorrectionsfilter');
+
+    Route::get('/dobrodinec/{id}/vydavky', [OutcomeController::class, 'getDobrodinecVydavky'])->middleware(['auth'])->name('dobrodinecvydavky');
+    Route::get('/dobrodinec/vydavky-filter', [OutcomeController::class, 'getOutcomesFilter'])->middleware(['auth'])->name('getoutcomesfilter');
 
     Route::resource('/dobrodinec/{id}/objednavky', PeriodicalOrderController::class)->middleware(['auth']);
 });
