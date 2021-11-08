@@ -26,11 +26,13 @@ class PersonController extends Controller
 		$person = Person::withTrashed()->find($id);
 		$periodical_orders = PeriodicalOrder::where("person_id", $id)
 								->join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id")
-								->select("periodical_publications.id", "name", "credit")
+								->select(DB::raw('SUM(credit) as credit, periodical_publications.id, name'))
+								->groupBy("periodical_orders.periodical_publication_id")
 								->get();
 		$nonperiodical_orders = NonperiodicalOrder::where("person_id", $id)
 								->join("nonperiodical_publications", "nonperiodical_orders.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
-								->select("nonperiodical_publications.id", "name", "credit")
+								->select(DB::raw('SUM(credit) as credit, nonperiodical_publications.id, name'))
+								->groupBy("nonperiodical_orders.nonperiodical_publication_id")
 								->get();
 		
 		// vyratat Peniaze na ceste
