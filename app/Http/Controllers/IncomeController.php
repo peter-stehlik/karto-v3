@@ -9,6 +9,7 @@ use App\Models\NonperiodicalPublication;
 use App\Models\PeriodicalOrder;
 use App\Models\NonperiodicalOrder;
 use App\Models\Income;
+use App\Models\Outcome;
 use App\Models\Transfer;
 use App\Models\Person;
 use App\Models\Category;

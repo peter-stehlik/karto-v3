@@ -22,6 +22,7 @@ class TransferUnconfirmedController extends Controller
 							->leftJoin("nonperiodical_publications", "nonperiodical_publications.id", "nonperiodical_publication_id")
 							->select("transfers.id AS id", "transfers.sum AS sum", "transfers.note AS note", "transfer_date", "incomes.id AS income_id", "incomes.sum AS income_sum", "bank_name", "incomes.number", "incomes.package_number", "incomes.invoice", "income_date", "name1", "periodical_publications.id AS pp_id", "periodical_publications.name AS pp_name", "nonperiodical_publications.name AS np_name", "nonperiodical_publications.id AS np_id")
 							->orderBy("transfer_date", "desc")
+							->orderBy('id', 'desc')
 							->get();
 		$periodicals = PeriodicalPublication::get();
 		$nonperiodicals = NonperiodicalPublication::get();

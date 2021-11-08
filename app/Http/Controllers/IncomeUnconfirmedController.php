@@ -24,6 +24,7 @@ class IncomeUnconfirmedController extends Controller
         $incomes = Income::where("confirmed", 0)
                     ->where("user_id", Auth::user()->id)
                     ->orderBy("income_date", "desc")
+                    ->orderBy('id', 'desc')
                     ->get();
         $periodicals = PeriodicalPublication::get();
         $nonperiodicals = NonperiodicalPublication::get();

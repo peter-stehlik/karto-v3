@@ -48,8 +48,8 @@
                         <td><a href="{{ route('dobrodinec.objednavky.edit', [$person->id, $po->id]) }}">{{ $po->name }}</a></td>
                         <td>{{ $po->count }}</td>
                         <td>{!! number_format($po->credit, 2, ",", " ") !!} &euro;</td>
-                        <td>{!! date('j.n.Y', strtotime($po->valid_from)) !!}</td>
-                        <td>{!! ($po->valid_to == '3000-01-01') ? "" : date('j.n.Y', strtotime($po->valid_to)) !!}</td>
+                        <td>{!! (!strpos($po->valid_to, '1970') ? "" : date('j.n.Y', strtotime($po->valid_from))) !!}</td>
+                        <td>{!! ($po->valid_to == '3000-01-01' || !strpos($po->valid_to, '1970')) ? "" : date('j.n.Y', strtotime($po->valid_to)) !!}</td>
                         <td>{{ $po->note }}</td>
                         <td>{!! $po->gratis ? "áno" : "" !!}</td>
                         <td><a href="{{ route('dobrodinec.objednavky.edit', [$person->id, $po->id]) }}">

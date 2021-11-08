@@ -42,7 +42,10 @@ class ListingController extends Controller
     {
 		$bank_account_id = $request->bank_account_id;
 		$date_from = date('Y-m-d', strtotime($request->date_from));
-        $date_to = date('Y-m-d', strtotime($request->date_to));
+        $date_to = date('Y-m-d', strtotime("1.1.3000"));
+        if( $request->date_to ){
+            $date_to = date('Y-m-d', strtotime($request->date_to));
+        }
 		$current_year = date('Y');
 		// $user_id = Auth::user()->id;
 
@@ -53,14 +56,22 @@ class ListingController extends Controller
 		
 		$data["total_incomes"] = Income::where('confirmed', 1)
 			// ->where('user_id', $user_id)
-			->where('bank_account_id', $bank_account_id)
+            ->where(function($query) use ($bank_account_id){
+                if($bank_account_id > 0){
+					$query->where('bank_account_id', $bank_account_id);
+				}
+            })
             ->whereDate('income_date','<=', $date_to)
             ->whereDate('income_date','>=', $date_from)
 			->sum('sum');
 		
 		$data["total_transfers"] = Transfer::where('confirmed', 1)
     		// ->where('user_id', $user_id)
-			->where('bank_account_id', $bank_account_id)
+            ->where(function($query) use ($bank_account_id){
+                if($bank_account_id > 0){
+					$query->where('bank_account_id', $bank_account_id);
+				}
+            })
             ->join("incomes", "incomes.id", "=", "transfers.income_id")
             ->whereDate('income_date','<=', $date_to)
             ->whereDate('income_date','>=', $date_from)
@@ -70,7 +81,11 @@ class ListingController extends Controller
 			
 		$data["periodicalThisYear"] = Transfer::where("confirmed", 1)
 			//->where('user_id', $user_id)
-			->where('incomes.bank_account_id', $bank_account_id)
+            ->where(function($query) use ($bank_account_id){
+                if($bank_account_id > 0){
+					$query->where('incomes.bank_account_id', $bank_account_id);
+				}
+            })
             ->whereDate('income_date','<=', $date_to)
             ->whereDate('income_date','>=', $date_from)
 			->whereYear("incomes.income_date", "=", $current_year)
@@ -82,7 +97,11 @@ class ListingController extends Controller
 			
 		$data["nonperiodicalThisYear"] = Transfer::where("confirmed", 1)
             //->where('user_id', $user_id)
-            ->where('incomes.bank_account_id', $bank_account_id)
+            ->where(function($query) use ($bank_account_id){
+                if($bank_account_id > 0){
+					$query->where('incomes.bank_account_id', $bank_account_id);
+				}
+            })
             ->whereDate('income_date','<=', $date_to)
             ->whereDate('income_date','>=', $date_from)
             ->whereYear("incomes.income_date", "=", $current_year)
@@ -94,7 +113,11 @@ class ListingController extends Controller
 
 		$data["periodicalInvoiceThisYear"] = Transfer::where("confirmed", 1)
 			// ->where('user_id', $user_id)
-			->where('bank_account_id', $bank_account_id)
+			->where(function($query) use ($bank_account_id){
+                if($bank_account_id > 0){
+					$query->where('incomes.bank_account_id', $bank_account_id);
+				}
+            })
             ->whereDate('income_date','<=', $date_to)
             ->whereDate('income_date','>=', $date_from)
             ->whereYear("incomes.income_date", "=", $current_year)
@@ -107,7 +130,11 @@ class ListingController extends Controller
 
 		$data["nonperiodicalInvoiceThisYear"] = Transfer::where("confirmed", 1)
             // ->where('user_id', $user_id)
-            ->where('bank_account_id', $bank_account_id)
+            ->where(function($query) use ($bank_account_id){
+                if($bank_account_id > 0){
+					$query->where('incomes.bank_account_id', $bank_account_id);
+				}
+            })
             ->whereDate('income_date','<=', $date_to)
             ->whereDate('income_date','>=', $date_from)
             ->whereYear("incomes.income_date", "=", $current_year)
@@ -121,7 +148,11 @@ class ListingController extends Controller
 
 		$data["periodicalNextYear"] = Transfer::where("confirmed", 1)
 			// ->where('user_id', $user_id)
-			->where('bank_account_id', $bank_account_id)
+			->where(function($query) use ($bank_account_id){
+                if($bank_account_id > 0){
+					$query->where('incomes.bank_account_id', $bank_account_id);
+				}
+            })
 			->whereYear("incomes.income_date", ">", $current_year)
             ->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
@@ -131,7 +162,11 @@ class ListingController extends Controller
 
 		$data["nonperiodicalNextYear"] = Transfer::where("confirmed", 1)
         // ->where('user_id', $user_id)
-        ->where('bank_account_id', $bank_account_id)
+        ->where(function($query) use ($bank_account_id){
+            if($bank_account_id > 0){
+                $query->where('incomes.bank_account_id', $bank_account_id);
+            }
+        })
         ->whereYear("incomes.income_date", ">", $current_year)
         ->join("incomes", "incomes.id", "=", "transfers.income_id")
         ->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
@@ -161,7 +196,10 @@ class ListingController extends Controller
     public function dailyMonthlyCorrectionPdf(Request $request)
     {
 		$corrections_from = date('Y-m-d', strtotime($request->corrections_from));
-        $corrections_to = date('Y-m-d', strtotime($request->corrections_to));
+        $corrections_to = date('Y-m-d', strtotime("1.1.3000"));
+        if( $request->date_to ){
+            $corrections_to = date('Y-m-d', strtotime($request->corrections_to));
+        }
 
 		$data["corrections_from"] = $corrections_from;
         $data["corrections_to"] = $corrections_to;
@@ -231,7 +269,10 @@ class ListingController extends Controller
     public function printForTransferPdf(Request $request)
     {
         $date_from = date('Y-m-d', strtotime($request->date_from));
-        $date_to = date('Y-m-d', strtotime($request->date_to));
+        $date_to = date('Y-m-d', strtotime("1.1.3000"));
+        if( $request->date_to ){
+            $date_to = date('Y-m-d', strtotime($request->date_to));
+        }
         $bank_account_id = $request->bank_account_id;
         $transfer_type_id = $request->transfer_type_id;
         $transfer_type_name = "";
@@ -244,6 +285,7 @@ class ListingController extends Controller
 
             $data["people"] = Transfer::where("nonperiodical_publication_id", $transfer_type_id)
                                         ->where("incomes.confirmed", 1)
+                                        ->where('incomes.bank_account_id', $bank_account_id)
                                         ->whereDate('transfer_date','<=', $date_to)
                                         ->whereDate('transfer_date','>=', $date_from)
                                         ->join("incomes", "incomes.id", "=", "transfers.income_id")
@@ -256,6 +298,7 @@ class ListingController extends Controller
 
             $data["people"] = Transfer::where("periodical_publication_id", $transfer_type_id)
                                         ->where("incomes.confirmed", 1)
+                                        ->where('incomes.bank_account_id', $bank_account_id)
                                         ->whereDate('transfer_date','<=', $date_to)
                                         ->whereDate('transfer_date','>=', $date_from)
                                         ->join("incomes", "incomes.id", "=", "transfers.income_id")

@@ -17,7 +17,7 @@
 <body>
 	<header style="text-align:center; margin-bottom: 45px;">
 		<h2 style="margin-bottom:0;">{!! date("d.m.Y", strtotime($date_from)) !!} - {!! date("d.m.Y", strtotime($date_to)) !!}</h2>
-		<p style="margin-top:0;">{!! $bank->bank_name !!}</p>
+		@if( $bank )<p style="margin-top:0;"> {!! $bank->bank_name !!}</p>@endif
 	</header>
 
 	<?php
