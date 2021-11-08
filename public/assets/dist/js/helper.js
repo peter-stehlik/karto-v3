@@ -26,10 +26,12 @@ var Help = {
   },
   beautifyDate: function beautifyDate(date) {
     var rawDate = new Date(date);
-    var niceDate = rawDate.toLocaleDateString('sk-SK', {
-      timeZone: 'UTC'
-    });
-    return niceDate;
+    var dd = String(rawDate.getDate()).padStart(2, '0');
+    var mm = String(rawDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+
+    var yyyy = rawDate.getFullYear();
+    var correction_date = dd + '.' + mm + '.' + yyyy;
+    return correction_date;
   },
   getTodayDate: function getTodayDate() {
     var today = new Date();

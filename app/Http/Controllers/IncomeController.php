@@ -410,7 +410,7 @@ class IncomeController extends Controller
 							->where("nonperiodical_publication_id", $from_nonperiodical_id)
 							->decrement("credit", $correction->sum);
 
-				$periodical_name = PeriodicalPublication::find($from_nonperiodical_id)->name;
+				$periodical_name = NonperiodicalPublication::find($from_nonperiodical_id)->name;
 			}
 
 			// poznacit vydavok

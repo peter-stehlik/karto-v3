@@ -23,9 +23,12 @@ let Help = {
 	},
 	beautifyDate: date => {
 		let rawDate = new Date(date);
-		let niceDate = rawDate.toLocaleDateString('sk-SK', {timeZone: 'UTC'});
+		let dd = String(rawDate.getDate()).padStart(2, '0');
+		let mm = String(rawDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+		let yyyy = rawDate.getFullYear();
+		let correction_date = dd + '.' + mm + '.' + yyyy;
 
-		return niceDate;
+		return correction_date;
 	},
 	getTodayDate: () => {
 		let today = new Date();
