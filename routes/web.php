@@ -17,6 +17,7 @@ use App\Http\Controllers\PersonFilterController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\PeriodicalOrderController;
+use App\Http\Controllers\FusionController;
 
 
 /*
@@ -123,6 +124,10 @@ Route::name('dobrodinec.')->group(function () {
     Route::get('/dobrodinec/vydavky-filter', [OutcomeController::class, 'getOutcomesFilter'])->middleware(['auth'])->name('getoutcomesfilter');
 
     Route::resource('/dobrodinec/{id}/objednavky', PeriodicalOrderController::class)->middleware(['auth']);
+
+    Route::get('/dobrodinec/{id}/zlucenie', [FusionController::class, 'getFusion'])->middleware(['auth'])->name('getfusion');
+    Route::get('/dobrodinec/zlucenie-filter', [FusionController::class, 'getFusionFilter'])->middleware(['auth'])->name('getfusionfilter');
+    Route::post('/dobrodinec/zlucenie', [FusionController::class, 'postFusion'])->middleware(['auth'])->name('postfusion');
 });
 
 

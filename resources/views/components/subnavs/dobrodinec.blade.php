@@ -50,7 +50,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="{{ route('osoba.kategorie.index') }}">
+		<a class="nav-link @if( request()->route()->getName() == 'dobrodinec.getfusion' ) active @endif" href="{{ route('dobrodinec.getfusion', $dobrodinec_id) }}">
 			Zlúčiť
 		</a>
 	</li><!-- / .nav-item -->
