@@ -417,20 +417,35 @@ class ListingController extends Controller
     /* Vydavatelstvo - Pocet objednavok */
     public function getPocetObj()
     {
-   /*     $p = PeriodicalOrder::groupBy("periodical_publication_id")
-            ->select(DB::raw("SUM(count) AS total_count"), DB::raw("DATE_FORMAT(created_at,'%M %Y') as months"), "periodical_publication_id")
-            ->get();
+        $maly_kalendar_id = PeriodicalPublication::where("name", "LIKE", "%" . "maly kalendar" . "%")->first()->id;
+        $maly_kalendar = PostedPeriodicalPublication::where("periodical_publication_id", $maly_kalendar_id)
+                                        ->take(12)
+                                        ->orderBy("created_at", "desc")
+                                        ->get();
 
-        foreach( $p as $e ){
-            echo "<pre>";
-            print_r($e->periodical_publication_id);
-            print_r(" --- ");
-            print_r($e->total_count);
-            echo "</pre>";
-        }*/
+        $kalendar_nastenny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar nastenny" . "%")->first()->id;
+        $kalendar_nastenny = PostedPeriodicalPublication::where("periodical_publication_id", $kalendar_nastenny_id)
+                                        ->take(12)
+                                        ->orderBy("created_at", "desc")
+                                        ->get();
 
+        $kalendar_knizny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar knizny" . "%")->first()->id;
+        $kalendar_knizny = PostedPeriodicalPublication::where("periodical_publication_id", $kalendar_knizny_id)
+                                        ->take(12)
+                                        ->orderBy("created_at", "desc")
+                                        ->get();
 
-        return view('v-vydavatelstvo/pocet-objednavok');
+        $hlasy_id = PeriodicalPublication::where("name", "LIKE", "%" . "hlasy" . "%")->first()->id;
+        $hlasy = PostedPeriodicalPublication::where("periodical_publication_id", $hlasy_id)
+                                        ->take(12)
+                                        ->orderBy("created_at", "desc")
+                                        ->get();
+
+        return view('v-vydavatelstvo/pocet-objednavok')
+                ->with("maly_kalendar", $maly_kalendar)
+                ->with("kalendar_nastenny", $kalendar_nastenny)
+                ->with("hlasy", $hlasy)
+                ->with("kalendar_knizny", $kalendar_knizny);
     }
 
     /* Vydavatelstvo - Pocet objednavok filter */
