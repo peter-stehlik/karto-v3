@@ -18,6 +18,12 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
+		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.get-obj-periodicke-filter' ) active @endif" href="{{ route('vydavatelstvo.get-obj-periodicke-filter') }}">
+			Objednávky periodické
+		</a>
+	</li><!-- / .nav-item -->
+
+	<li class="nav-item">
 		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.publikacie.index' ) active @endif" href="{{ route('vydavatelstvo.publikacie.index') }}">
 			Periodiká (Publikácie)
 		</a>

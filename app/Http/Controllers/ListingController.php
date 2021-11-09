@@ -325,7 +325,7 @@ class ListingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getListFilter()
+    public function getZoznamFilter()
     {
         $periodical_publications = PeriodicalPublication::get();
 
@@ -339,7 +339,7 @@ class ListingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getListFilterJSON()
+    public function getZoznamFilterJSON()
     {
         $periodical_publication_ids = $_GET["periodical_publication_ids"];
         $pp_ids = [];
@@ -361,6 +361,55 @@ class ListingController extends Controller
         $data = array('result' => 1);
         
         $data["list"] = $people;
+
+		return response()->json($data);
+    }
+
+    /**
+     * Vydavatelstvo - Objednavky periodicke
+     * zobraz filter periodik podla datumu stitkov a poctu
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getObjPeriodickeFilter()
+    {
+        $periodical_publications = PeriodicalPublication::get();
+
+        return view('v-vydavatelstvo/objednavky-periodicke')
+            ->with("periodical_publications", $periodical_publications);
+    }
+
+    /**
+     * Vydavatelstvo - Objednavky periodicke
+     * vysledky filtra
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getObjPeriodickeFilterJSON()
+    {
+        $count_from = $_GET["count_from"];
+        $count_to = $_GET["count_to"];
+        $periodical_publication_id = $_GET["periodical_publication_id"];
+
+        $people = PeriodicalOrder::join("people", "periodical_orders.person_id", "=", "people.id")
+                    ->join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id")
+                    ->whereDate("valid_from", "<=", DB::raw("periodical_publications.label_date"))
+                    ->whereDate("valid_to", ">=", DB::raw("periodical_publications.label_date"))
+                    ->where("periodical_publication_id", $periodical_publication_id)
+                    ->where(function($query) use ($count_from, $count_to){
+                        if($count_from > 0){
+                            $query->where('count', '>=', $count_from);
+                        }
+                        if($count_to > 0){
+                            $query->where('count', '<=', $count_to);
+                        }
+                    })
+                    ->select("people.id AS person_id", "title", "name1", "address1", "zip_code", "city", "name", "count", "valid_from", "valid_to", "periodical_orders.note")
+                    ->get();
+
+        $data = array('result' => 1);
+        
+        $data["obj_periodical"] = $people;
 
 		return response()->json($data);
     }
