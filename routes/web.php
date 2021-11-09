@@ -85,6 +85,7 @@ Route::name('vydavatelstvo.')->group(function () {
     Route::post('/vydavatelstvo/zauctovat', [ListingController::class, 'postZauctovat'])->middleware(['auth'])->name('post-zauctovat');
 
     Route::get('/vydavatelstvo/zoznam', [ListingController::class, 'getListFilter'])->middleware(['auth'])->name('get-list-filter');
+    Route::get('/vydavatelstvo/zoznam-filter', [ListingController::class, 'getListFilterJSON'])->middleware(['auth'])->name('get-list-filter-json');
 });
 
 /* -------------- */

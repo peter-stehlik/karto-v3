@@ -333,6 +333,38 @@ class ListingController extends Controller
             ->with("periodical_publications", $periodical_publications);
     }
 
+    /**
+     * Vydavatelstvo - Zoznam
+     * vysledky filtra
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getListFilterJSON()
+    {
+        $periodical_publication_ids = $_GET["periodical_publication_ids"];
+        $pp_ids = [];
+
+        foreach( $periodical_publication_ids as $pp ){
+            $pp_id = intval($pp);
+
+            array_push($pp_ids, $pp_id);
+        }
+
+        $people = PeriodicalOrder::join("people", "periodical_orders.person_id", "=", "people.id")
+                    ->join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id")
+                    ->whereDate("valid_from", "<=", DB::raw("periodical_publications.label_date"))
+                    ->whereDate("valid_to", ">=", DB::raw("periodical_publications.label_date"))
+                    ->whereIn("periodical_publication_id", $pp_ids)
+                    ->select("people.id AS person_id", "title", "name1", "address1", "zip_code", "city", "name", "count", "valid_from", "valid_to")
+                    ->get();
+
+        $data = array('result' => 1);
+        
+        $data["list"] = $people;
+
+		return response()->json($data);
+    }
+
     public function getVydavatelstvo()
     {
         $periodical_publications = PeriodicalPublication::get();
