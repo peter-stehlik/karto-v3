@@ -92,6 +92,10 @@ var ListFilter = {
               var outcome_date = Help.beautifyDate(value);
               return outcome_date;
             }
+          }, {
+            title: "poznámka",
+            field: "note",
+            sorter: "string"
           }],
           locale: "sk",
           langs: {

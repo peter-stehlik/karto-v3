@@ -355,7 +355,7 @@ class ListingController extends Controller
                     ->whereDate("valid_from", "<=", DB::raw("periodical_publications.label_date"))
                     ->whereDate("valid_to", ">=", DB::raw("periodical_publications.label_date"))
                     ->whereIn("periodical_publication_id", $pp_ids)
-                    ->select("people.id AS person_id", "title", "name1", "address1", "zip_code", "city", "name", "count", "valid_from", "valid_to")
+                    ->select("people.id AS person_id", "title", "name1", "address1", "zip_code", "city", "name", "count", "valid_from", "valid_to", "periodical_orders.note")
                     ->get();
 
         $data = array('result' => 1);
