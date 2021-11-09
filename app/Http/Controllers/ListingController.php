@@ -414,6 +414,31 @@ class ListingController extends Controller
 		return response()->json($data);
     }
 
+    /* Vydavatelstvo - Pocet objednavok */
+    public function getPocetObj()
+    {
+   /*     $p = PeriodicalOrder::groupBy("periodical_publication_id")
+            ->select(DB::raw("SUM(count) AS total_count"), DB::raw("DATE_FORMAT(created_at,'%M %Y') as months"), "periodical_publication_id")
+            ->get();
+
+        foreach( $p as $e ){
+            echo "<pre>";
+            print_r($e->periodical_publication_id);
+            print_r(" --- ");
+            print_r($e->total_count);
+            echo "</pre>";
+        }*/
+
+
+        return view('v-vydavatelstvo/pocet-objednavok');
+    }
+
+    /* Vydavatelstvo - Pocet objednavok filter */
+    public function getPocetObjFilterJSON()
+    {
+        
+    }
+
     public function getVydavatelstvo()
     {
         $periodical_publications = PeriodicalPublication::get();
@@ -493,10 +518,12 @@ class ListingController extends Controller
 
         $periodical_price = PeriodicalPublication::find($pp_id)->price;
 
+        $total_count = 0;
         foreach( $periodical_orders as $order ){
             $count = $order->count;
             $minus = $count*$periodical_price;
             $new_credit = $order->credit - $minus;
+            $total_count += $count;
 
             PeriodicalOrder::where("id", $order->id)
             ->update([
@@ -510,6 +537,12 @@ class ListingController extends Controller
                 "goal" => "Zauctovanie: " . $periodical_name . ", ID: " . $posted->id,
             ]);
         }
+
+        // poznacit kolko periodik bolo zauctovanych
+        PostedPeriodicalPublication::where("id", $posted->id)
+            ->update([
+                "total_count" => $total_count,
+        ]);
 
         return redirect('/vydavatelstvo')->with('message', 'Operácia sa podarila!');
     }

@@ -24,6 +24,12 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
+		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.get-pocet-obj' ) active @endif" href="{{ route('vydavatelstvo.get-pocet-obj') }}">
+			Počet objednávok
+		</a>
+	</li><!-- / .nav-item -->
+
+	<li class="nav-item">
 		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.publikacie.index' ) active @endif" href="{{ route('vydavatelstvo.publikacie.index') }}">
 			Periodiká (Publikácie)
 		</a>

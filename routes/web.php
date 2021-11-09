@@ -89,6 +89,9 @@ Route::name('vydavatelstvo.')->group(function () {
 
     Route::get('/vydavatelstvo/objednavky-periodicke', [ListingController::class, 'getObjPeriodickeFilter'])->middleware(['auth'])->name('get-obj-periodicke-filter');
     Route::get('/vydavatelstvo/objednavky-periodicke-filter', [ListingController::class, 'getObjPeriodickeFilterJSON'])->middleware(['auth'])->name('get-obj-periodicke-filter-json');
+
+    Route::get('/vydavatelstvo/pocet-objednavok', [ListingController::class, 'getPocetObj'])->middleware(['auth'])->name('get-pocet-obj');
+    Route::get('/vydavatelstvo/pocet-objednavok-filter', [ListingController::class, 'getPocetObjFilterJSON'])->middleware(['auth'])->name('get-pocet-obj-filter-json');
 });
 
 /* -------------- */

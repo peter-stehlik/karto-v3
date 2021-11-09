@@ -18,6 +18,7 @@ class PostedPeriodicalPublication extends Model
     protected $fillable = [
         'user_id',
         'periodical_publication_id',
+        'total_count',
         'label_date',
         'posted_number',
         'posted_volume',
