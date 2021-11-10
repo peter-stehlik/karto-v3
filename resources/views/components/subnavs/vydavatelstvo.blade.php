@@ -30,6 +30,12 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
+		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.get-neplatici' ) active @endif" href="{{ route('vydavatelstvo.get-neplatici') }}">
+			Neplatiči
+		</a>
+	</li><!-- / .nav-item -->
+
+	<li class="nav-item">
 		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.publikacie.index' ) active @endif" href="{{ route('vydavatelstvo.publikacie.index') }}">
 			Periodiká (Publikácie)
 		</a>

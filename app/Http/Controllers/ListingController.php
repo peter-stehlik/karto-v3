@@ -578,4 +578,42 @@ class ListingController extends Controller
 
         return redirect('/vydavatelstvo')->with('message', 'Operácia sa podarila!');
     }
+
+    public function getNeplatici()
+    {
+        $overall = PeriodicalOrder::join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id") 
+                                    ->where("credit", "<", 0)
+                                    ->groupBy("periodical_publication_id")
+                                    ->select(DB::raw("name, SUM(credit) as credit"))
+                                    ->get();
+
+        $maly_kalendar_id = PeriodicalPublication::where("name", "LIKE", "%" . "maly kalendar" . "%")->first()->id;                            
+        $kalendar_nastenny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar nastenny" . "%")->first()->id;
+        $kalendar_knizny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar knizny" . "%")->first()->id;
+        $hlasy_id = PeriodicalPublication::where("name", "LIKE", "%" . "hlasy" . "%")->first()->id;
+
+        $people = Person::leftJoin("periodical_orders AS hlasy", "people.id", "=", "hlasy.person_id")
+                        ->where(function($query) use($hlasy_id, $kalendar_knizny_id, $kalendar_nastenny_id, $maly_kalendar_id){
+                            $query->where("hlasy.periodical_publication_id", $hlasy_id)
+                                    ->orWhere("kalendar_knizny.periodical_publication_id", $kalendar_knizny_id)
+                                    ->orWhere("kalendar_nastenny.periodical_publication_id", $kalendar_nastenny_id)
+                                    ->orWhere("maly_kalendar.periodical_publication_id", $maly_kalendar_id);
+                        })
+                        ->leftJoin("periodical_orders AS kalendar_knizny", "people.id", "=", "kalendar_knizny.person_id")
+                        ->leftJoin("periodical_orders AS kalendar_nastenny", "people.id", "=", "kalendar_nastenny.person_id")
+                        ->leftJoin("periodical_orders AS maly_kalendar", "people.id", "=", "maly_kalendar.person_id")
+                        ->where(function($query){
+                            $query->where("hlasy.credit", "<", 0)
+                                    ->orWhere("kalendar_knizny.credit", "<", 0)
+                                    ->orWhere("maly_kalendar.credit", "<", 0)
+                                    ->orWhere("kalendar_nastenny.credit", "<", 0);
+                        })
+                        ->select("people.id", "title", "name1", "address1", "zip_code", "city", "hlasy.credit AS hlasy_credit", "kalendar_knizny.credit AS kalendar_knizny_credit", "maly_kalendar.credit AS maly_kalendar_credit", "kalendar_nastenny.credit AS kalendar_nastenny_credit")
+                        ->groupBy("people.id")
+                        ->get();
+
+        return view('v-vydavatelstvo/neplatici')
+            ->with("overall", $overall)
+            ->with("people", $people);
+    }
 }
