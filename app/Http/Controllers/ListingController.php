@@ -417,6 +417,8 @@ class ListingController extends Controller
     /* Vydavatelstvo - Pocet objednavok */
     public function getPocetObj()
     {
+        $periodical_publications = PeriodicalPublication::get();
+
         $maly_kalendar_id = PeriodicalPublication::where("name", "LIKE", "%" . "maly kalendar" . "%")->first()->id;
         $maly_kalendar = PostedPeriodicalPublication::where("periodical_publication_id", $maly_kalendar_id)
                                         ->take(12)
@@ -442,6 +444,7 @@ class ListingController extends Controller
                                         ->get();
 
         return view('v-vydavatelstvo/pocet-objednavok')
+                ->with("periodical_publications", $periodical_publications)
                 ->with("maly_kalendar", $maly_kalendar)
                 ->with("kalendar_nastenny", $kalendar_nastenny)
                 ->with("hlasy", $hlasy)
@@ -451,7 +454,21 @@ class ListingController extends Controller
     /* Vydavatelstvo - Pocet objednavok filter */
     public function getPocetObjFilterJSON()
     {
+        $month = $_GET["month"];
+        $year = $_GET["year"];
+        $periodical_publication_id = $_GET["periodical_publication_id"];
+        $date_to_compare = $year . "-" . $month . "-01";
+
+        $count = PeriodicalOrder::where("periodical_publication_id", $periodical_publication_id)
+                                ->whereDate("periodical_orders.valid_from", "<=", $date_to_compare)
+                                ->whereDate("periodical_orders.valid_to", ">=", $date_to_compare)
+                                ->sum('count');
+
+        $data = array('result' => 1);
         
+        $data["count"] = $count;
+
+		return response()->json($data);
     }
 
     public function getVydavatelstvo()

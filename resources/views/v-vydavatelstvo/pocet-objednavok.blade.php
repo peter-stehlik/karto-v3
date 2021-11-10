@@ -103,7 +103,66 @@
 		</div>
 
 		<div class="col-lg-6 offset-lg-1">
-			offset
+			<p><em>Výber ľubovoľného mesiaca.</em></p>
+
+			<div class="p-3 bg-warning">
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="mb-3">
+							<label class="mb-2" for="periodical_publication_id">Periodikum:</label>
+							
+							<select class="form-control" id="periodical_publication_id" required>
+								<option>Vyberte</option>
+								@foreach( $periodical_publications as $pp )	
+									<option value="{!! $pp->id !!}">{!! $pp->name !!}</option>	
+								@endforeach	
+							</select>
+						</div>
+					</div>	
+
+					<div class="col-lg-3">
+						<div class="mb-3">
+							<label class="mb-2" for="month">Mesiac:</label>
+							
+							<select class="form-control" id="month" required>
+								<option>Vyberte</option>	
+								<option value="01">Január</option>	
+								<option value="02">Február</option>	
+								<option value="03">Marec</option>	
+								<option value="04">Apríl</option>	
+								<option value="05">Máj</option>	
+								<option value="06">Jún</option>	
+								<option value="07">Júl</option>	
+								<option value="08">August</option>	
+								<option value="09">September</option>	
+								<option value="10">Október</option>	
+								<option value="11">November</option>	
+								<option value="12">December</option>	
+							</select>
+						</div>
+					</div>
+
+					<div class="col-lg-3">
+						<div class="mb-3">
+							<label class="mb-2" for="year">Rok:</label>
+							
+							<input class="form-control" type="number" id="year" required>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="mb-3">							
+							<button class="btn btn-info" type="submit" id="showCountFilter">Zobraz počet</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="preloader" style="display:none;">
+				Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
+			</div>
+
+			<p class="js-show-count-wrap mt-4" style="display: none;">Počet objednávok za vybraný mesiac: <strong id="showCount"></strong></p>
 		</div>
 	</div>
 </x-app-layout>
