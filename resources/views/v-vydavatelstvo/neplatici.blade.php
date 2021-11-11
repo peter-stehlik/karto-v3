@@ -26,7 +26,6 @@
 		$(document).ready(function () {
     		if ($("#neplaticiTabulator").length) {
 				var data = @json($people);
-
 				console.log(data);
 
 				if (data.length) {
@@ -49,8 +48,59 @@
 						{title:"adresa", field:"address1", sorter:"string"},
 						{title:"mesto", field:"city", sorter:"string"},
 						{title:"PSČ", field:"zip_code", sorter:"string"},
-						{title:"publikácia", field:"name", sorter:"string"},
-						{title:"kredit", field:"credit", sorter:"number"},
+						{title:"Hlasy", field:"hlasy_credit", sorter:"number", formatter: function(cell, formatterParams){
+							let value = cell.getValue();
+							if( !value ){
+								return value;
+							}
+
+							let credit = Help.beautifyDecimal(value);
+							credit += " &euro;"
+							if(value<0){
+								credit = "<span class='text-danger'>" + credit + "</span>";
+							}
+
+							return credit;
+		                }},
+						{title:"Malý kalendár", field:"maly_kalendar_credit", sorter:"number", formatter: function(cell, formatterParams){
+							let value = cell.getValue();
+							if( !value ){
+								return value;
+							}
+							let credit = Help.beautifyDecimal(value);
+							credit += " &euro;"
+							if(value<0){
+								credit = "<span class='text-danger'>" + credit + "</span>";
+							}
+
+							return credit;
+		                }},
+						{title:"Kalendár knižný", field:"kalendar_knizny_credit", sorter:"number", formatter: function(cell, formatterParams){
+							let value = cell.getValue();
+							if( !value ){
+								return value;
+							}
+							let credit = Help.beautifyDecimal(value);
+							credit += " &euro;"
+							if(value<0){
+								credit = "<span class='text-danger'>" + credit + "</span>";
+							}
+
+							return credit;
+		                }},
+						{title:"Kalendár nástenný", field:"kalendar_nastenny_credit", sorter:"number", formatter: function(cell, formatterParams){
+							let value = cell.getValue();
+							if( !value ){
+								return value;
+							}
+							let credit = Help.beautifyDecimal(value);
+							credit += " &euro;"
+							if(value<0){
+								credit = "<span class='text-danger'>" + credit + "</span>";
+							}
+
+							return credit;
+		                }},
 					],
 					locale: "sk",
 					langs: {
