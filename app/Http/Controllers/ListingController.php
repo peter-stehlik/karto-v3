@@ -636,4 +636,76 @@ class ListingController extends Controller
             ->with("overall", $overall)
             ->with("people", $list);
     }
+
+    public function getTlacNeplaticov()
+    {
+        $periodical_publications = PeriodicalPublication::get();
+
+        return view('v-vydavatelstvo/neplatici-tlac')
+            ->with("periodical_publications", $periodical_publications);
+    }
+
+    public function printNeplaticiPdf(Request $request)
+    {
+        $periodical_publication_id = $request->periodical_publication_id;
+
+        $maly_kalendar_id = PeriodicalPublication::where("name", "LIKE", "%" . "maly kalendar" . "%")->first()->id;                            
+        $kalendar_nastenny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar nastenny" . "%")->first()->id;
+        $kalendar_knizny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar knizny" . "%")->first()->id;
+        $hlasy_id = PeriodicalPublication::where("name", "LIKE", "%" . "hlasy" . "%")->first()->id;
+
+        $people = Person::join("periodical_orders", "people.id", "=", "periodical_orders.person_id")
+                        ->where("periodical_orders.credit", "<", 0)
+                        ->where(function($query) use ($periodical_publication_id){
+                            if( $periodical_publication_id > 0 ){
+                                $query->where("periodical_orders.periodical_publication_id", $periodical_publication_id);
+                            }
+                        })
+                        ->select("people.id", "title", "name1", "address1", "zip_code", "city")
+                        ->get();
+
+        $list = [];
+
+        foreach( $people as $p ){
+            $hlasy = PeriodicalOrder::where("person_id", $p->id)
+                                    ->where("periodical_publication_id", $hlasy_id)
+                                    ->sum("credit");
+
+            $maly_kalendar = PeriodicalOrder::where("person_id", $p->id)
+                                    ->where("periodical_publication_id", $maly_kalendar_id)
+                                    ->sum("credit");
+
+            $kalendar_nastenny = PeriodicalOrder::where("person_id", $p->id)
+                                    ->where("periodical_publication_id", $kalendar_nastenny_id)
+                                    ->sum("credit");
+
+            $kalendar_knizny = PeriodicalOrder::where("person_id", $p->id)
+                                    ->where("periodical_publication_id", $kalendar_knizny_id)
+                                    ->sum("credit");
+
+            $list_item = [
+                "id" => $p->id,
+                "title" => $p->title,
+                "name1" => $p->name1,
+                "address1" => $p->address1,
+                "zip_code" => $p->zip_code,
+                "city" => $p->city,
+                "hlasy_credit" => $hlasy,
+                "maly_kalendar_credit" => $maly_kalendar,
+                "kalendar_nastenny_credit" => $kalendar_nastenny,
+                "kalendar_knizny_credit" => $kalendar_knizny,
+            ];
+
+            array_push($list, $list_item);
+        }
+
+        $data["people"] = $list;
+/*
+        echo "<pre>";
+        print_r($data["people"]);
+        echo "</pre>";*/
+
+        $pdf = PDF::loadView('pdf.tlac-neplaticov', $data);
+		return $pdf->stream('neplatici.pdf');
+    }
 }

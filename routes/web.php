@@ -94,6 +94,8 @@ Route::name('vydavatelstvo.')->group(function () {
     Route::get('/vydavatelstvo/pocet-objednavok-filter', [ListingController::class, 'getPocetObjFilterJSON'])->middleware(['auth'])->name('get-pocet-obj-filter-json');
 
     Route::get('/vydavatelstvo/neplatici', [ListingController::class, 'getNeplatici'])->middleware(['auth'])->name('get-neplatici');
+    Route::get('/vydavatelstvo/tlac-neplaticov', [ListingController::class, 'getTlacNeplaticov'])->middleware(['auth'])->name('get-tlac-neplaticov');
+    Route::post('/vydavatelstvo/tlac-neplaticov', [ListingController::class, 'printNeplaticiPdf'])->middleware(['auth'])->name('post-tlac-neplaticov');
 });
 
 /* -------------- */
