@@ -25,7 +25,6 @@ class PeriodicalOrderFactory extends Factory
             'person_id' => $this->faker->numberBetween(1, 500),
             'periodical_publication_id' => $this->faker->numberBetween(1, 4),
             'count' => $this->faker->numberBetween(1, 10),
-            'credit' => $this->faker->numberBetween(-40, 100),
             'valid_from' => $this->faker->dateTimeBetween($startDate = '-10 years', $endDate = 'now'),
             'valid_to' => $this->faker->dateTimeBetween($startDate = '-10 years', $endDate = '+1 year'),
             'note' => '',

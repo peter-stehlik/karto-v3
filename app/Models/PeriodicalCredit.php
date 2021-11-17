@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PeriodicalOrder extends Model
+class PeriodicalCredit extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -18,10 +18,6 @@ class PeriodicalOrder extends Model
     protected $fillable = [
         'person_id',
         'periodical_publication_id',
-        'count',
-        'valid_from',
-        'valid_to',
-        'note',
-        'gratis',
+        'credit',
     ];
 }

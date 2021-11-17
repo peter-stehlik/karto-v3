@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePeriodicalOrdersTable extends Migration
+class CreatePeriodicalCreditsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreatePeriodicalOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('periodical_orders', function (Blueprint $table) {
+        Schema::create('periodical_credits', function (Blueprint $table) {
             $table->id();
             $table->integer('person_id');
             $table->integer('periodical_publication_id');
-            $table->integer('count')->nullable();
-            $table->date('valid_from')->nullable();
-            $table->date('valid_to')->nullable();
-            $table->string('note')->nullable();
-            $table->boolean('gratis');
+            $table->decimal('credit', 14, 2);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,6 +30,6 @@ class CreatePeriodicalOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('periodical_orders');
+        Schema::dropIfExists('periodical_credits');
     }
 }
