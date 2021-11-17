@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Income::factory(1000)->create();
         \App\Models\Transfer::factory(2000)->create();
         \App\Models\PeriodicalOrder::factory(1000)->create();
-        \App\Models\NonperiodicalOrder::factory(1000)->create();
+        \App\Models\NonperiodicalCredit::factory(1000)->create();
 
         $this->call([
             UserSeeder::class,

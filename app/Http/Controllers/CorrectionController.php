@@ -9,7 +9,7 @@ use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
 use App\Models\Correction;
 use App\Models\PeriodicalOrder;
-use App\Models\NonperiodicalOrder;
+use App\Models\NonperiodicalCredit;
 use App\Models\Outcome;
 use Auth;
 use DB;
@@ -109,7 +109,7 @@ class CorrectionController extends Controller
 		}
 
 		if( $correction->from_nonperiodical_id ){
-			NonperiodicalOrder::where("person_id", $correction->from_person_id)
+			NonperiodicalCredit::where("person_id", $correction->from_person_id)
                             ->where("nonperiodical_publication_id", $correction->from_nonperiodical_id)
                             ->decrement("credit", $correction->sum);
 			
@@ -143,16 +143,16 @@ class CorrectionController extends Controller
 		}
 
 		if( $correction->for_nonperiodical_id ){
-			$exists = NonperiodicalOrder::where("person_id", $correction->for_person_id)
+			$exists = NonperiodicalCredit::where("person_id", $correction->for_person_id)
 							->where("nonperiodical_publication_id", $correction->for_nonperiodical_id)
 							->first();
 			
 			if( $exists ){
-				NonperiodicalOrder::where("person_id", $correction->for_person_id)
+				NonperiodicalCredit::where("person_id", $correction->for_person_id)
 				->where("nonperiodical_publication_id", $correction->for_nonperiodical_id)
 				->increment("credit", $correction->sum);
 			} else {	
-				NonperiodicalOrder::create([
+				NonperiodicalCredit::create([
 					"person_id" => $correction->for_person_id,
 					"nonperiodical_publication_id" => $correction->for_nonperiodical_id,
 					"credit" => $correction->sum,

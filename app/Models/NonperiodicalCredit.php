@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class NonperiodicalOrder extends Model
+class NonperiodicalCredit extends Model
 {
     use HasFactory, SoftDeletes;
 

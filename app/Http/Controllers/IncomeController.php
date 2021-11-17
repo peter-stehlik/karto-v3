@@ -7,7 +7,7 @@ use App\Models\BankAccount;
 use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
 use App\Models\PeriodicalOrder;
-use App\Models\NonperiodicalOrder;
+use App\Models\NonperiodicalCredit;
 use App\Models\Income;
 use App\Models\Outcome;
 use App\Models\Transfer;
@@ -363,16 +363,16 @@ class IncomeController extends Controller
 				}
 				
 				if( $transfer->nonperiodical_publication_id ){
-					$exists = NonperiodicalOrder::where("person_id", $income->person_id)
+					$exists = NonperiodicalCredit::where("person_id", $income->person_id)
 										->where("nonperiodical_publication_id", $transfer->nonperiodical_publication_id)
 										->first();
 
 					if ( $exists ) {
-						NonperiodicalOrder::where("person_id", $income->person_id)
+						NonperiodicalCredit::where("person_id", $income->person_id)
 							->where("nonperiodical_publication_id", $transfer->nonperiodical_publication_id)
 							->increment("credit", $transfer->sum);
 					} else {
-						NonperiodicalOrder::create([
+						NonperiodicalCredit::create([
 							"person_id" => $income->person_id,
 							"nonperiodical_publication_id" => $transfer->nonperiodical_publication_id,
 							"credit" => $transfer->sum,
@@ -406,7 +406,7 @@ class IncomeController extends Controller
 			}
 			
 			if( $from_nonperiodical_id ){
-				NonperiodicalOrder::where("person_id", $from_person_id)
+				NonperiodicalCredit::where("person_id", $from_person_id)
 							->where("nonperiodical_publication_id", $from_nonperiodical_id)
 							->decrement("credit", $correction->sum);
 
@@ -440,16 +440,16 @@ class IncomeController extends Controller
 			}
 
 			if( $correction->for_nonperiodical_id ){
-				$exists = NonperiodicalOrder::where("person_id", $for_person_id)
+				$exists = NonperiodicalCredit::where("person_id", $for_person_id)
 								->where("nonperiodical_publication_id", $for_nonperiodical_id)
 								->first();
 				
 				if( $exists ){
-					NonperiodicalOrder::where("person_id", $for_person_id)
+					NonperiodicalCredit::where("person_id", $for_person_id)
 					->where("nonperiodical_publication_id", $for_nonperiodical_id)
 					->increment("credit", $correction->sum);
 				} else {	
-					NonperiodicalOrder::create([
+					NonperiodicalCredit::create([
 						"person_id" => $for_person_id,
 						"nonperiodical_publication_id" => $for_nonperiodical_id,
 						"credit" => $correction->sum,

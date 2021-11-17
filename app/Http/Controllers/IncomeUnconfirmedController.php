@@ -9,7 +9,7 @@ use App\Models\BankAccount;
 use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
 use App\Models\PeriodicalOrder;
-use App\Models\NonperiodicalOrder;
+use App\Models\NonperiodicalCredit;
 use Auth;
 
 class IncomeUnconfirmedController extends Controller
@@ -231,16 +231,16 @@ class IncomeUnconfirmedController extends Controller
                 }
                 
                 if( $transfer->nonperiodical_publication_id ){
-                    $exists = NonperiodicalOrder::where("person_id", $income->person_id)
+                    $exists = NonperiodicalCredit::where("person_id", $income->person_id)
                                         ->where("nonperiodical_publication_id", $transfer->nonperiodical_publication_id)
                                         ->first();
 
                     if ( $exists ) {
-                        NonperiodicalOrder::where("person_id", $income->person_id)
+                        NonperiodicalCredit::where("person_id", $income->person_id)
                             ->where("nonperiodical_publication_id", $transfer->nonperiodical_publication_id)
                             ->increment("credit", $transfer->sum);
                     } else {
-                        NonperiodicalOrder::create([
+                        NonperiodicalCredit::create([
                             "person_id" => $income->person_id,
                             "nonperiodical_publication_id" => $transfer->nonperiodical_publication_id,
                             "credit" => $transfer->sum,

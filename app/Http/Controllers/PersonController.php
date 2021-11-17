@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Person;
-use App\Models\NonperiodicalOrder;
+use App\Models\NonperiodicalCredit;
 use App\Models\PeriodicalOrder;
 use App\Models\Category;
 use App\Models\User;
@@ -29,10 +29,10 @@ class PersonController extends Controller
 								->select(DB::raw('SUM(credit) as credit, periodical_publications.id, name'))
 								->groupBy("periodical_orders.periodical_publication_id")
 								->get();
-		$nonperiodical_orders = NonperiodicalOrder::where("person_id", $id)
-								->join("nonperiodical_publications", "nonperiodical_orders.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
+		$nonperiodical_credits = NonperiodicalCredit::where("person_id", $id)
+								->join("nonperiodical_publications", "nonperiodical_credits.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
 								->select(DB::raw('SUM(credit) as credit, nonperiodical_publications.id, name'))
-								->groupBy("nonperiodical_orders.nonperiodical_publication_id")
+								->groupBy("nonperiodical_credits.nonperiodical_publication_id")
 								->get();
 		
 		// vyratat Peniaze na ceste
@@ -47,7 +47,7 @@ class PersonController extends Controller
 
 		return view('v-osoba/dobrodinec/ucty')
 			->with('periodical_orders', $periodical_orders)
-			->with('nonperiodical_orders', $nonperiodical_orders)
+			->with('nonperiodical_credits', $nonperiodical_credits)
 			->with('peniaze_na_ceste', $peniaze_na_ceste)
 			->with('person', $person);
 	}

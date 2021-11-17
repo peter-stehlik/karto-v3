@@ -9,7 +9,7 @@ use App\Models\Income;
 use App\Models\Outcome;
 use App\Models\Correction;
 use App\Models\PeriodicalOrder;
-use App\Models\NonperiodicalOrder;
+use App\Models\NonperiodicalCredit;
 use App\Models\Fusion;
 use Auth;
 
@@ -72,13 +72,13 @@ class FusionController extends Controller
 		}
 
 		// zlucenie kredit neperiodik
-		$nonperiodical_order = NonperiodicalOrder::where("person_id", $fused_person_id)
+		$nonperiodical_order = NonperiodicalCredit::where("person_id", $fused_person_id)
 			->update([
 				"person_id" => $fusion_person_id
 			]);
 
 		foreach( $nonperiodical_order as $po ){
-			NonperiodicalOrder::where("person_id", $fusion_person_id)
+			NonperiodicalCredit::where("person_id", $fusion_person_id)
 							->where("nonperiodical_publication_id", $po->nonperiodical_publication_id)
 							->increment("credit", $po->credit);
 		}

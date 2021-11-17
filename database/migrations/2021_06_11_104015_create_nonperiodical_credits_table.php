@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNonperiodicalOrdersTable extends Migration
+class CreateNonperiodicalCreditsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateNonperiodicalOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('nonperiodical_orders', function (Blueprint $table) {
+        Schema::create('nonperiodical_credits', function (Blueprint $table) {
             $table->id();
             $table->integer('person_id');
             $table->integer('nonperiodical_publication_id');
@@ -30,6 +30,6 @@ class CreateNonperiodicalOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nonperiodical_orders');
+        Schema::dropIfExists('nonperiodical_credits');
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\NonperiodicalOrder;
+use App\Models\NonperiodicalCredit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class NonperiodicalOrderFactory extends Factory
+class NonperiodicalCreditFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = NonperiodicalOrder::class;
+    protected $model = NonperiodicalCredit::class;
 
     /**
      * Define the model's default state.
