@@ -12,6 +12,7 @@ use App\Models\Outcome;
 use App\Models\Person;
 use App\Models\Correction;
 use App\Models\PeriodicalOrder;
+use App\Models\PeriodicalCredit;
 use App\Models\PostedPeriodicalPublication;
 use Auth;
 use PDF;
@@ -544,8 +545,10 @@ class ListingController extends Controller
         // odobrat platbu za periodikum
         $periodical_orders = PeriodicalOrder::whereDate("periodical_orders.valid_from", "<=", $accounting_date)
                         ->whereDate("periodical_orders.valid_to", ">=", $accounting_date)
-                        ->where("periodical_publication_id", $pp_id)
+                        ->where("periodical_orders.periodical_publication_id", $pp_id)
                         ->where("gratis", 0)
+                        ->join("periodical_credits", "periodical_orders.person_id", "=", "periodical_credits.person_id")
+                        ->where("periodical_credits.periodical_publication_id", $pp_id)
                         ->get();
 
         $periodical_price = PeriodicalPublication::find($pp_id)->price;
@@ -557,7 +560,7 @@ class ListingController extends Controller
             $new_credit = $order->credit - $minus;
             $total_count += $count;
 
-            PeriodicalOrder::where("id", $order->id)
+            PeriodicalCredit::where("id", $order->id)
             ->update([
                 "credit" => $new_credit,
             ]);
@@ -581,7 +584,7 @@ class ListingController extends Controller
 
     public function getNeplatici()
     {
-        $overall = PeriodicalOrder::join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id") 
+        $overall = PeriodicalCredit::join("periodical_publications", "periodical_credits.periodical_publication_id", "=", "periodical_publications.id") 
                                     ->where("credit", "<", 0)
                                     ->groupBy("periodical_publication_id")
                                     ->select(DB::raw("name, SUM(credit) as credit"))
@@ -592,27 +595,27 @@ class ListingController extends Controller
         $kalendar_knizny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar knizny" . "%")->first()->id;
         $hlasy_id = PeriodicalPublication::where("name", "LIKE", "%" . "hlasy" . "%")->first()->id;
 
-        $people = Person::join("periodical_orders", "people.id", "=", "periodical_orders.person_id")
-                        ->where("periodical_orders.credit", "<", 0)
+        $people = Person::join("periodical_credits", "people.id", "=", "periodical_credits.person_id")
+                        ->where("periodical_credits.credit", "<", 0)
                         ->select("people.id", "title", "name1", "address1", "zip_code", "city")
                         ->get();
 
         $list = [];
 
         foreach( $people as $p ){
-            $hlasy = PeriodicalOrder::where("person_id", $p->id)
+            $hlasy = PeriodicalCredit::where("person_id", $p->id)
                                     ->where("periodical_publication_id", $hlasy_id)
                                     ->sum("credit");
 
-            $maly_kalendar = PeriodicalOrder::where("person_id", $p->id)
+            $maly_kalendar = PeriodicalCredit::where("person_id", $p->id)
                                     ->where("periodical_publication_id", $maly_kalendar_id)
                                     ->sum("credit");
 
-            $kalendar_nastenny = PeriodicalOrder::where("person_id", $p->id)
+            $kalendar_nastenny = PeriodicalCredit::where("person_id", $p->id)
                                     ->where("periodical_publication_id", $kalendar_nastenny_id)
                                     ->sum("credit");
 
-            $kalendar_knizny = PeriodicalOrder::where("person_id", $p->id)
+            $kalendar_knizny = PeriodicalCredit::where("person_id", $p->id)
                                     ->where("periodical_publication_id", $kalendar_knizny_id)
                                     ->sum("credit");
 
@@ -667,19 +670,19 @@ class ListingController extends Controller
         $list = [];
 
         foreach( $people as $p ){
-            $hlasy = PeriodicalOrder::where("person_id", $p->id)
+            $hlasy = PeriodicalCredit::where("person_id", $p->id)
                                     ->where("periodical_publication_id", $hlasy_id)
                                     ->sum("credit");
 
-            $maly_kalendar = PeriodicalOrder::where("person_id", $p->id)
+            $maly_kalendar = PeriodicalCredit::where("person_id", $p->id)
                                     ->where("periodical_publication_id", $maly_kalendar_id)
                                     ->sum("credit");
 
-            $kalendar_nastenny = PeriodicalOrder::where("person_id", $p->id)
+            $kalendar_nastenny = PeriodicalCredit::where("person_id", $p->id)
                                     ->where("periodical_publication_id", $kalendar_nastenny_id)
                                     ->sum("credit");
 
-            $kalendar_knizny = PeriodicalOrder::where("person_id", $p->id)
+            $kalendar_knizny = PeriodicalCredit::where("person_id", $p->id)
                                     ->where("periodical_publication_id", $kalendar_knizny_id)
                                     ->sum("credit");
 

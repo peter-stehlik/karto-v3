@@ -8,7 +8,7 @@ use App\Models\Income;
 use App\Models\BankAccount;
 use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
-use App\Models\PeriodicalOrder;
+use App\Models\PeriodicalCredit;
 use App\Models\NonperiodicalCredit;
 use Auth;
 
@@ -213,16 +213,16 @@ class IncomeUnconfirmedController extends Controller
         foreach( $incomes as $income ){
             foreach( $income->transfers as $transfer ){
                 if( $transfer->periodical_publication_id ){
-                    $exists = PeriodicalOrder::where("person_id", $income->person_id)
+                    $exists = PeriodicalCredit::where("person_id", $income->person_id)
                                         ->where("periodical_publication_id", $transfer->periodical_publication_id)
                                         ->first();
 
                     if ( $exists ) {
-                        PeriodicalOrder::where("person_id", $income->person_id)
+                        PeriodicalCredit::where("person_id", $income->person_id)
                             ->where("periodical_publication_id", $transfer->periodical_publication_id)
                             ->increment("credit", $transfer->sum);
                     } else {
-                        PeriodicalOrder::create([
+                        PeriodicalCredit::create([
                             "person_id" => $income->person_id,
                             "periodical_publication_id" => $transfer->periodical_publication_id,
                             "credit" => $transfer->sum,

@@ -19,7 +19,7 @@ class PeriodicalOrderController extends Controller
         $person = Person::withTrashed()->find($id);
         $periodical_orders = PeriodicalOrder::where("person_id", $id)
                                 ->join("periodical_publications", "periodical_publications.id", "=", "periodical_orders.periodical_publication_id")
-                                ->select("periodical_orders.id", "periodical_publications.name", "periodical_publication_id", "count", "credit", "valid_from", "valid_to", "periodical_orders.note", "gratis")
+                                ->select("periodical_orders.id", "periodical_publications.name", "periodical_publication_id", "count", "valid_from", "valid_to", "periodical_orders.note", "gratis")
                                 ->orderBy("periodical_orders.created_at", "desc")
                                 ->get();
         
@@ -53,8 +53,7 @@ class PeriodicalOrderController extends Controller
     {
         $person_id = $request->person_id;
         $periodical_publication_id = $request->periodical_publication_id; 
-        $count = $request->count; 
-        $credit = $request->credit; 
+        $count = $request->count;  
         $valid_from = strtotime($request->valid_from);
 		$valid_from = date('Y-m-d', $valid_from);
         $valid_to = $request->valid_to;
@@ -70,7 +69,6 @@ class PeriodicalOrderController extends Controller
             'person_id' => $person_id,
             'periodical_publication_id' => $periodical_publication_id,
             'count' => $count,
-            'credit' => $credit,
             'valid_from' => $valid_from,
             'valid_to' => $valid_to,
             'note' => $note,
@@ -121,7 +119,6 @@ class PeriodicalOrderController extends Controller
         $person_id = $request->person_id;
         $periodical_publication_id = $request->periodical_publication_id; 
         $count = $request->count; 
-        $credit = $request->credit; 
         $valid_from = strtotime($request->valid_from);
 		$valid_from = date('Y-m-d', $valid_from);
         $valid_to = $request->valid_to;
@@ -138,7 +135,6 @@ class PeriodicalOrderController extends Controller
                 'person_id' => $person_id,
                 'periodical_publication_id' => $periodical_publication_id,
                 'count' => $count,
-                'credit' => $credit,
                 'valid_from' => $valid_from,
                 'valid_to' => $valid_to,
                 'note' => $note,

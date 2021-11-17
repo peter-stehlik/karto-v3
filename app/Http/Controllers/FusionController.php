@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Income;
 use App\Models\Outcome;
 use App\Models\Correction;
-use App\Models\PeriodicalOrder;
+use App\Models\PeriodicalCredit;
 use App\Models\NonperiodicalCredit;
 use App\Models\Fusion;
 use Auth;
@@ -62,11 +62,11 @@ class FusionController extends Controller
 				]);
 
 		// zlucenie kredit periodik
-		$periodical_order = PeriodicalOrder::where("person_id", $fused_person_id)
+		$periodical_order = PeriodicalCredit::where("person_id", $fused_person_id)
 			->get();
 		
 		foreach( $periodical_order as $po ){
-			PeriodicalOrder::where("person_id", $fusion_person_id)
+			PeriodicalCredit::where("person_id", $fusion_person_id)
 							->where("periodical_publication_id", $po->periodical_publication_id)
 							->increment("credit", $po->credit);
 		}

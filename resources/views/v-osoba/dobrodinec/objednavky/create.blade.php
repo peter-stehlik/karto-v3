@@ -46,11 +46,13 @@
                     
                     <div class="col-lg-6">
                         <div class="mb-3">
-							<label class="pr-2 mb-1" for="credit">Kredit </label>
+							<label class="pr-2 mb-1" for="gratis">Grátis </label>
 
 							<div>
-								<input class="form-control" id="credit" type="text" name="credit"
-								 autocomplete="off">
+								<select class="form-control" id="gratis" type="text" name="gratis">
+                                    <option value="0">nie</option>
+                                    <option value="1">áno</option>
+                                </select>
 							</div>
 						</div>
 					</div>
@@ -82,19 +84,6 @@
 
 							<div>
 								<textarea class="form-control" id="note" name="note"></textarea>
-							</div>
-						</div>
-					</div>
-
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-							<label class="pr-2 mb-1" for="gratis">Grátis </label>
-
-							<div>
-								<select class="form-control" id="gratis" type="text" name="gratis">
-                                    <option value="0">nie</option>
-                                    <option value="1">áno</option>
-                                </select>
 							</div>
 						</div>
 					</div>

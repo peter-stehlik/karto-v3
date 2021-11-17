@@ -18,7 +18,7 @@
 			</p>
 		@endif
 
-		@foreach( $periodical_orders as $po )
+		@foreach( $periodical_credits as $po )
 			<p class="d-flex align-items-center mb-1">
 				<span class="pt-1 @if( $po->credit < 0 ) text-danger @endif">{{ $po->name }}: {{ number_format($po->credit, 2, ",", " ") }} &euro;</span>
 				

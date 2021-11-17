@@ -22,7 +22,6 @@
                         <th>ID</th>
                         <th>Periodikum</th>
                         <th>Počet</th>
-                        <th>Kredit</th>
                         <th>Platné od</th>
                         <th>Platné do</th>
                         <th>Poznámka</th>
@@ -47,9 +46,8 @@
                         <td>{{ $po->id }}</td>
                         <td><a href="{{ route('dobrodinec.objednavky.edit', [$person->id, $po->id]) }}">{{ $po->name }}</a></td>
                         <td>{{ $po->count }}</td>
-                        <td>{!! number_format($po->credit, 2, ",", " ") !!} &euro;</td>
-                        <td>{!! (!strpos($po->valid_to, '1970') ? "" : date('j.n.Y', strtotime($po->valid_from))) !!}</td>
-                        <td>{!! ($po->valid_to == '3000-01-01' || !strpos($po->valid_to, '1970')) ? "" : date('j.n.Y', strtotime($po->valid_to)) !!}</td>
+                        <td>{!! (strpos($po->valid_to, '1970') ? "" : date('j.n.Y', strtotime($po->valid_from))) !!}</td>
+                        <td>{!! ($po->valid_to == '3000-01-01' || strpos($po->valid_to, '1970')) ? "" : date('j.n.Y', strtotime($po->valid_to)) !!}</td>
                         <td>{{ $po->note }}</td>
                         <td>{!! $po->gratis ? "áno" : "" !!}</td>
                         <td><a href="{{ route('dobrodinec.objednavky.edit', [$person->id, $po->id]) }}">

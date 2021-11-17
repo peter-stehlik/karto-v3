@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Person;
 use App\Models\NonperiodicalCredit;
-use App\Models\PeriodicalOrder;
+use App\Models\PeriodicalCredit;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\BankAccount;
@@ -24,10 +24,10 @@ class PersonController extends Controller
 	public function index($id)
 	{
 		$person = Person::withTrashed()->find($id);
-		$periodical_orders = PeriodicalOrder::where("person_id", $id)
-								->join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id")
+		$periodical_credits = PeriodicalCredit::where("person_id", $id)
+								->join("periodical_publications", "periodical_credits.periodical_publication_id", "=", "periodical_publications.id")
 								->select(DB::raw('SUM(credit) as credit, periodical_publications.id, name'))
-								->groupBy("periodical_orders.periodical_publication_id")
+								->groupBy("periodical_credits.periodical_publication_id")
 								->get();
 		$nonperiodical_credits = NonperiodicalCredit::where("person_id", $id)
 								->join("nonperiodical_publications", "nonperiodical_credits.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
@@ -46,7 +46,7 @@ class PersonController extends Controller
 
 
 		return view('v-osoba/dobrodinec/ucty')
-			->with('periodical_orders', $periodical_orders)
+			->with('periodical_credits', $periodical_credits)
 			->with('nonperiodical_credits', $nonperiodical_credits)
 			->with('peniaze_na_ceste', $peniaze_na_ceste)
 			->with('person', $person);
