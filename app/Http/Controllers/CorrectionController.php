@@ -27,15 +27,24 @@ class CorrectionController extends Controller
 		$periodical_publication_id;
 		$nonperiodical_publication_id;
 		$transfer_name;
+		$credit;
 		if( isset($_GET["periodical_publication_id"]) ){
 			$periodical_publication_id = $_GET["periodical_publication_id"];
 			$transfer_name = PeriodicalPublication::find($periodical_publication_id);
 			$transfer_name = $transfer_name->name;
+			$credit = PeriodicalCredit::where("person_id", $id)
+							->where("periodical_publication_id", $periodical_publication_id)
+							->select(DB::raw('SUM(credit) as credit'))
+							->first();
 		}
 		if( isset($_GET["nonperiodical_publication_id"]) ){
 			$nonperiodical_publication_id = $_GET["nonperiodical_publication_id"];
 			$transfer_name = NonperiodicalPublication::find($nonperiodical_publication_id);
 			$transfer_name = $transfer_name->name;
+			$credit = NonperiodicalCredit::where("person_id", $id)
+							->where("nonperiodical_publication_id", $nonperiodical_publication_id)
+							->select(DB::raw('SUM(credit) as credit'))
+							->first();
 		}
 		$periodical_publications = PeriodicalPublication::get();
 		$nonperiodical_publications = NonperiodicalPublication::get();
@@ -44,6 +53,7 @@ class CorrectionController extends Controller
 			->with('periodical_publications', $periodical_publications)
 			->with('nonperiodical_publications', $nonperiodical_publications)
 			->with('transfer_name', $transfer_name)
+			->with('credit', $credit)
 			->with('person', $person);
 	}
 

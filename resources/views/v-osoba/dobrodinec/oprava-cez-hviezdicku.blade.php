@@ -82,7 +82,7 @@
 							<div class="mb-3">
 								<label class="pr-2 mb-1" for="sum">Suma</label>
 
-								<input class="form-control" name="sum" id="sum" type="number">
+								<input class="form-control" name="sum" id="sum" type="number" value="{!! $credit->credit !!}">
 							</div>
 						</div>
 
