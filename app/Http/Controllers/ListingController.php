@@ -274,6 +274,7 @@ class ListingController extends Controller
         if( $request->date_to ){
             $date_to = date('Y-m-d', strtotime($request->date_to));
         }
+        $date_to;
         $bank_account_id = $request->bank_account_id;
         $transfer_type_id = $request->transfer_type_id;
         $transfer_type_name = "";
@@ -286,7 +287,11 @@ class ListingController extends Controller
 
             $data["people"] = Transfer::where("nonperiodical_publication_id", $transfer_type_id)
                                         ->where("incomes.confirmed", 1)
-                                        ->where('incomes.bank_account_id', $bank_account_id)
+                                        ->where(function($query) use ($bank_account_id) {
+                                            if($bank_account_id){
+                                                $query->where('incomes.bank_account_id', $bank_account_id);
+                                            }
+                                        })
                                         ->whereDate('transfer_date','<=', $date_to)
                                         ->whereDate('transfer_date','>=', $date_from)
                                         ->join("incomes", "incomes.id", "=", "transfers.income_id")
@@ -299,7 +304,11 @@ class ListingController extends Controller
 
             $data["people"] = Transfer::where("periodical_publication_id", $transfer_type_id)
                                         ->where("incomes.confirmed", 1)
-                                        ->where('incomes.bank_account_id', $bank_account_id)
+                                        ->where(function($query) use ($bank_account_id) {
+                                            if($bank_account_id){
+                                                $query->where('incomes.bank_account_id', $bank_account_id);
+                                            }
+                                        })
                                         ->whereDate('transfer_date','<=', $date_to)
                                         ->whereDate('transfer_date','>=', $date_from)
                                         ->join("incomes", "incomes.id", "=", "transfers.income_id")

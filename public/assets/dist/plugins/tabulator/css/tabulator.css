@@ -157,6 +157,7 @@
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable .tabulator-col-title {
   padding-right: 25px;
+  font-size: 12px;
 }
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable:hover {

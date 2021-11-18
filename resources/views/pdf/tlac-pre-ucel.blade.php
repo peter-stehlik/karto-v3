@@ -8,7 +8,7 @@
 		table caption { text-align:left; }
 		table thead { border-bottom:1px solid #333; }
 		table tfoot { border-top:1px solid #333; }
-		table td, table th { padding:3px 5px 3px 0; text-align:left; }
+		table td, table th { padding:3px 5px 3px 0; border-bottom:1px solid #eee; text-align:left; }
 		/*table td:first-child { width:25%; }*/
 		table th:last-child, table td:last-child { text-align: right; }
 		.page-break { page-break-after: always; }
