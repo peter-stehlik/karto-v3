@@ -23,7 +23,7 @@ class PeriodicalCreditFactory extends Factory
     {
         return [
             'person_id' => $this->faker->numberBetween(1, 500),
-            'periodical_publication_id' => $this->faker->numberBetween(1, 3),
+            'periodical_publication_id' => $this->faker->numberBetween(1, 4),
             'credit' => $this->faker->numberBetween(-40, 100),
         ];
     }
