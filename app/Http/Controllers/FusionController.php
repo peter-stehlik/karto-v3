@@ -62,25 +62,29 @@ class FusionController extends Controller
 				]);
 
 		// zlucenie kredit periodik
-		$periodical_order = PeriodicalCredit::where("person_id", $fused_person_id)
+		$periodical_credit = PeriodicalCredit::where("person_id", $fused_person_id)
 			->get();
 		
-		foreach( $periodical_order as $po ){
-			PeriodicalCredit::where("person_id", $fusion_person_id)
-							->where("periodical_publication_id", $po->periodical_publication_id)
-							->increment("credit", $po->credit);
+		if( $periodical_credit ){
+			foreach( $periodical_credit as $po ){
+				PeriodicalCredit::where("person_id", $fusion_person_id)
+				->where("periodical_publication_id", $po->periodical_publication_id)
+				->increment("credit", $po->credit);
+			}
 		}
 
 		// zlucenie kredit neperiodik
-		$nonperiodical_order = NonperiodicalCredit::where("person_id", $fused_person_id)
+		$nonperiodical_credit = NonperiodicalCredit::where("person_id", $fused_person_id)
 			->update([
 				"person_id" => $fusion_person_id
 			]);
 
-		foreach( $nonperiodical_order as $po ){
-			NonperiodicalCredit::where("person_id", $fusion_person_id)
-							->where("nonperiodical_publication_id", $po->nonperiodical_publication_id)
-							->increment("credit", $po->credit);
+		if( $nonperiodical_credit ){
+			foreach( $nonperiodical_credit as $po ){
+				NonperiodicalCredit::where("person_id", $fusion_person_id)
+				->where("nonperiodical_publication_id", $po->nonperiodical_publication_id)
+				->increment("credit", $po->credit);
+			}
 		}
 
 		// zaznam o zluceni
