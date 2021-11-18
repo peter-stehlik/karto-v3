@@ -44,7 +44,7 @@ class ListingController extends Controller
 		$bank_account_id = $request->bank_account_id;
 		$date_from = date('Y-m-d', strtotime($request->date_from));
         $date_to = date('Y-m-d', strtotime("1.1.3000"));
-        if( $request->date_to ){
+        if( strlen($request->date_to) > 0 ){
             $date_to = date('Y-m-d', strtotime($request->date_to));
         }
 		$current_year = date('Y');
@@ -87,9 +87,9 @@ class ListingController extends Controller
 					$query->where('incomes.bank_account_id', $bank_account_id);
 				}
             })
-            ->whereDate('income_date','<=', $date_to)
-            ->whereDate('income_date','>=', $date_from)
-			->whereYear("incomes.income_date", "=", $current_year)
+            ->whereDate('transfer_date','<=', $date_to)
+            ->whereDate('transfer_date','>=', $date_from)
+			->whereYear("transfer_date", "=", $current_year)
             ->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
 			->groupBy("periodical_publications.id")
@@ -103,9 +103,9 @@ class ListingController extends Controller
 					$query->where('incomes.bank_account_id', $bank_account_id);
 				}
             })
-            ->whereDate('income_date','<=', $date_to)
-            ->whereDate('income_date','>=', $date_from)
-            ->whereYear("incomes.income_date", "=", $current_year)
+            ->whereDate('transfer_date','<=', $date_to)
+            ->whereDate('transfer_date','>=', $date_from)
+            ->whereYear("transfer_date", "=", $current_year)
             ->join("incomes", "incomes.id", "=", "transfers.income_id")
             ->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
             ->groupBy("nonperiodical_publications.id")
@@ -119,9 +119,9 @@ class ListingController extends Controller
 					$query->where('incomes.bank_account_id', $bank_account_id);
 				}
             })
-            ->whereDate('income_date','<=', $date_to)
-            ->whereDate('income_date','>=', $date_from)
-            ->whereYear("incomes.income_date", "=", $current_year)
+            ->whereDate('transfer_date','<=', $date_to)
+            ->whereDate('transfer_date','>=', $date_from)
+            ->whereYear("transfer_date", "=", $current_year)
 			->where("invoice", "!=", "")
             ->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
@@ -136,9 +136,9 @@ class ListingController extends Controller
 					$query->where('incomes.bank_account_id', $bank_account_id);
 				}
             })
-            ->whereDate('income_date','<=', $date_to)
-            ->whereDate('income_date','>=', $date_from)
-            ->whereYear("incomes.income_date", "=", $current_year)
+            ->whereDate('transfer_date','<=', $date_to)
+            ->whereDate('transfer_date','>=', $date_from)
+            ->whereYear("transfer_date", "=", $current_year)
             ->where("invoice", "!=", "")
             ->join("incomes", "incomes.id", "=", "transfers.income_id")
             ->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
@@ -154,7 +154,7 @@ class ListingController extends Controller
 					$query->where('incomes.bank_account_id', $bank_account_id);
 				}
             })
-			->whereYear("incomes.income_date", ">", $current_year)
+			->whereYear("transfer_date", ">", $current_year)
             ->join("incomes", "incomes.id", "=", "transfers.income_id")
 			->join("periodical_publications", "periodical_publications.id", "=", "transfers.periodical_publication_id")
 			->groupBy("periodical_publications.id")
@@ -168,7 +168,7 @@ class ListingController extends Controller
                 $query->where('incomes.bank_account_id', $bank_account_id);
             }
         })
-        ->whereYear("incomes.income_date", ">", $current_year)
+        ->whereYear("transfer_date", ">", $current_year)
         ->join("incomes", "incomes.id", "=", "transfers.income_id")
         ->join("nonperiodical_publications", "nonperiodical_publications.id", "=", "transfers.nonperiodical_publication_id")
         ->groupBy("nonperiodical_publications.id")
