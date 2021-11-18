@@ -198,7 +198,7 @@ class ListingController extends Controller
     {
 		$corrections_from = date('Y-m-d', strtotime($request->corrections_from));
         $corrections_to = date('Y-m-d', strtotime("1.1.3000"));
-        if( $request->date_to ){
+        if( strlen($request->corrections_to) > 0 ){
             $corrections_to = date('Y-m-d', strtotime($request->corrections_to));
         }
 

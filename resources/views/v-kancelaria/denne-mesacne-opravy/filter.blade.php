@@ -27,10 +27,10 @@
 
     <script>
         $(document).ready(function(){
-             $("#date_from").on("input", function(){                 
+             $("#corrections_from").on("input", function(){                 
                 let val = $(this).val();
 
-                $("#date_to").val(val);
+                $("#corrections_to").val(val);
              });
         });
     </script>
