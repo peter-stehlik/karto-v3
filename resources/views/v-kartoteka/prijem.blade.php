@@ -57,6 +57,10 @@
 						<a class="js-toggle-search-inputs btn btn-warning" href="javascript:void(0);">Vyhľadávanie</a>
 					</div>
 
+					<div class="js-person-credits p-3 pb-2 mb-4 bg-primary" style="display: none;">
+
+					</div>
+
 					<input type="hidden" name="person_id" id="person_id">
 
 					<div class="col-lg-5">
@@ -69,9 +73,9 @@
 						</div>
 					</div>
 
-					<div class="col-lg-2">
+					<div class="col-lg-2 bg-light">
 						<div class="mb-3">
-							<label class="pr-2 mb-1" for="income_sum">Suma</label>
+							<label class="pr-2 mb-1" for="income_sum" style="font-weight: bold;">Suma</label>
 
 							<div>
 								<input class="form-control" id="income_sum" type="text" name="income_sum" autocomplete="off">

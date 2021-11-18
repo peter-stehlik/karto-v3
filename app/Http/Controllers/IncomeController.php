@@ -190,6 +190,41 @@ class IncomeController extends Controller
 	}
 
 	/**
+     * Receive credits for concrete person.
+	 * inspired by PersonController.index
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function loadPersonCredits()
+	{
+		$id = $_GET["personId"];
+
+		$data = array('result' => 1);
+
+		$data["periodical_credits"] = PeriodicalCredit::where("person_id", $id)
+								->join("periodical_publications", "periodical_credits.periodical_publication_id", "=", "periodical_publications.id")
+								->select(DB::raw('SUM(credit) as credit, periodical_publications.id, name'))
+								->groupBy("periodical_credits.periodical_publication_id")
+								->get();
+		$data["nonperiodical_credits"] = NonperiodicalCredit::where("person_id", $id)
+								->join("nonperiodical_publications", "nonperiodical_credits.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
+								->select(DB::raw('SUM(credit) as credit, nonperiodical_publications.id, name'))
+								->groupBy("nonperiodical_credits.nonperiodical_publication_id")
+								->get();
+		
+		// vyratat Peniaze na ceste
+		$incomes_sum = Income::where("person_id", $id)
+							->where("confirmed", 1)
+							->sum("sum");
+		$transfers_sum = Transfer::join("incomes", "incomes.id", "=", "transfers.income_id")
+									->where("person_id", $id)
+									->sum("transfers.sum");
+		$data["peniaze_na_ceste"] = $incomes_sum - $transfers_sum;
+
+		return response()->json($data);
+	}
+
+	/**
      * Confirm unconfirmed incomes - preview.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -47,6 +47,8 @@ Route::name('kartoteka.')->group(function () {
     Route::post('/kartoteka/prijem', [IncomeController::class, 'store'])->middleware(['auth'])->name('prijem-post');
     
     Route::get('/kartoteka/prijem/autocomplete', [IncomeController::class, 'autocomplete'])->middleware(['auth'])->name('autocomplete-get');
+
+    Route::get('/kartoteka/prijem/load-person-credits', [IncomeController::class, 'loadPersonCredits'])->middleware(['auth'])->name('load-person-credits');
     
     Route::get('/kartoteka/prijem/create-new-person', [IncomeController::class, 'createNewPerson'])->middleware(['auth'])->name('create-new-person-get');
     

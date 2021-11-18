@@ -343,6 +343,7 @@ let Income = {
 
 		Income.clearSearchResults();
 		Income.toggleSearchInputs();
+		Income.loadPersonCredits(userId);
 	},
 	/*
 	*
@@ -467,6 +468,60 @@ let Income = {
 
 			$(".form-control[name*='transfer_date']").val(income_date);
 		}
+	},
+	/*
+	*
+	*   LOAD CREDITS INFORMATION FOR CHOSEN PERSON
+	*
+	*
+	*/
+	loadPersonCredits: personId => {
+		$(".js-person-credits").empty();
+
+		if( !personId ){
+			return;
+		}
+
+		Help.showPreloader();
+
+		$.getJSON(
+			"/kartoteka/prijem/load-person-credits",
+			{
+				personId: personId
+			},
+			function (data) {
+				if (data.result) {
+					Help.hidePreloader();
+				}
+
+				let creditsHtml = "";
+				
+				if( data.peniaze_na_ceste ){
+					let pnc = `<strong class="d-block mb-3">Peniaze na ceste: ${data.peniaze_na_ceste} &euro;</strong>`;
+					creditsHtml += pnc;
+				}
+
+				if( data.periodical_credits ){
+					for( let i=0; i< data.periodical_credits.length; i++ ){
+						let credit = Help.beautifyDecimal(data.periodical_credits[i].credit);
+						let pc = `<p class="mb-2 ${(credit<0) ? 'text-danger' : ''}">${data.periodical_credits[i].name}: ${credit} &euro;</p>`;
+
+						creditsHtml += pc;
+					}
+				}
+
+				if( data.nonperiodical_credits ){
+					for( let i=0; i< data.nonperiodical_credits.length; i++ ){
+						let credit = Help.beautifyDecimal(data.nonperiodical_credits[i].credit);
+						let nc = `<p class="mb-2 ${(credit<0) ? 'text-danger' : ''}">${data.nonperiodical_credits[i].name}: ${credit} &euro;</p>`;
+
+						creditsHtml += nc;
+					}
+				}
+
+				$(".js-person-credits").show().html(creditsHtml);
+			}
+		);		
 	},
 }
 

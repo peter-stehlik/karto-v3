@@ -274,6 +274,7 @@ var Income = {
     $("#transfers").show();
     Income.clearSearchResults();
     Income.toggleSearchInputs();
+    Income.loadPersonCredits(userId);
   },
 
   /*
@@ -385,6 +386,55 @@ var Income = {
       var income_date = $("#income_date").val();
       $(".form-control[name*='transfer_date']").val(income_date);
     }
+  },
+
+  /*
+  *
+  *   LOAD CREDITS INFORMATION FOR CHOSEN PERSON
+  *
+  *
+  */
+  loadPersonCredits: function loadPersonCredits(personId) {
+    $(".js-person-credits").empty();
+
+    if (!personId) {
+      return;
+    }
+
+    Help.showPreloader();
+    $.getJSON("/kartoteka/prijem/load-person-credits", {
+      personId: personId
+    }, function (data) {
+      if (data.result) {
+        Help.hidePreloader();
+      }
+
+      var creditsHtml = "";
+
+      if (data.peniaze_na_ceste) {
+        var pnc = "<strong class=\"d-block mb-3\">Peniaze na ceste: ".concat(data.peniaze_na_ceste, " &euro;</strong>");
+        creditsHtml += pnc;
+      }
+
+      if (data.periodical_credits) {
+        for (var i = 0; i < data.periodical_credits.length; i++) {
+          var credit = Help.beautifyDecimal(data.periodical_credits[i].credit);
+          var pc = "<p class=\"mb-2 ".concat(credit < 0 ? 'text-danger' : '', "\">").concat(data.periodical_credits[i].name, ": ").concat(credit, " &euro;</p>");
+          creditsHtml += pc;
+        }
+      }
+
+      if (data.nonperiodical_credits) {
+        for (var _i = 0; _i < data.nonperiodical_credits.length; _i++) {
+          var _credit = Help.beautifyDecimal(data.nonperiodical_credits[_i].credit);
+
+          var nc = "<p class=\"mb-2 ".concat(_credit < 0 ? 'text-danger' : '', "\">").concat(data.nonperiodical_credits[_i].name, ": ").concat(_credit, " &euro;</p>");
+          creditsHtml += nc;
+        }
+      }
+
+      $(".js-person-credits").show().html(creditsHtml);
+    });
   }
 }; //////////
 // INIT
