@@ -18,6 +18,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\PeriodicalOrderController;
 use App\Http\Controllers\FusionController;
+use App\Http\Controllers\XadminController;
 
 
 /*
@@ -190,6 +191,14 @@ Route::name('uzivatel.')->group(function () {
     Route::get('/uzivatel/zoznam-oprav', [PersonFilterController::class, 'getAllCorrections'])->middleware(['auth'])->name('zoznam-oprav');
 
     Route::get('/uzivatel/zoznam-vydajov', [PersonFilterController::class, 'getAllOutcomes'])->middleware(['auth'])->name('zoznam-vydajov');
+});
+
+/* ---------------- */
+/* --- X ADMIN --- */
+/* -------------- */
+Route::name('x-admin.')->group(function () {
+    Route::get('/x-admin/prenos-dat-zo-starej-kartoteky', [XadminController::class, 'transferOldDbIndex'])->middleware(['auth'])->name('prenos-dat-zo-starej-kartoteky');
+
 });
 
 require __DIR__.'/auth.php';

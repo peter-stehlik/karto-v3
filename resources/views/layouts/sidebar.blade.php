@@ -91,5 +91,17 @@
 				<dd>Zrušiť listovanie</dd>
 			</dl>
 		@endif
+		
+		@if( auth()->user()->name === "Peter Stehlík")
+			<hr class="mr-2">
+		
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<a class="nav-link @if( request()->route()->getName() == 'x-admin.prenos-dat-zo-starej-kartoteky' ) active @endif" href="{{ route('x-admin.prenos-dat-zo-starej-kartoteky') }}">
+						Prenos dát zo starej kartotéky
+					</a>
+				</li><!-- / .nav-item -->
+			</ul><!-- / .nav -->
+		@endif
 	</div>
 </nav><!-- / .sidebar -->
