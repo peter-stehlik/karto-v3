@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\BankAccount;
 use DB;
 use Hash;
 use Str;
@@ -35,7 +36,6 @@ class XadminController extends Controller
         $i = 0;
         $users = DB::connection("mysql_old")
                     ->table("users")
-                    ->orderBy("user_id", "asc")
                     ->get();
 
         foreach( $users as $user ){
@@ -89,6 +89,47 @@ class XadminController extends Controller
             "created_at" => "2021-12-01",
         ]);
 
+        // bank accounts
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('bank_accounts')->truncate();
+
+        // 2.
+        $bank_accounts = DB::connection("mysql_old")
+            ->table("bank_account")
+            ->leftJoin("bank", "bank_account.bank_id", "=", "bank.bank_id")
+            ->select("account_id" ,"bank_name", "bank_code", "account_number", "bank_account.creation_date", "bank_account.expiration_date")
+            ->get();
+
+        foreach( $bank_accounts as $bank_account ){
+            if( $bank_account->account_id === 1 ){ // pokladna
+                BankAccount::create([
+                    'id' => $bank_account->account_id,
+                    'bank_name' => 'Pokladňa',
+                    'abbreviation' => '',
+                    'number' => '',
+                    'created_at' => $bank_account->creation_date,
+                    'deleted_at' => $bank_account->expiration_date,
+                ]);
+            } else {                
+                BankAccount::create([
+                    'id' => $bank_account->account_id,
+                    'bank_name' => $bank_account->bank_name,
+                    'abbreviation' => $bank_account->bank_code,
+                    'number' => $bank_account->account_number,
+                    'created_at' => $bank_account->creation_date,
+                    'deleted_at' => $bank_account->expiration_date,
+                ]);
+            }
+        }
+
+
+        // success
         return redirect()->back()->with('message', 'Operácia sa podarila!');
+    }
+
+    public function postMigratePeople()
+    {
+        
     }
 }

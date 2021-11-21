@@ -25,6 +25,8 @@ class User extends Authenticatable
         'accounting_date',
         'email_verified_at',
         'remember_token',
+        'created_at',
+        'deleted_at',
     ];
 
     /**
