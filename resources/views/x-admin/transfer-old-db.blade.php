@@ -14,5 +14,15 @@
 			<li>opravy</li>
 			<li>výdaje <strong><small>(big data)</small></strong></li>
 		</ol>
+
+		<hr>
+
+		<div class="row">
+			<div class="col-lg-3">
+				{!! Form::open(['action' => 'App\Http\Controllers\XadminController@postMigrateBasic', 'id' => 'migrateBasic']) !!}
+					<button class="btn btn-warning" type="submit">1.fáza: správcovia, bankové účty, kategórie, (ne)periodiká</button>
+				{!! Form::close() !!}
+			</div>
+		</div>
 	</div>
 </x-app-layout>

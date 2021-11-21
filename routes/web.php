@@ -199,6 +199,7 @@ Route::name('uzivatel.')->group(function () {
 Route::name('x-admin.')->group(function () {
     Route::get('/x-admin/prenos-dat-zo-starej-kartoteky', [XadminController::class, 'transferOldDbIndex'])->middleware(['auth'])->name('prenos-dat-zo-starej-kartoteky');
 
+    Route::post('/x-admin/prenos-zakladnych-dat-zo-starej-kartoteky', [XadminController::class, 'postMigrateBasic'])->middleware(['auth'])->name('prenos-zakladnych-dat-zo-starej-kartoteky');
 });
 
 require __DIR__.'/auth.php';
