@@ -8,11 +8,13 @@ use App\Models\BankAccount;
 use App\Models\Category;
 use App\Models\PeriodicalPublication;
 use App\Models\PeriodicalCredit;
+use App\Models\PeriodicalOrder;
 use App\Models\NonperiodicalPublication;
 use App\Models\NonperiodicalCredit;
 use App\Models\Person;
 use App\Models\Income;
 use App\Models\Transfer;
+use App\Models\Correction;
 use DB;
 use Hash;
 use Str;
@@ -367,6 +369,122 @@ class XadminController extends Controller
 
     public function postMigratePeriodicalOrders()
     {
+        ini_set('max_execution_time', '900');
+
+        // periodical_orders
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('periodical_orders')->truncate();
         
+        // 2.   
+        $data = DB::connection("mysql_old")
+            ->table("multiple_order")
+            ->orderBy("creation_date", "asc")
+            ->chunk(2000, function($periodical_orders){
+                foreach( $periodical_orders as $po ){
+                    $periodical_publication_id = $po->publication_id;
+
+                    if( $po->publication_id === 5 ){
+                        // pri Maly kalendar sa publication id nerovna s intention id
+                        $periodical_publication_id = 14;
+                    }
+
+                    PeriodicalOrder::create([
+                        'id' => $po->order_id,
+                        'person_id' => $po->person_id,
+                        'periodical_publication_id' => $periodical_publication_id,
+                        'count' => $po->publication_count,
+                        'valid_from' => $po->valid_from,
+                        'valid_to' => $po->valid_to,
+                        'note' => $po->notes,
+                        'gratis' => $po->gratis,
+                        'created_at' => $po->creation_date,
+                        'deleted_at' => $po->expiration_date,
+                    ]);
+                }
+        });
+
+        // success
+        return redirect()->back()->with('message', 'Operácia sa podarila!');
+    }
+
+    public function postMigrateCorrections()
+    {
+        ini_set('max_execution_time', '900');
+
+        // corrections
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('corrections')->truncate();
+        
+        // 2.   
+        $data = DB::connection("mysql_old")
+            ->table("transfer")
+            ->where("income_id", NULL) // toto by mali byt opravy
+            ->where("amount", ">", 0) // minusy su tiez opravy
+            ->orderBy("effective_date", "asc")
+            ->chunk(2000, function($corrections){
+                foreach( $corrections as $correction ){
+                    $periodical_intention_ids = [1,2,3,14]; // id-cka periodik podla starej db
+                    $intention_id = $correction->intention_id;
+                    $for_periodical_id = 0;
+                    $for_nonperiodical_id = 0;
+
+                    if( in_array($intention_id, $periodical_intention_ids) ){
+                        $for_periodical_id = $intention_id;
+                    } else {
+                        $for_nonperiodical_id = $intention_id;
+                    }
+
+                    $id = $correction->transaction_id;
+                    $for_person_id = $correction->for_person_id;
+                    $sum = $correction->amount;
+                    $user_id = $correction->user_id;
+                    $confirmed = 1;
+                    $note = $correction->notes;
+                    $correction_date = $correction->effective_date;
+                    $created_at = $correction->effective_date;
+
+                    $correction_from = DB::connection("mysql_old")
+                                            ->table("transfer")
+                                            ->where("effective_date", $correction->effective_date)
+                                            ->where("amount", 0-$sum)
+                                            ->first();
+
+                    if(!$correction_from){
+                        return;
+                    }
+
+                    $from_person_id = $correction_from->for_person_id;
+                    $from_periodical_id = 0;
+                    $from_nonperiodical_id = 0;
+                    $note .= " " . $correction_from->notes;
+
+                    if( in_array($correction_from->intention_id, $periodical_intention_ids) ){
+                        $from_periodical_id = $correction_from->intention_id;
+                    } else {
+                        $from_nonperiodical_id = $correction_from->intention_id;
+                    }
+
+                    Correction::create([
+                        'id' => $id,
+                        'from_person_id' => $from_person_id,
+                        'for_person_id' => $for_person_id,
+                        'sum' => $sum,
+                        'from_periodical_id' => $from_periodical_id,
+                        'from_nonperiodical_id' => $from_nonperiodical_id,
+                        'for_periodical_id' => $for_periodical_id,
+                        'for_nonperiodical_id' => $for_nonperiodical_id,
+                        'user_id' => $user_id,
+                        'confirmed' => 1,
+                        'note' => $note,
+                        'correction_date' => $correction_date,
+                        'created_at' => $created_at,
+                    ]);
+                }
+        });
+
+        // success
+        return redirect()->back()->with('message', 'Operácia sa podarila!');
     }
 }

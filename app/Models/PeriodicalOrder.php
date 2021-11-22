@@ -16,6 +16,7 @@ class PeriodicalOrder extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'person_id',
         'periodical_publication_id',
         'count',
@@ -23,5 +24,6 @@ class PeriodicalOrder extends Model
         'valid_to',
         'note',
         'gratis',
+        'created_at',
     ];
 }

@@ -23,7 +23,7 @@ class Transfer extends Model
         'nonperiodical_publication_id',
         'note',
         'transfer_date',
-        'created_at'
+        'created_at',
     ];
 
     /**

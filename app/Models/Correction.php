@@ -16,6 +16,7 @@ class Correction extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'from_person_id',
         'for_person_id',
         'sum',
@@ -27,5 +28,6 @@ class Correction extends Model
         'confirmed',
         'note',
         'correction_date',
+        'created_at',
     ];
 }
