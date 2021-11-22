@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\BankAccount;
+use App\Models\Category;
 use DB;
 use Hash;
 use Str;
@@ -122,6 +123,37 @@ class XadminController extends Controller
                 ]);
             }
         }
+
+        // categories
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('categories')->truncate();
+        // 2.
+        $categories = DB::connection("mysql_old")
+                ->table("category")
+                ->get();
+
+        foreach( $categories as $cat ){
+            Category::create([
+                'id' => $cat->category_id, 
+                'name' => $cat->category_name,
+            ]);
+        }
+
+        // periodicals
+        // 1. delete existing data 2. upload real data
+        // 1.
+
+        // 2.
+
+        
+        // nonperiodicals
+        // 1. delete existing data 2. upload real data
+        // 1.
+
+        // 2.
+
+
 
 
         // success
