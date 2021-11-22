@@ -29,6 +29,12 @@
 					<button class="btn btn-info" type="submit">2.: dobrodinci - osobné údaje, kategória</button>
 				{!! Form::close() !!}
 			</div>
+
+			<div class="col-lg-3">
+				{!! Form::open(['action' => 'App\Http\Controllers\XadminController@postMigrateCredits', 'id' => 'migrateCredits']) !!}
+					<button class="btn btn-primary" type="submit">3.: kredity - periodiká, neperiodiká</button>
+				{!! Form::close() !!}
+			</div>
 		</div>
 	</div>
 </x-app-layout>

@@ -7,7 +7,9 @@ use App\Models\User;
 use App\Models\BankAccount;
 use App\Models\Category;
 use App\Models\PeriodicalPublication;
+use App\Models\PeriodicalCredit;
 use App\Models\NonperiodicalPublication;
+use App\Models\NonperiodicalCredit;
 use App\Models\Person;
 use DB;
 use Hash;
@@ -231,23 +233,47 @@ class XadminController extends Controller
                     ]);  
                 }
             });
-/*
-        foreach( $people as $person ){
-            Person::create([
-                'id' => $person->person_id,
-                'category_id' => $person->category_id,
-                'title' => $person->title,
-                'name1' => $person->name1 . " " . $person->name2,
-                'address1' => $person->address1,
-                'address2' => $person->address2,
-                'zip_code' => $person->zip_code,
-                'city' => $person->city,
-                'state' => $person->state,
-                'note' => $person->notes,
-                'created_at' => $person->creation_date,
-                'deleted_at' => $person->expiration_date,
-            ]);
-        }*/
+
+        // success
+        return redirect()->back()->with('message', 'Operácia sa podarila!');
+    }
+
+    public function postMigrateCredits()
+    {
+        ini_set('max_execution_time', '900');
+
+        // credits
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('periodical_credits')->truncate();
+        DB::table('nonperiodical_credits')->truncate();
+        
+        // 2.
+        $data = DB::connection("mysql_old")
+            ->table("intention_account")
+            ->orderBy("last_changed", "asc")
+            ->chunk(2000, function($credits){
+                foreach( $credits as $item ){
+                    $periodical_intention_ids = [1,2,3,14]; // id-cka periodik podla starej db
+                    $intention_id = $item->intention_id;
+
+                    if( in_array($intention_id, $periodical_intention_ids) ){
+                        PeriodicalCredit::create([
+                            'person_id' => $item->person_id,
+                            'periodical_publication_id' => $intention_id,
+                            'credit' => $item->amount,
+                            'created_at' => $item->last_changed
+                        ]);
+                    } else {
+                        NonperiodicalCredit::create([
+                            'person_id' => $item->person_id,
+                            'nonperiodical_publication_id' => $intention_id,
+                            'credit' => $item->amount,
+                            'created_at' => $item->last_changed
+                        ]);
+                    }
+                }
+        });
 
         // success
         return redirect()->back()->with('message', 'Operácia sa podarila!');

@@ -19,5 +19,6 @@ class PeriodicalCredit extends Model
         'person_id',
         'periodical_publication_id',
         'credit',
+        'created_at',
     ];
 }

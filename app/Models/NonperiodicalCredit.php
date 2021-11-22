@@ -19,5 +19,6 @@ class NonperiodicalCredit extends Model
         'person_id',
         'nonperiodical_publication_id',
         'credit',
+        'created_at',
     ];
 }
