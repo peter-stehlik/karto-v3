@@ -16,8 +16,10 @@ class Outcome extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'person_id',
         'sum',
         'goal',
+        'created_at',
     ];
 }

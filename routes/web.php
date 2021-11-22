@@ -212,6 +212,8 @@ Route::name('x-admin.')->group(function () {
     Route::post('/x-admin/prenos-periodickych-objednavok-zo-starej-kartoteky', [XadminController::class, 'postMigratePeriodicalOrders'])->middleware(['auth'])->name('prenos-periodickych-objednavok-zo-starej-kartoteky');
 
     Route::post('/x-admin/prenos-oprav-zo-starej-kartoteky', [XadminController::class, 'postMigrateCorrections'])->middleware(['auth'])->name('prenos-oprav-zo-starej-kartoteky');
+
+    Route::post('/x-admin/prenos-vydavkov-zo-starej-kartoteky', [XadminController::class, 'postMigrateOutcomes'])->middleware(['auth'])->name('prenos-vydavkov-zo-starej-kartoteky');
 });
 
 require __DIR__.'/auth.php';

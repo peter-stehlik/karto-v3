@@ -15,6 +15,7 @@ use App\Models\Person;
 use App\Models\Income;
 use App\Models\Transfer;
 use App\Models\Correction;
+use App\Models\Outcome;
 use DB;
 use Hash;
 use Str;
@@ -483,6 +484,35 @@ class XadminController extends Controller
                     ]);
                 }
         });
+
+        // success
+        return redirect()->back()->with('message', 'Operácia sa podarila!');
+    }
+
+    public function postMigrateOutcomes()
+    {
+        ini_set('max_execution_time', '900');
+
+        // outcomes
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('outcomes')->truncate();
+        
+        // 2.
+        $data = DB::connection("mysql_old")
+            ->table("outcome")
+            ->orderBy("transaction_id", "asc")
+            ->chunk(2000, function($outcomes){
+                foreach( $outcomes as $outcome ){
+                    Outcome::create([
+                        'id' => $outcome->transaction_id,
+                        'person_id' => $outcome->person_id,
+                        'sum' => $outcome->amount,
+                        'goal' => $outcome->notes,
+                        'created_at' => $outcome->effective_date,
+                    ]);
+                }
+            });
 
         // success
         return redirect()->back()->with('message', 'Operácia sa podarila!');

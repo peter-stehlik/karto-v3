@@ -59,6 +59,12 @@
 					<button class="btn btn-danger" type="submit">7.: opravy periodík aj neperiodík</button>
 				{!! Form::close() !!}
 			</div>
+
+			<div class="col-lg-3 mt-3">
+				{!! Form::open(['action' => 'App\Http\Controllers\XadminController@postMigrateOutcomes', 'id' => 'migrateOutcomes']) !!}
+					<button class="btn btn-notice text-dark" type="submit">8.: všetky výdajky dobrodincov</button>
+				{!! Form::close() !!}
+			</div>
 		</div>
 	</div>
 </x-app-layout>
