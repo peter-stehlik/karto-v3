@@ -16,6 +16,7 @@ class PeriodicalPublication extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'name',
         'label_date',
         'accounting_date',
@@ -24,6 +25,8 @@ class PeriodicalPublication extends Model
         'current_number',
         'current_volume',
         'note',
+        'created_at',
+        'deleted_at',
     ];
 
     /**

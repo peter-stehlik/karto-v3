@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				{!! Form::open(['action' => 'App\Http\Controllers\XadminController@postMigrateBasic', 'id' => 'migrateBasic']) !!}
-					<button class="btn btn-warning" type="submit">1.fáza: správcovia, bankové účty, kategórie, (ne)periodiká</button>
+					<button class="btn btn-warning" type="submit">1.: správcovia, bankové účty, kategórie, (ne)periodiká</button>
 				{!! Form::close() !!}
 			</div>
 		</div>

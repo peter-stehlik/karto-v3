@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\BankAccount;
 use App\Models\Category;
+use App\Models\PeriodicalPublication;
+use App\Models\NonperiodicalPublication;
 use DB;
 use Hash;
 use Str;
@@ -128,6 +130,7 @@ class XadminController extends Controller
         // 1. delete existing data 2. upload real data
         // 1.
         DB::table('categories')->truncate();
+        
         // 2.
         $categories = DB::connection("mysql_old")
                 ->table("category")
@@ -143,14 +146,37 @@ class XadminController extends Controller
         // periodicals
         // 1. delete existing data 2. upload real data
         // 1.
-
+        DB::table('periodical_publications')->truncate();
+        
         // 2.
+        $pp = DB::connection("mysql_old")
+                ->table("intention")
+                ->where("publication", 1)
+                ->join("publication", "intention.intention_id", "=", "publication.intention_id")
+                ->join("periodical_publication", "publication.publication_id", "=", "periodical_publication.publication_id")
+                ->select("intention.intention_id", "intention_name", "intention.creation_date", "abbreviation", "amount", "publication_date", "accounting_date", "publication_number", "publication_volume")
+                ->get();
+
+        foreach( $pp as $p ){
+            PeriodicalPublication::create([
+                'id' => $p->intention_id,
+                'name' => $p->intention_name,
+                'label_date' => $p->publication_date,
+                'accounting_date' => $p->accounting_date,
+                'abbreviation' => $p->abbreviation,
+                'price' => $p->amount,
+                'current_number' => $p->publication_number,
+                'current_volume' => $p->publication_volume,
+                'created_at' => $p->creation_date,
+            ]);
+        }
 
         
         // nonperiodicals
         // 1. delete existing data 2. upload real data
         // 1.
-
+        //DB::table('nonperiodical_publications')->truncate();
+        
         // 2.
 
 
