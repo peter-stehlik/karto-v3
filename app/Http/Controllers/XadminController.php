@@ -170,17 +170,25 @@ class XadminController extends Controller
                 'created_at' => $p->creation_date,
             ]);
         }
-
         
         // nonperiodicals
         // 1. delete existing data 2. upload real data
         // 1.
-        //DB::table('nonperiodical_publications')->truncate();
+        DB::table('nonperiodical_publications')->truncate();
         
         // 2.
+        $np = DB::connection("mysql_old")
+                ->table("intention")
+                ->where("publication", 0)
+                ->get();
 
-
-
+        foreach( $np as $p ){
+            NonperiodicalPublication::create([
+                'id' => $p->intention_id,
+                'name' => $p->intention_name,
+                'created_at' => $p->creation_date,
+            ]);
+        }
 
         // success
         return redirect()->back()->with('message', 'Operácia sa podarila!');

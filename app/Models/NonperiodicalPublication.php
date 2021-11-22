@@ -16,8 +16,10 @@ class NonperiodicalPublication extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'name',
         'abbreviation',
+        'created_at',
     ];
 
     /**
