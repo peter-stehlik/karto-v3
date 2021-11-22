@@ -16,6 +16,7 @@ class Income extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'person_id',
         'user_id',
         'sum',
@@ -27,6 +28,8 @@ class Income extends Model
         'confirmed',
         'note',
         'income_date',
+        'created_at',
+        'deleted_at',
     ];
 
     /**

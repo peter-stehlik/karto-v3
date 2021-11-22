@@ -19,7 +19,7 @@ class CreateTransfersTable extends Migration
             $table->decimal('sum', 14, 2);
             $table->integer('periodical_publication_id');
             $table->integer('nonperiodical_publication_id');
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamp('transfer_date')->nullable()->comment("spravca moze nastavit");
             $table->timestamps();
             $table->softDeletes();

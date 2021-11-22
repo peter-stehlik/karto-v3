@@ -11,6 +11,8 @@ use App\Models\PeriodicalCredit;
 use App\Models\NonperiodicalPublication;
 use App\Models\NonperiodicalCredit;
 use App\Models\Person;
+use App\Models\Income;
+use App\Models\Transfer;
 use DB;
 use Hash;
 use Str;
@@ -277,5 +279,94 @@ class XadminController extends Controller
 
         // success
         return redirect()->back()->with('message', 'Operácia sa podarila!');
+    }
+
+    public function postMigrateIncomes()
+    {
+        ini_set('max_execution_time', '900');
+
+        // incomes
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('incomes')->truncate();
+        
+        // 2.
+        $data = DB::connection("mysql_old")
+            ->table("income")
+            ->orderBy("effective_date", "asc")
+            ->chunk(2000, function($incomes){
+                foreach( $incomes as $income ){
+                    Income::create([
+                        'id' => $income->transaction_id,
+                        'person_id' => $income->person_id,
+                        'user_id' => $income->user_id,
+                        'sum' => $income->amount,
+                        'bank_account_id' => $income->account_id,
+                        'number' => $income->paper,
+                        'package_number' => $income->packet,
+                        'invoice'  => $income->invoice,
+                        'accounting_date' => $income->accounting_date,
+                        'confirmed' => 1, // v starej db neexistuje ekvivalent
+                        'note' => $income->notes,
+                        'income_date' => $income->effective_date,
+                        'created_at' => $income->effective_date,
+                    ]);
+                }
+        });
+
+        // success
+        return redirect()->back()->with('message', 'Operácia sa podarila!');
+    }
+
+    public function postMigrateTransfers()
+    {
+        ini_set('max_execution_time', '900');
+
+        // transfers
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('transfers')->truncate();
+        
+        // 2.
+        $data = DB::connection("mysql_old")
+            ->table("transfer")
+            ->where("storno_id", NULL) // toto by mali byt opravy
+            ->where("income_id", "!=", NULL) // toto by mali byt opravy
+            ->where("amount", ">", 0) // minusy su tiez opravy
+            ->orderBy("effective_date", "asc")
+            ->chunk(2000, function($transfers){
+                foreach( $transfers as $transfer ){
+                    $periodical_intention_ids = [1,2,3,14]; // id-cka periodik podla starej db
+                    $intention_id = $transfer->intention_id;
+                    $periodical_publication_id = 0;
+                    $nonperiodical_publication_id = 0;
+
+                    if( in_array($intention_id, $periodical_intention_ids) ){
+                        $periodical_publication_id = $intention_id;
+                    } else {
+                        $nonperiodical_publication_id = $intention_id;
+                    }
+
+                    Transfer::create([
+                        'id' => $transfer->transaction_id,
+                        'income_id' => $transfer->income_id,
+                        'sum' => $transfer->amount,
+                        'periodical_publication_id' => $periodical_publication_id,
+                        'nonperiodical_publication_id' => $nonperiodical_publication_id,
+                        'accounting_date' => $transfer->accounting_date,
+                        'note' => $transfer->notes,
+                        'transfer_date' => $transfer->effective_date,
+                        'created_at' => $transfer->effective_date,
+                    ]);
+                }
+        });
+
+        // success
+        return redirect()->back()->with('message', 'Operácia sa podarila!');
+    }
+
+    public function postMigratePeriodicalOrders()
+    {
+        
     }
 }

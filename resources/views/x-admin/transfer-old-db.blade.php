@@ -35,6 +35,24 @@
 					<button class="btn btn-primary" type="submit">3.: kredity - periodiká, neperiodiká</button>
 				{!! Form::close() !!}
 			</div>
+
+			<div class="col-lg-3">
+				{!! Form::open(['action' => 'App\Http\Controllers\XadminController@postMigrateIncomes', 'id' => 'migrateIncomes']) !!}
+					<button class="btn btn-secondary" type="submit">4.: príjmy dobrodincov - okrem opráv</button>
+				{!! Form::close() !!}
+			</div>
+
+			<div class="col-lg-3 mt-3">
+				{!! Form::open(['action' => 'App\Http\Controllers\XadminController@postMigrateTransfers', 'id' => 'migrateTransfers']) !!}
+					<button class="btn btn-success" type="submit">5.: jednotlivé prevody k príjmom</button>
+				{!! Form::close() !!}
+			</div>
+
+			<div class="col-lg-3 mt-3">
+				{!! Form::open(['action' => 'App\Http\Controllers\XadminController@postMigratePeriodicalOrders', 'id' => 'migratePeriodicalOrders']) !!}
+					<button class="btn btn-dark" type="submit">6.: periodické objednávky dobrodincov</button>
+				{!! Form::close() !!}
+			</div>
 		</div>
 	</div>
 </x-app-layout>

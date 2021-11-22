@@ -16,12 +16,14 @@ class Transfer extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'income_id',
         'sum',
         'periodical_publication_id',
         'nonperiodical_publication_id',
         'note',
         'transfer_date',
+        'created_at'
     ];
 
     /**
