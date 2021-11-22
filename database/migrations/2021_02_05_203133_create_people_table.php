@@ -15,17 +15,17 @@ class CreatePeopleTable extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->id();
-            $table->integer('category_id');
-            $table->string('title', 20);
-            $table->string('name1', 50);
-            $table->string('address1', 70);
-            $table->string('address2', 70);
-            $table->string('organization', 50);
-            $table->string('zip_code', 20);
-            $table->string('city', 70);
-            $table->string('state', 20);
-            $table->string('email', 50);
-            $table->string('note');
+            $table->integer('category_id')->nullable();
+            $table->string('title', 20)->nullable();
+            $table->string('name1', 50)->nullable();
+            $table->string('address1', 70)->nullable();
+            $table->string('address2', 70)->nullable();
+            $table->string('organization', 50)->nullable();
+            $table->string('zip_code', 20)->nullable();
+            $table->string('city', 70)->nullable();
+            $table->string('state', 20)->nullable();
+            $table->string('email', 50)->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

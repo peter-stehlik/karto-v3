@@ -8,6 +8,7 @@ use App\Models\BankAccount;
 use App\Models\Category;
 use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
+use App\Models\Person;
 use DB;
 use Hash;
 use Str;
@@ -196,6 +197,59 @@ class XadminController extends Controller
 
     public function postMigratePeople()
     {
+        ini_set('max_execution_time', '900');
+
+        // people
+        // 1. delete existing data 2. upload real data
+        // 1.
+        DB::table('people')->truncate();
         
+        // 2.
+        $data = DB::connection("mysql_old")
+            ->table("person")
+            ->leftJoin("person_in_category", "person.person_id", "=", "person_in_category.person_id")
+            ->select("person.person_id", "category_id", "title", "name1", "name2", "address1", "address2", "zip_code", "city", "state", "email", "notes", "creation_date", "expiration_date")
+            ->orderBy("person.person_id", "asc")
+            ->groupBy("person.person_id")
+            ->chunk(2000, function($people){
+                foreach( $people as $person ){
+                    $category_id = $person->category_id ?? 1; 
+
+                    Person::create([
+                        'id' => $person->person_id,
+                        'category_id' => $category_id,
+                        'title' => $person->title,
+                        'name1' => $person->name1 . " " . $person->name2,
+                        'address1' => $person->address1,
+                        'address2' => $person->address2,
+                        'zip_code' => $person->zip_code,
+                        'city' => $person->city,
+                        'state' => $person->state,
+                        'note' => $person->notes,
+                        'created_at' => $person->creation_date,
+                        'deleted_at' => $person->expiration_date,
+                    ]);  
+                }
+            });
+/*
+        foreach( $people as $person ){
+            Person::create([
+                'id' => $person->person_id,
+                'category_id' => $person->category_id,
+                'title' => $person->title,
+                'name1' => $person->name1 . " " . $person->name2,
+                'address1' => $person->address1,
+                'address2' => $person->address2,
+                'zip_code' => $person->zip_code,
+                'city' => $person->city,
+                'state' => $person->state,
+                'note' => $person->notes,
+                'created_at' => $person->creation_date,
+                'deleted_at' => $person->expiration_date,
+            ]);
+        }*/
+
+        // success
+        return redirect()->back()->with('message', 'Operácia sa podarila!');
     }
 }

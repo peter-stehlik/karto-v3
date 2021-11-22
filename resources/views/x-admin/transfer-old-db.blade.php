@@ -23,6 +23,12 @@
 					<button class="btn btn-warning" type="submit">1.: správcovia, bankové účty, kategórie, (ne)periodiká</button>
 				{!! Form::close() !!}
 			</div>
+			
+			<div class="col-lg-3">
+				{!! Form::open(['action' => 'App\Http\Controllers\XadminController@postMigratePeople', 'id' => 'migratePeople']) !!}
+					<button class="btn btn-info" type="submit">2.: dobrodinci - osobné údaje, kategória</button>
+				{!! Form::close() !!}
+			</div>
 		</div>
 	</div>
 </x-app-layout>

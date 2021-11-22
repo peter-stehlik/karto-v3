@@ -16,6 +16,7 @@ class Person extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'category_id',
         'title',
         'name1',
@@ -27,6 +28,8 @@ class Person extends Model
         'state',
         'email',
         'note',
+        'created_at',
+        'deleted_at',
     ];
 
         /**
