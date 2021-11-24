@@ -89,6 +89,7 @@ Route::name('vydavatelstvo.')->group(function () {
 
     Route::get('/vydavatelstvo/zoznam', [ListingController::class, 'getZoznamFilter'])->middleware(['auth'])->name('get-list-filter');
     Route::get('/vydavatelstvo/zoznam-filter', [ListingController::class, 'getZoznamFilterJSON'])->middleware(['auth'])->name('get-list-filter-json');
+    Route::post('/vydavatelstvo/zoznam-pdf', [ListingController::class, 'printListFilterPdf'])->middleware(['auth'])->name('zoznam-pdf');
 
     Route::get('/vydavatelstvo/objednavky-periodicke', [ListingController::class, 'getObjPeriodickeFilter'])->middleware(['auth'])->name('get-obj-periodicke-filter');
     Route::get('/vydavatelstvo/objednavky-periodicke-filter', [ListingController::class, 'getObjPeriodickeFilterJSON'])->middleware(['auth'])->name('get-obj-periodicke-filter-json');

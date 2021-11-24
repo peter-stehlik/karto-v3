@@ -376,6 +376,28 @@ class ListingController extends Controller
     }
 
     /**
+     * Vydavatelstvo - Zoznam
+     * generovanie PDF zoznamu
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function printListFilterPdf(Request $request)
+    {
+        $periodical_publication_ids = $request->periodical_publication_ids;
+
+        $data["people"] = PeriodicalOrder::join("people", "periodical_orders.person_id", "=", "people.id")
+                    ->join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id")
+                    ->whereDate("valid_from", "<=", DB::raw("periodical_publications.label_date"))
+                    ->whereDate("valid_to", ">=", DB::raw("periodical_publications.label_date"))
+                    ->whereIn("periodical_publication_id", $periodical_publication_ids)
+                    ->select("people.id AS person_id", "title", "name1", "address1", "zip_code", "city", "name", "count", "valid_from", "valid_to", "periodical_orders.note")
+                    ->get();
+
+        $pdf = PDF::loadView('pdf.zoznam', $data);
+        return $pdf->stream('zoznam.pdf');
+    }
+
+    /**
      * Vydavatelstvo - Objednavky periodicke
      * zobraz filter periodik podla datumu stitkov a poctu
      *

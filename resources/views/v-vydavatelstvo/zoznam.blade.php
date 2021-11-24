@@ -7,19 +7,23 @@
 
     <div class="col-lg-12 p-3 bg-warning">
         <div class="row">
-            <div class="col-lg-2">
-                <label class="mb-2" for="periodical_publication_id">Periodikum:</label>
+            {!! Form::open(['action' => 'App\Http\Controllers\ListingController@printListFilterPdf', 'id' => 'printListFilter', 'target' => 'blank']) !!}
+                <div class="col-lg-2">
+                    <label class="mb-2" for="periodical_publication_id">Periodikum:</label>
 
-                <select class="form-control" id="periodical_publication_id" name="periodical_publication_id" multiple>
-                    <option>Vyberte</option>
-                    
-                    @foreach( $periodical_publications as $pp )
-                        <option value="{!! $pp->id !!}">{!! $pp->name !!}</option>
-                    @endforeach
-                </select>
+                    <select class="form-control" id="periodical_publication_id" name="periodical_publication_ids[]" multiple>
+                        <option>Vyberte</option>
+                        
+                        @foreach( $periodical_publications as $pp )
+                            <option value="{!! $pp->id !!}">{!! $pp->name !!}</option>
+                        @endforeach
+                    </select>
 
-                <button class="btn btn-info mt-2" id="initListFilter" type="submit">Vybrať</button>
-            </div>
+                    <button class="btn btn-info mt-2" id="initListFilter" type="button">Vybrať</button>
+
+                    <button class="btn btn-danger mt-2" type="submit">Tlačiť</button>
+                </div>
+            {!! Form::close() !!}
         </div>
     </div>
 
