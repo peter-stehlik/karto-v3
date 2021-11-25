@@ -18,6 +18,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\PeriodicalOrderController;
 use App\Http\Controllers\FusionController;
+use App\Http\Controllers\SelectionController;
 use App\Http\Controllers\XadminController;
 
 
@@ -167,6 +168,12 @@ Route::name('kancelaria.')->group(function () {
     Route::get('/kancelaria/tlac-pre-ucel', [ListingController::class, 'printForTransfer'])->middleware(['auth'])->name('tlac-pre-ucel');
 
     Route::post('/kancelaria/tlac-pre-ucel', [ListingController::class, 'printForTransferPdf'])->middleware(['auth'])->name('pdf-tlac-pre-ucel');
+
+    Route::get('/kancelaria/selekcie', [SelectionController::class, 'selekcie'])->middleware(['auth'])->name('selekcie');
+    
+    Route::get('/kancelaria/selekcie-filter', [SelectionController::class, 'selectionJSON'])->middleware(['auth'])->name('selekcie-json');
+    
+    Route::post('/kancelaria/selekcie', [SelectionController::class, 'printSelection'])->middleware(['auth'])->name('print-selekcie');
 });
 
 /* ----------------- */

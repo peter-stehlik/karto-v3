@@ -97,6 +97,7 @@ module.exports = function (grunt) {
 					"dist/js/list-filter.js": "dev/es6/list-filter.js",
 					"dist/js/obj-periodical-filter.js": "dev/es6/obj-periodical-filter.js",
 					"dist/js/count-obj-filter.js": "dev/es6/count-obj-filter.js",
+					"dist/js/selection-filter.js": "dev/es6/selection-filter.js",
 				}
 			}
 		},
