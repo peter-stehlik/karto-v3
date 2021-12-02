@@ -384,10 +384,15 @@ class XadminController extends Controller
             ->chunk(2000, function($periodical_orders){
                 foreach( $periodical_orders as $po ){
                     $periodical_publication_id = $po->publication_id;
+                    $valid_to = $po->valid_to;
 
                     if( $po->publication_id === 5 ){
                         // pri Maly kalendar sa publication id nerovna s intention id
                         $periodical_publication_id = 14;
+                    }
+
+                    if( !$valid_to || is_null($valid_to) ){
+                        $valid_to = "3000-01-01";
                     }
 
                     PeriodicalOrder::create([
@@ -396,7 +401,7 @@ class XadminController extends Controller
                         'periodical_publication_id' => $periodical_publication_id,
                         'count' => $po->publication_count,
                         'valid_from' => $po->valid_from,
-                        'valid_to' => $po->valid_to,
+                        'valid_to' => $valid_to,
                         'note' => $po->notes,
                         'gratis' => $po->gratis,
                         'created_at' => $po->creation_date,

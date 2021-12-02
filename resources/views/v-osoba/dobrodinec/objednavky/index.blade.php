@@ -13,7 +13,7 @@
 	</script>
 
 	<div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-10">
             <p> Aktívny odber je zvýraznený farebným pozadím. </p>
 
             <table class="table">

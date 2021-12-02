@@ -20,7 +20,8 @@ class PeriodicalOrderController extends Controller
         $periodical_orders = PeriodicalOrder::where("person_id", $id)
                                 ->join("periodical_publications", "periodical_publications.id", "=", "periodical_orders.periodical_publication_id")
                                 ->select("periodical_orders.id", "periodical_publications.name", "periodical_publication_id", "count", "valid_from", "valid_to", "periodical_orders.note", "gratis")
-                                ->orderBy("periodical_orders.created_at", "desc")
+                                ->orderBy("periodical_publications.name", "asc")
+                                ->orderBy("periodical_orders.valid_from", "desc")
                                 ->get();
         
         return view('v-osoba/dobrodinec/objednavky/index')
