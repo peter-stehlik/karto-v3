@@ -67,6 +67,11 @@ var Filter = {
               var value = cell.getValue();
               var id = cell.getRow().getCells()[0].getValue();
               var titul = cell.getRow().getCells()[1].getValue();
+
+              if (titul === null) {
+                titul = "";
+              }
+
               return "<a href='/dobrodinec/" + id + "/ucty' target='_blank'>" + titul + " " + value + "</a>";
             }
           }, {

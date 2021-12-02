@@ -242,7 +242,7 @@ let PersonIncomesFilter = {
           let goal = pp_name ? pp_name : np_name;
 
           let row = `
-              <li>${goal}: <strong>${sum} &euro;</strong>, <span class="text-secondary">${transfer_date}</span> ${note}</li>
+              <li>${(goal===null ? '' : goal)}: <strong>${sum} &euro;</strong>, <span class="text-secondary">${transfer_date}</span> ${(note === null ? '' : note)}</li>
           `;
   
           htmlResults += row;

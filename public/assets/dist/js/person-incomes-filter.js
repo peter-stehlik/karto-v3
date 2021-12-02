@@ -201,7 +201,7 @@ var PersonIncomesFilter = {
       /* OLD WAY, LOAD DATA ONLY ONCE
       if( $incomeRow.next(".transfers-row").find(".transfers-list").length ){
         Help.hidePreloader();
-         return;
+          return;
       }*/
 
       /***
@@ -235,7 +235,7 @@ var PersonIncomesFilter = {
         var note = transfers[i].note;
         var transfer_date = Help.beautifyDate(transfers[i].transfer_date);
         var goal = pp_name ? pp_name : np_name;
-        var row = "\n              <li>".concat(goal, ": <strong>").concat(sum, " &euro;</strong>, <span class=\"text-secondary\">").concat(transfer_date, "</span> ").concat(note, "</li>\n          ");
+        var row = "\n              <li>".concat(goal === null ? '' : goal, ": <strong>").concat(sum, " &euro;</strong>, <span class=\"text-secondary\">").concat(transfer_date, "</span> ").concat(note === null ? '' : note, "</li>\n          ");
         htmlResults += row;
         transfer_sum += parseFloat(transfers[i].sum);
       }

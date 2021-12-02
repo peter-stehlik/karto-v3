@@ -183,7 +183,7 @@ let Income = {
 					<tr>
 						<td>${people[i].id}</td>
 						<td>${people[i].name1}</td>
-						<td>${people[i].address}</td>
+						<td>${(people[i].address===null) ? '' : people[i].address}</td>
 						<td>${people[i].city}</td>
 						<td>${people[i].zip_code}</td>
 			  			<td class="icn-td"><a href="javascript:void(0);" class="populate-chosen-person" title="Nahrať príjem tejto osobe" data-person-id="${people[i].id}" data-person-name="${people[i].name1}">
