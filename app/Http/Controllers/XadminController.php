@@ -198,6 +198,18 @@ class XadminController extends Controller
             ]);
         }
 
+        // knihy su vynimka, v starej db uvadzane ako periodikum
+        $knihy = DB::connection("mysql_old")
+                    ->table("intention")
+                    ->where("intention_id", 4)
+                    ->first();
+
+        NonperiodicalPublication::create([
+            'id' => $knihy->intention_id,
+            'name' => $knihy->intention_name,
+            'created_at' => $knihy->creation_date,
+        ]);
+
         // success
         return redirect()->back()->with('message', 'Operácia sa podarila!');
     }
@@ -256,29 +268,32 @@ class XadminController extends Controller
         // 2.
         $data = DB::connection("mysql_old")
             ->table("intention_account")
+            ->where("amount", "<>", 0)
+            // ->where("person_id", "=", 35285)
             ->orderBy("last_changed", "asc")
-            ->chunk(2000, function($credits){
-                foreach( $credits as $item ){
-                    $periodical_intention_ids = [1,2,3,14]; // id-cka periodik podla starej db
-                    $intention_id = $item->intention_id;
+            ->get();
 
-                    if( in_array($intention_id, $periodical_intention_ids) ){
-                        PeriodicalCredit::create([
-                            'person_id' => $item->person_id,
-                            'periodical_publication_id' => $intention_id,
-                            'credit' => $item->amount,
-                            'created_at' => $item->last_changed
-                        ]);
-                    } else {
-                        NonperiodicalCredit::create([
-                            'person_id' => $item->person_id,
-                            'nonperiodical_publication_id' => $intention_id,
-                            'credit' => $item->amount,
-                            'created_at' => $item->last_changed
-                        ]);
-                    }
-                }
-        });
+        /* NOTE: chunk was firstly used, but getting errors, like missing rows, or even doubling the values */
+        foreach( $data as $item ){
+            $periodical_intention_ids = [1,2,3,14]; // id-cka periodik podla starej db
+            $intention_id = $item->intention_id;
+
+            if( in_array($intention_id, $periodical_intention_ids) ){
+                PeriodicalCredit::create([
+                    'person_id' => $item->person_id,
+                    'periodical_publication_id' => $intention_id,
+                    'credit' => $item->amount,
+                    'created_at' => $item->last_changed
+                ]);
+            } else {
+                NonperiodicalCredit::create([
+                    'person_id' => $item->person_id,
+                    'nonperiodical_publication_id' => $intention_id,
+                    'credit' => $item->amount,
+                    'created_at' => $item->last_changed
+                ]);
+            }
+        }
 
         // success
         return redirect()->back()->with('message', 'Operácia sa podarila!');

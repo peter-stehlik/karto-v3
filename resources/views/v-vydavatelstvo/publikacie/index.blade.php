@@ -2,7 +2,7 @@
     <h1 class="h3 py-2 border-bottom text-uppercase">Periodiká (Publikácie) <a class="btn btn-sm btn-success" href="{{ route('vydavatelstvo.publikacie.create') }}">Pridať nový</a></h1>   
 
     <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-10">
             <table class="table">
                 <thead>
                     <tr>
