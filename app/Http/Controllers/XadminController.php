@@ -311,26 +311,29 @@ class XadminController extends Controller
         // 2.
         $data = DB::connection("mysql_old")
             ->table("income")
-            ->orderBy("effective_date", "asc")
-            ->chunk(2000, function($incomes){
-                foreach( $incomes as $income ){
-                    Income::create([
-                        'id' => $income->transaction_id,
-                        'person_id' => $income->person_id,
-                        'user_id' => $income->user_id,
-                        'sum' => $income->amount,
-                        'bank_account_id' => $income->account_id,
-                        'number' => $income->paper,
-                        'package_number' => $income->packet,
-                        'invoice'  => $income->invoice,
-                        'accounting_date' => $income->accounting_date,
-                        'confirmed' => 1, // v starej db neexistuje ekvivalent
-                        'note' => $income->notes,
-                        'income_date' => $income->effective_date,
-                        'created_at' => $income->effective_date,
-                    ]);
-                }
-        });
+            // ->where("transaction_id", "<", 10)
+            // ->orderBy("effective_date", "asc")
+            ->get();
+
+        //echo $data->count();
+
+        foreach( $data as $income ){
+            Income::create([
+                'id' => $income->transaction_id,
+                'person_id' => $income->person_id,
+                'user_id' => $income->user_id,
+                'sum' => $income->amount,
+                'bank_account_id' => $income->account_id,
+                'number' => $income->paper,
+                'package_number' => $income->packet,
+                'invoice'  => $income->invoice,
+                'accounting_date' => $income->accounting_date  . " 12:00:00", // hodina je fix, pri migracii na ostry server dochadzalo k posunu -1 hodina
+                'confirmed' => 1, // v starej db neexistuje ekvivalent
+                'note' => $income->notes,
+                'income_date' => $income->effective_date . " 12:00:00",
+                'created_at' => $income->effective_date  . " 12:00:00",
+            ]);
+        }
 
         // success
         return redirect()->back()->with('message', 'Operácia sa podarila!');
@@ -348,9 +351,9 @@ class XadminController extends Controller
         // 2.
         $data = DB::connection("mysql_old")
             ->table("transfer")
-            ->where("storno_id", NULL) // toto by mali byt opravy
+            // ->where("storno_id", NULL) // toto by mali byt opravy, 3.12.2021 snaha dat toho co najviac do prevodov
             ->where("income_id", "!=", NULL) // toto by mali byt opravy
-            ->where("amount", ">", 0) // minusy su tiez opravy
+            // ->where("amount", ">", 0) // minusy su tiez opravy, 3.12.2021 minusy nemusia byt iba opravy
             ->orderBy("effective_date", "asc")
             ->chunk(2000, function($transfers){
                 foreach( $transfers as $transfer ){
@@ -442,22 +445,19 @@ class XadminController extends Controller
         $data = DB::connection("mysql_old")
             ->table("transfer")
             ->where("income_id", NULL) // toto by mali byt opravy
-            ->where("amount", ">", 0) // minusy su tiez opravy
+            // ->where("amount", ">", 0)
             ->orderBy("effective_date", "asc")
             ->chunk(2000, function($corrections){
                 foreach( $corrections as $correction ){
                     $periodical_intention_ids = [1,2,3,14]; // id-cka periodik podla starej db
                     $intention_id = $correction->intention_id;
+                    $from_periodical_id = 0;
+                    $from_nonperiodical_id = 0;
                     $for_periodical_id = 0;
                     $for_nonperiodical_id = 0;
 
-                    if( in_array($intention_id, $periodical_intention_ids) ){
-                        $for_periodical_id = $intention_id;
-                    } else {
-                        $for_nonperiodical_id = $intention_id;
-                    }
-
                     $id = $correction->transaction_id;
+                    $from_person_id = $correction->from_person_id; 
                     $for_person_id = $correction->for_person_id;
                     $sum = $correction->amount;
                     $user_id = $correction->user_id;
@@ -466,25 +466,18 @@ class XadminController extends Controller
                     $correction_date = $correction->effective_date;
                     $created_at = $correction->effective_date;
 
-                    $correction_from = DB::connection("mysql_old")
-                                            ->table("transfer")
-                                            ->where("effective_date", $correction->effective_date)
-                                            ->where("amount", 0-$sum)
-                                            ->first();
-
-                    if(!$correction_from){
-                        return;
-                    }
-
-                    $from_person_id = $correction_from->for_person_id;
-                    $from_periodical_id = 0;
-                    $from_nonperiodical_id = 0;
-                    $note .= " " . $correction_from->notes;
-
-                    if( in_array($correction_from->intention_id, $periodical_intention_ids) ){
-                        $from_periodical_id = $correction_from->intention_id;
-                    } else {
-                        $from_nonperiodical_id = $correction_from->intention_id;
+                    if( $sum < 0 ){
+                        if( in_array($intention_id, $periodical_intention_ids) ){
+                            $from_periodical_id = $intention_id;
+                        } else {
+                            $from_nonperiodical_id = $intention_id;
+                        }
+                    } else {   
+                        if( in_array($intention_id, $periodical_intention_ids) ){
+                            $for_periodical_id = $intention_id;
+                        } else {
+                            $for_nonperiodical_id = $intention_id;
+                        }
                     }
 
                     Correction::create([
@@ -497,10 +490,10 @@ class XadminController extends Controller
                         'for_periodical_id' => $for_periodical_id,
                         'for_nonperiodical_id' => $for_nonperiodical_id,
                         'user_id' => $user_id,
-                        'confirmed' => 1,
+                        'confirmed' => $confirmed,
                         'note' => $note,
-                        'correction_date' => $correction_date,
-                        'created_at' => $created_at,
+                        'correction_date' => $correction_date . " 12:00:00",
+                        'created_at' => $created_at . " 12:00:00",
                     ]);
                 }
         });
