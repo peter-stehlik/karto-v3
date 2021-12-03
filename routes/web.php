@@ -19,6 +19,7 @@ use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\PeriodicalOrderController;
 use App\Http\Controllers\FusionController;
 use App\Http\Controllers\SelectionController;
+use App\Http\Controllers\PrintController;
 use App\Http\Controllers\XadminController;
 
 
@@ -200,6 +201,14 @@ Route::name('uzivatel.')->group(function () {
 
     Route::get('/uzivatel/zoznam-vydajov', [PersonFilterController::class, 'getAllOutcomes'])->middleware(['auth'])->name('zoznam-vydajov');
 });
+
+/* ---------------- */
+/* --- PRINTING --- */
+/* -------------- */
+Route::name('print.')->group(function () {
+    Route::get('/print/person/{id}', [PrintController::class, 'person'])->middleware(['auth'])->name('one-person-print');    
+});
+
 
 /* ---------------- */
 /* --- X ADMIN --- */
