@@ -173,8 +173,6 @@ Route::name('kancelaria.')->group(function () {
     Route::get('/kancelaria/selekcie', [SelectionController::class, 'selekcie'])->middleware(['auth'])->name('selekcie');
     
     Route::get('/kancelaria/selekcie-filter', [SelectionController::class, 'selectionJSON'])->middleware(['auth'])->name('selekcie-json');
-    
-    Route::post('/kancelaria/selekcie', [SelectionController::class, 'printSelection'])->middleware(['auth'])->name('print-selekcie');
 });
 
 /* ----------------- */
@@ -206,7 +204,11 @@ Route::name('uzivatel.')->group(function () {
 /* --- PRINTING --- */
 /* -------------- */
 Route::name('print.')->group(function () {
-    Route::get('/print/person/{id}', [PrintController::class, 'person'])->middleware(['auth'])->name('one-person-print');    
+    Route::get('/print/person/{id}', [PrintController::class, 'person'])->middleware(['auth'])->name('one-person-print');
+    
+    Route::post('/print/obj-periodicke', [PrintController::class, 'objPeriodicke'])->middleware(['auth'])->name('obj-periodicke-print');
+
+    Route::post('/print/selekcie', [PrintController::class, 'selekcie'])->middleware(['auth'])->name('selekcie-print');
 });
 
 

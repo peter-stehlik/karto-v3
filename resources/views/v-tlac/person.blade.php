@@ -25,7 +25,11 @@
 
 	<p><span>{!! $person->name1 !!}</span></p>
 	
-	<p>{!! $person->address1 !!}, {!! $person->zip_code !!} {!! $person->city !!}</p>
+	<p>{!! $person->address1 !!}</p>
+
+	<p>{!! $person->address2 !!}</p>
+
+	<p>{!! $person->zip_code !!} {!! $person->city !!}</p>
 	
 	<p>{!! $person->state !!}</p>
 

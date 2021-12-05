@@ -8,8 +8,8 @@
 
 <ul class="nav flex-column">
 	<li class="nav-item">
-		<a class="nav-link" href="{{ route('osoba.kategorie.index') }}">
-			Listová zásielka
+		<a class="nav-link" href="{{ route('print.one-person-print', $dobrodinec_id) }}" target="_blank">
+			Listová adreska
 		</a>
 	</li><!-- / .nav-item -->
 

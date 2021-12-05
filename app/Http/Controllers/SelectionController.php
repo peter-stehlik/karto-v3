@@ -39,7 +39,6 @@ class SelectionController extends Controller
             $date_to = date('Y-m-d', strtotime($_GET["date_to"]));
         }
         $category_id = $_GET["category_id"];
-        $category_excluded_id = $_GET["category_excluded_id"];
         $periodical_publication_id = $_GET["periodical_publication_id"];
         $nonperiodical_publication_id = $_GET["nonperiodical_publication_id"];
         $selection;
@@ -47,7 +46,7 @@ class SelectionController extends Controller
         // filter podla prijmu
         if( $periodical_publication_id == 0 && $nonperiodical_publication_id == 0 ){
             $selection = DB::table("people")
-                    ->where(function($query) use ($date_from, $date_to, $category_id, $category_excluded_id){
+                    ->where(function($query) use ($date_from, $date_to, $category_id){
                         if( strlen($date_from) > 0 ){
                             $query->whereDate('incomes.income_date', '>=', $date_from);
                         }
@@ -56,9 +55,6 @@ class SelectionController extends Controller
                         }
                         if( $category_id > 0 ){
                             $query->where("category_id", $category_id);
-                        }
-                        if( $category_excluded_id > 0 ){
-                            $query->where("category_id", "!=", $category_excluded_id);
                         }
                     })
                     ->join("categories", "people.category_id", "=", "categories.id")
@@ -69,7 +65,7 @@ class SelectionController extends Controller
         } else {
             // filter podla prevodu
             $selection = DB::table("people")
-                    ->where(function($query) use ($date_from, $date_to, $category_id, $category_excluded_id, $periodical_publication_id, $nonperiodical_publication_id){
+                    ->where(function($query) use ($date_from, $date_to, $category_id, $periodical_publication_id, $nonperiodical_publication_id){
                         if( strlen($date_from) > 0 ){
                             $query->whereDate('transfers.transfer_date', '>=', $date_from);
                         }
@@ -85,9 +81,6 @@ class SelectionController extends Controller
                         if( $category_id > 0 ){
                             $query->where("category_id", $category_id);
                         }
-                        if( $category_excluded_id > 0 ){
-                            $query->where("category_id", "!=", $category_excluded_id);
-                        }
                     })
                     ->join("categories", "people.category_id", "=", "categories.id")
                     ->join("incomes", "people.id", "=", "incomes.person_id")
@@ -97,18 +90,10 @@ class SelectionController extends Controller
                     ->get();
         }
 
-
-
         $data = array('result' => 1);
         
         $data["selection"] = $selection;
 
 		return response()->json($data);
-    }
-
-    /* tlac adresky */
-    public function printSelection()
-    {
-
     }
 }

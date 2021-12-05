@@ -4,6 +4,7 @@
     <h1 class="h3 py-2 border-bottom text-uppercase">Objednávky periodické</h1>
 
     <div class="col-lg-12 p-3 bg-warning">
+        {!! Form::open(['action' => 'App\Http\Controllers\PrintController@objPeriodicke', 'target' => '_blank']) !!}
         <div class="row">
 			<div class="col-lg-2">
                 <label class="mb-2" for="count_from">Počet od:</label>
@@ -30,9 +31,12 @@
             </div>
 			
 			<div class="col-lg-12">
-				<button class="btn btn-info mt-2" id="initObjPeriodicalFilter" type="submit">Vybrať</button>
+				<button class="btn btn-info mt-2" id="initObjPeriodicalFilter" type="button">Vybrať</button>
+
+                <button class="btn btn-danger mt-2" id="" type="submit">Tlač adresiek</button>
 			</div>
         </div>
+        {!! Form::close() !!}
     </div>
 
     <div class="col-lg-12">

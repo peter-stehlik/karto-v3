@@ -4,7 +4,7 @@
     <h1 class="h3 py-2 border-bottom text-uppercase">Selekcie</h1>
 
     <div class="col-lg-12 p-3 bg-warning">
-        {!! Form::open(['action' => 'App\Http\Controllers\SelectionController@printSelection', 'id' => 'printSelection', 'target' => 'blank']) !!}
+        {!! Form::open(['action' => 'App\Http\Controllers\PrintController@selekcie', 'id' => 'printSelection', 'target' => 'blank']) !!}
             <div class="row">
                 <div class="col-lg-2">
                     <label class="mb-2" for="date_from">Dátum od:</label>
@@ -45,23 +45,11 @@
                         @endforeach
                     </select>
                 </div>
-                
-                <div class="col-lg-2">
-                    <label class="mb-2" for="category_excluded">Kategóriu vylúčiť:</label>
-
-                    <select class="form-control" id="category_excluded" name="category_excluded">
-                        <option>Nezáleží</option>
-                        
-                        @foreach( $categories as $category )
-                            <option value="{!! $category->id !!}">{!! $category->name !!}</option>
-                        @endforeach
-                    </select>
-                </div>
 
                 <div class="col-12">
                     <button class="btn btn-info mt-2" id="initSelectionFilter" type="button">Vybrať</button>
 
-                    <button class="btn btn-danger mt-2" type="submit">Tlačiť adresky</button>
+                    <button class="btn btn-danger mt-2" type="submit">Tlač adresiek</button>
                 </div>
             </div>
         {!! Form::close() !!}
