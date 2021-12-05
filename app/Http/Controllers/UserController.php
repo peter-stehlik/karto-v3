@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Auth;
 use Hash;
 
@@ -40,20 +41,23 @@ class UserController extends Controller
      *
      * @param  int  $id
      * @param  date  $accounting_date
-     * @return json
+     * @return \Illuminate\View\View
      */
 	public function updateAccountingDate()
 	{
-		$id = $_GET['userId'];
-		$accountingDate = date('Y-m-d', strtotime($_GET['accountingDate']));
+		return view('v-uzivatel/uzavierka');
+	}
 
-		User::where('id', '=', $id)
+	public function updateAccountingDatePost()
+	{
+		$user_id = Auth::user()->id;
+		$user = User::find($user_id);
+
+		User::where("id", $user_id)
 			->update([
-				'accounting_date' => $accountingDate,
-			]);		
+				"accounting_date" => Carbon::parse($user->accounting_date)->addMonth()
+			]);
 
-		$data = array('result' => 1);
-
-		return response()->json($data);
+		return redirect('/kartoteka')->with('message', 'Operácia sa podarila!');
 	}
 }

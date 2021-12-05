@@ -36,7 +36,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link" href="#ui-page-no-sidebar">
+		<a class="nav-link @if( request()->route()->getName() === 'uzivatel.update-accounting-date-get' ) active @endif" href="{{ route('uzivatel.update-accounting-date-get') }}">
 			Uzávierka
 		</a>
 	</li><!-- / .nav-item -->

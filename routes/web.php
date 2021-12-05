@@ -189,7 +189,9 @@ Route::name('uzivatel.')->group(function () {
 
     Route::post('/uzivatel/zmenit-heslo', [UserController::class, 'changePassword'])->middleware(['auth'])->name('zmenit-heslo-post');
 
-    Route::get('/uzivatel/uctovny-datum', [UserController::class, 'updateAccountingDate'])->middleware(['auth'])->name('update-accounting-date-get');
+    Route::get('/uzivatel/uctovny-datum', [UserController::class, 'updateAccountingDate'])->middleware(['auth'])->name('update-accounting-date-get'); 
+    
+    Route::post('/uzivatel/uctovny-datum', [UserController::class, 'updateAccountingDatePost'])->middleware(['auth'])->name('update-accounting-date-post');
 
     Route::get('/uzivatel/zoznam-prijmov', [PersonFilterController::class, 'getAllIncomes'])->middleware(['auth'])->name('zoznam-prijmov');
 
