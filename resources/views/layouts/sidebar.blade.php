@@ -54,26 +54,12 @@
 			</li><!-- / .nav-item -->
 
 			<li class="nav-item">
-				<a class="nav-link" id="changeAccountingDate" href="javascript:void(0);">
+				<a class="nav-link" href="{{ route('uzivatel.update-accounting-date-get') }}">
 					Účtovný dátum: <br>
 					<span id="accountingDatePreview">{{ date('d.m.Y', strtotime(Auth::user()->accounting_date)) }}</span>
 				</a>
 			</li><!-- / .nav-item -->
 		</ul><!-- / .nav -->
-
-		<div id="accountingDateBox" style="display: none;">
-			<div class="px-2">
-				<label class="mb-2" for="setAccountingDate">Zmeňte <em>(v tvare dd.mm.rrrr)</em>:</label>
-
-				<input class="form-control mb-2" id="accountingDate" type="text" value="{{ date('d.m.Y', strtotime(Auth::user()->accounting_date)) }}">
-
-				<input id="accountingDateUserId" type="hidden" value="{{ Auth::user()->id }}">
-
-				<button class="btn btn-success" id="setAccountingDate" type="button">Uložiť</button>
-
-				<p class="text-success mt-2" id="successChangeAccountingDate" style="display: none;">Účtovný dátum ste úspešne zmenili.</p>
-			</div>
-		</div>
 
 		@if( Route::currentRouteName() == 'kartoteka.prijem-get' )  
 			<hr class="mr-2">
