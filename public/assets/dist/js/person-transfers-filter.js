@@ -103,6 +103,26 @@ var PersonTransfersFilter = {
             field: "note",
             sorter: "string"
           }, {
+            title: "upraviť",
+            field: "transfer_date",
+            sorter: "string",
+            formatter: function formatter(cell, formatterParams) {
+              var transfer_id = cell.getRow().getCells()[0].getValue();
+              var transfer_sum = cell.getRow().getCells()[5].getValue();
+              var transfer_date = new Date(cell.getValue());
+              var transfer_date_month = transfer_date.getMonth();
+              var btnHtml = "\n                    <button\n                      class='js-edit-transfer-btn btn btn-danger btn-sm'\n                      type='button'\n                      data-bs-toggle='modal' data-bs-target='#editTransfer'\n                      data-transfer-id='".concat(transfer_id, "'\n                      data-transfer-date='").concat(transfer_date, "'\n                      data-transfer-sum='").concat(transfer_sum, "'\n                    >\n                      upravi\u0165\n                    </button>");
+              var accounting_date = $("#accountingDatePreview").text();
+              var accounting_date_arr = accounting_date.split(".");
+              var accounting_date_month = accounting_date_arr[1] - 1; // get month is zero based
+
+              if (transfer_date_month != accounting_date_month || transfer_sum < 0) {
+                btnHtml = "";
+              }
+
+              return btnHtml;
+            }
+          }, {
             title: "príjem",
             field: "income",
             width: 300,
@@ -166,15 +186,7 @@ var PersonTransfersFilter = {
     $(document).off("click", ".js-toggle-income").on("click", ".js-toggle-income", function () {
       Help.showPreloader();
       var transfer_id = parseInt($(this).attr("data-transfer-id"));
-      var income_id = parseInt($(this).attr("data-income-id")); // OLD WAY
-
-      /*let $transferRow = $(this).closest(".transfer-row");
-      $transferRow.toggleClass("bg-light").next(".income-row").slideToggle();
-       if( $transferRow.next(".income-row").find(".income-list").length ){
-        Help.hidePreloader();
-         return;
-      }*/
-
+      var income_id = parseInt($(this).attr("data-income-id"));
       /***
        * GET DATA FROM SERVER
        */

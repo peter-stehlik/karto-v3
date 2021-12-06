@@ -90,28 +90,123 @@
             Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
         </div>
 
-        <!-- 
-        <table class="table" id="personTransferFilterTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Suma</th>
-                    <th>Periodikum</th>
-                    <th>Neperiodikum</th>
-                    <th>Poznámka</th>
-                    <th>Dát. prevodu</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody id="personTransferFilterTableResults">
-
-            </tbody>
-        </table>
-        -->
-
         <div class="mt-3">
             <div id="personTransfersFilterTabulator"></div>
         </div>
     </div> 
+
+    <!-- ----------------------------------- -->
+    <!-- FILL MODAL WITH DYNAMIC DATA -->
+    <!-- ----------------------------------- -->
+    <script>
+        $(document).ready(function(){
+            $(document).on("click", ".js-edit-transfer-btn", function(){
+                let transfer_id = $(this).attr("data-transfer-id");
+                let transfer_date = Help.beautifyDate($(this).attr("data-transfer-date"));
+                let sum = Help.beautifyDecimal($(this).attr("data-transfer-sum"));
+
+                $("#old_transfer_id").val(transfer_id);
+                $("#transfer_sum").val(sum);
+                $("#transfer_transfer_date").val(transfer_date);
+            });
+
+            $(document).on("click", ".js-edit-transfer-submit", function(){
+                let old_transfer_id = $("#old_transfer_id").val();
+                let transfer_periodical_publication_id = $("#transfer_periodical_publication_id").val();
+                let transfer_nonperiodical_publication_id = $("#transfer_nonperiodical_publication_id").val();
+                let transfer_sum = $("#transfer_sum").val();
+                let transfer_transfer_date = $("#transfer_transfer_date").val();
+                let transfer_note = $("#transfer_note").val();
+
+                $.getJSON(
+                    "/dobrodinec/prevody-filter-uprav-prevod",
+                    {
+                        old_transfer_id: old_transfer_id,
+                        periodical_publication_id: transfer_periodical_publication_id,
+                        nonperiodical_publication_id: transfer_nonperiodical_publication_id,
+                        sum: transfer_sum,
+                        transfer_date: transfer_transfer_date,
+                        note: transfer_note,
+                    },
+                    function (data) {
+                        if (data.result) {   
+                            if( data.result != "1" ){
+                                alert("Došlo k chybe!");
+
+                                return;
+                            }
+                            
+                            alert( "Úprava prebehla úspešne." );
+                            location.reload();
+                        }
+                    }
+                );
+            });
+        });
+    </script>
+
+    <div class="modal fade" id="editTransfer" tabindex="-1" aria-labelledby="editTransfer" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pridajte nový účel</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body">
+                    <p>Starý účel sa automaticky vymaže.</p>
+
+                    <input type="hidden" id="old_transfer_id">
+
+                    <div class="row">
+                        <div class="col-lg-6 mb-3">
+                            <label for="transfer_periodical_publication_id">Publikácia</label>
+
+                            <select class="form-control" id="transfer_periodical_publication_id">
+                                <option value="0">Nezáleží</option>
+                                @foreach( $periodical_publications as $pp )
+                                    <option value="{!! $pp->id !!}">{!! $pp->name !!}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="col-lg-6 mb-3">
+                            <label for="transfer_periodical_publication_id">Neperiodikum</label>
+
+                            <select class="form-control" id="transfer_nonperiodical_publication_id">
+                                <option value="0">Nezáleží</option>
+                                @foreach( $nonperiodical_publications as $pp )
+                                    <option value="{!! $pp->id !!}">{!! $pp->name !!}</option>
+                                @endforeach
+                            </select>
+                        </div>    
+                        
+                        <div class="col-lg-6 mb-3">
+                            <label for="transfer_sum">Suma</label>
+
+                            <input class="form-control" id="transfer_sum" type="text">
+                        </div>
+                        
+                        <div class="col-lg-6 mb-3">
+                            <label for="transfer_transfer_date">Dátum</label>
+
+                            <input class="form-control" id="transfer_transfer_date" type="text">
+                        </div>
+
+                        <div class="col-lg-12">
+                            <label for="transfer_note">Poznámka</label>
+
+                            <textarea class="form-control" id="transfer_note"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zrušiť</button>
+                    <button type="button" class="js-edit-transfer-submit btn btn-danger" data-id="">potvrdiť</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </x-app-layout> 

@@ -85,6 +85,32 @@ let PersonTransfersFilter = {
                 {title:"periodikum", field:"pp_name", sorter:"string"},
                 {title:"neperiodikum", field:"np_name", sorter:"string"},
                 {title:"poznámka", field:"note", sorter:"string"},
+                {title:"upraviť", field:"transfer_date", sorter:"string", formatter: function(cell, formatterParams){
+                  let transfer_id = cell.getRow().getCells()[0].getValue();
+                  let transfer_sum =cell.getRow().getCells()[5].getValue();
+                  let transfer_date = new Date(cell.getValue());
+                  let transfer_date_month = transfer_date.getMonth();
+                  let btnHtml = `
+                    <button
+                      class='js-edit-transfer-btn btn btn-danger btn-sm'
+                      type='button'
+                      data-bs-toggle='modal' data-bs-target='#editTransfer'
+                      data-transfer-id='${transfer_id}'
+                      data-transfer-date='${transfer_date}'
+                      data-transfer-sum='${transfer_sum}'
+                    >
+                      upraviť
+                    </button>`;
+                  let accounting_date = $("#accountingDatePreview").text();
+                  let accounting_date_arr = accounting_date.split(".");
+                  let accounting_date_month = accounting_date_arr[1] - 1; // get month is zero based
+                  
+                  if( transfer_date_month != accounting_date_month || transfer_sum < 0 ){
+                    btnHtml = "";
+                  }
+
+                  return btnHtml;
+                }},
                 {title:"príjem", field: "income", width: 300, formatter: function(cell, formatterParams){
                   let transfer_id = cell.getRow().getCells()[0].getValue();
                   let income_id = cell.getRow().getCells()[1].getValue();
@@ -165,16 +191,6 @@ let PersonTransfersFilter = {
 
         let transfer_id = parseInt($(this).attr("data-transfer-id"));
         let income_id = parseInt($(this).attr("data-income-id"));
-
-        // OLD WAY
-        /*let $transferRow = $(this).closest(".transfer-row");
-        $transferRow.toggleClass("bg-light").next(".income-row").slideToggle();
-
-        if( $transferRow.next(".income-row").find(".income-list").length ){
-          Help.hidePreloader();
-
-          return;
-        }*/
 
         /***
          * GET DATA FROM SERVER

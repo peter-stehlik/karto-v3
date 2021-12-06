@@ -129,6 +129,7 @@ Route::name('dobrodinec.')->group(function () {
     Route::get('/dobrodinec/{id}/prevody', [PersonController::class, 'getTransfers'])->middleware(['auth'])->name('gettransfers');
     Route::get('/dobrodinec/prevody-filter', [PersonController::class, 'getTransfersFilter'])->middleware(['auth'])->name('gettransfersfilter');
     Route::get('/dobrodinec/prevody-filter-zobraz-prijem', [PersonController::class, 'getIncomeForTransfer'])->middleware(['auth'])->name('getincomefortransfer');
+    Route::get('/dobrodinec/prevody-filter-uprav-prevod', [PersonController::class, 'editTransferInAccountingMonth'])->middleware(['auth'])->name('editTransferInAccountingMonth');
     
 
     Route::get('/dobrodinec/{id}/oprava-cez-hviezdicku', [CorrectionController::class, 'opravaCezHviezdicku'])->middleware(['auth'])->name('opravacezhviezdicku');

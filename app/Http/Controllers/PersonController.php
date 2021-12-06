@@ -25,11 +25,13 @@ class PersonController extends Controller
 	{
 		$person = Person::withTrashed()->find($id);
 		$periodical_credits = PeriodicalCredit::where("person_id", $id)
+								->where("credit", "!=", 0)
 								->join("periodical_publications", "periodical_credits.periodical_publication_id", "=", "periodical_publications.id")
 								->select(DB::raw('SUM(credit) as credit, periodical_publications.id, name'))
 								->groupBy("periodical_credits.periodical_publication_id")
 								->get();
 		$nonperiodical_credits = NonperiodicalCredit::where("person_id", $id)
+								->where("credit", "!=", 0)
 								->join("nonperiodical_publications", "nonperiodical_credits.nonperiodical_publication_id", "=", "nonperiodical_publications.id")
 								->select(DB::raw('SUM(credit) as credit, nonperiodical_publications.id, name'))
 								->groupBy("nonperiodical_credits.nonperiodical_publication_id")
@@ -41,9 +43,9 @@ class PersonController extends Controller
 							->sum("sum");
 		$transfers_sum = Transfer::join("incomes", "incomes.id", "=", "transfers.income_id")
 									->where("person_id", $id)
+									->where("transfers.sum", ">", 0)
 									->sum("transfers.sum");
 		$peniaze_na_ceste = $incomes_sum - $transfers_sum;
-
 
 		return view('v-osoba/dobrodinec/ucty')
 			->with('periodical_credits', $periodical_credits)
@@ -300,6 +302,98 @@ class PersonController extends Controller
 		$data = array('result' => 1);
 		
 		$data["income"] = $income;
+
+		return response()->json($data);	
+	}
+
+	/*
+		GET JSON
+		upravit prevod v uctovnom mesiaci
+	*/
+	public function editTransferInAccountingMonth()
+	{
+		$old_transfer_id = $_GET["old_transfer_id"];
+		$periodical_publication_id = $_GET["periodical_publication_id"];
+		$nonperiodical_publication_id = $_GET["nonperiodical_publication_id"];
+		$sum = $_GET["sum"];
+		$transfer_date = date("Y-m-d", strtotime($_GET["transfer_date"]));
+		$note = $_GET["note"];
+
+		$old_transfer = Transfer::find($old_transfer_id);
+		$income_id = $old_transfer->income_id;
+		$old_transfer_sum = $old_transfer->sum;
+		$old_periodical_publication_id = $old_transfer->periodical_publication_id;
+		$old_nonperiodical_publication_id = $old_transfer->nonperiodical_publication_id;
+
+		Transfer::where("id", $old_transfer_id)
+			->update([
+				"sum" => 0 - $old_transfer_sum,
+			]
+		);
+
+		$person = Transfer::where("transfers.id", $old_transfer_id)
+			->join("incomes", "transfers.income_id", "incomes.id")
+			->first();
+		$person_id = $person->person_id;
+
+		if( $old_periodical_publication_id > 0 ){
+			PeriodicalCredit::where("person_id", $person_id)
+				->where("periodical_publication_id", $old_periodical_publication_id)
+				->decrement("credit", $old_transfer_sum);
+		}	
+		
+		if( $old_nonperiodical_publication_id > 0 ){
+			NonperiodicalCredit::where("person_id", $person_id)
+				->where("nonperiodical_publication_id", $old_nonperiodical_publication_id)
+				->decrement("credit", $old_transfer_sum);
+		}
+
+		Transfer::create([
+			"income_id" => $income_id,
+			"periodical_publication_id" => $periodical_publication_id,
+			"nonperiodical_publication_id" => $nonperiodical_publication_id,
+			"sum" => $sum,
+			"transfer_date" => $transfer_date,
+			"note" => $note,
+		]);
+
+		if( $periodical_publication_id > 0 ){
+			$exists = PeriodicalCredit::where("person_id", $person_id)
+										->where("periodical_publication_id", $periodical_publication_id)
+										->first();
+
+			if ( $exists ) {
+				PeriodicalCredit::where("person_id", $person_id)
+					->where("periodical_publication_id", $periodical_publication_id)
+					->increment("credit", $sum);
+			} else {
+				PeriodicalCredit::create([
+					"person_id" => $person_id,
+					"periodical_publication_id" => $periodical_publication_id,
+					"credit" => $sum,
+				]);
+			}
+		}	
+		
+		if( $nonperiodical_publication_id > 0 ){
+			$exists = NonperiodicalCredit::where("person_id", $person_id)
+						->where("nonperiodical_publication_id", $nonperiodical_publication_id)
+						->first();
+
+			if ( $exists ) {
+				NonperiodicalCredit::where("person_id", $person_id)
+					->where("nonperiodical_publication_id", $nonperiodical_publication_id)
+					->increment("credit", $sum);
+			} else {
+				NonperiodicalCredit::create([
+					"person_id" => $person_id,
+					"nonperiodical_publication_id" => $nonperiodical_publication_id,
+					"credit" => $sum,
+				]);
+			}
+		}
+
+		$data = array('result' => 1);
 
 		return response()->json($data);	
 	}
