@@ -1,43 +1,49 @@
 <html>
 <head>
-	<style>
+<style>
 		html, body {
 			margin: 0;
-			font-family: monospace;
-			font-weight: 300;
-			letter-spacing: 0.2px;
+			font-family: 'Sans Serif', 'Draft', 'Roman', monospace;
 		}
 		body {
-			font-size: 16px;
+			font-size: 14px;
 		}
 		p {
-			margin: 0 0 5px;
+			width: 100%;
+			margin: 0 0 0px;
+			overflow: hidden;
+			white-space: nowrap;
 		}
 		.sided {
 			
 			display: flex;
 			justify-content: space-between;
 		}
+		.mt {
+			margin-top: 8px;
+		}
 		.mw {
-			width: 320px;
+			width: 330px;
 		}
 	</style>
 </head>
 <body>
-	<p class="mw sided">
-		<span>{!! $person->title !!}</span>
-		<span class="padding-left: 20px;">{!! $person->id !!}</span>
-	</p>
+	<section class="person mw">
+		<p class="sided mt">
+			<span>{!! $person->title !!}</span>
+			<span class="padding-left: 20px;">{!! $person->id !!}</span>
+		</p>
 
-	<p class="mw"><span>{!! $person->name1 !!}</span></p>
-	
-	<p>{!! $person->address1 !!}</p>
+		<p class=""><span>{!! $person->name1 !!}</span></p>
+		
+		<p>{!! $person->address1 !!}</p>
 
-	<p>{!! $person->address2 !!}</p>
+		<p>{!! $person->address2 !!}</p>
 
-	<p>{!! $person->zip_code !!} {!! $person->city !!}</p>
-	
-	<p>{!! $person->state !!}</p>
+		<p>{!! $person->zip_code !!} {!! $person->city !!}</p>
+		
+		<p>{!! $person->state !!}</p>
+	</section>
 
 	<script>
 		window.print();

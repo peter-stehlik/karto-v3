@@ -3,18 +3,30 @@
 	<style>
 		html, body {
 			margin: 0;
+			font-family: 'Sans Serif', 'Draft', 'Roman', monospace;
 		}
 		body {
 			font-size: 14px;
-			color: #333;
 		}
 		p {
-			margin: 0;
+			width: 100%;
+			margin: 0 0 0px;
+			overflow: hidden;
+			white-space: nowrap;
 		}
 		.sided {
+			
 			display: flex;
 			justify-content: space-between;
 		}
+		.mt {
+			margin-top: 8px;
+		}
+		.mw {
+			width: 330px;
+		}
+	</style>
+	<style>
 		.person {
   			page-break-after: always;
 		}
@@ -22,10 +34,10 @@
 </head>
 <body>
 	@foreach( $people as $person )
-	<section class="person">
-		<p class="sided">
+	<section class="person mw">
+		<p class="sided mt">
 			<span>{!! $person->title !!}</span>
-			<span>{!! $person->id !!}</span>
+			<span class="padding-left: 20px;">{!! $person->id !!}</span>
 		</p>
 		
 		<p><span>{!! $person->name1 !!}</span></p>
