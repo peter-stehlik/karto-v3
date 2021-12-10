@@ -81,6 +81,7 @@ class PersonController extends Controller
 			'category_id' => $request->category_id,
 			'title' => $request->title,
 			'name1' => $request->name1,
+			'name2' => $request->name2,
 			'address1' => $request->address1,
 			'address2' => $request->address2,
 			'organization' => $request->organization,

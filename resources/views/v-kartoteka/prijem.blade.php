@@ -288,9 +288,19 @@
 							</div>
 
 							<div class="col-lg-9">
-								<label for="name1">Meno a priezvisko</label>
+								<label for="name1">Meno 1</label>
 								
 								<input type="text" name="name1" id="inc_name1" class="form-control name1a">
+							</div>
+						</div>
+					</div>
+					
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-12">
+								<label for="name2">Meno 2</label>
+								
+								<input type="text" name="name2" id="inc_name2" class="form-control name1a">
 							</div>
 						</div>
 					</div>

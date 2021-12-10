@@ -417,6 +417,7 @@ let Income = {
 		let category_id = $("#inc_category_id").val();
 		let title = $("#inc_title").val();
 		let name1 = $("#inc_name1").val();
+		let name2 = $("#inc_name2").val();
 		let address1 = $("#inc_address1").val();
 		let address2 = $("#inc_address2").val();
 		let organization = $("#inc_organization").val();
@@ -432,6 +433,7 @@ let Income = {
 				category_id: category_id,
 				title: title,
 				name1: name1,
+				name2: name2,
 				address1: address1,
 				address2: address2,
 				organization: organization,

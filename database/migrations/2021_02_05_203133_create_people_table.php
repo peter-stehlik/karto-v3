@@ -17,7 +17,8 @@ class CreatePeopleTable extends Migration
             $table->id();
             $table->integer('category_id');
             $table->string('title', 20)->nullable();
-            $table->string('name1', 50)->nullable();
+            $table->string('name1', 70)->nullable();
+            $table->string('name2', 70)->nullable();
             $table->string('address1', 70)->nullable();
             $table->string('address2', 70)->nullable();
             $table->string('organization', 50)->nullable();

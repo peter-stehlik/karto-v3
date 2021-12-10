@@ -345,6 +345,7 @@ var Income = {
     var category_id = $("#inc_category_id").val();
     var title = $("#inc_title").val();
     var name1 = $("#inc_name1").val();
+    var name2 = $("#inc_name2").val();
     var address1 = $("#inc_address1").val();
     var address2 = $("#inc_address2").val();
     var organization = $("#inc_organization").val();
@@ -357,6 +358,7 @@ var Income = {
       category_id: category_id,
       title: title,
       name1: name1,
+      name2: name2,
       address1: address1,
       address2: address2,
       organization: organization,

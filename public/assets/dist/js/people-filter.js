@@ -59,7 +59,7 @@ var Filter = {
             sorter: "string",
             visible: false
           }, {
-            title: "meno",
+            title: "meno 1",
             field: "name1",
             sorter: "string",
             width: 250,
@@ -79,7 +79,7 @@ var Filter = {
             field: "organization",
             sorter: "string"
           }, {
-            title: "adresa",
+            title: "adresa 1",
             field: "address1",
             sorter: "string"
           }, {

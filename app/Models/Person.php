@@ -20,6 +20,7 @@ class Person extends Model
         'category_id',
         'title',
         'name1',
+        'name2',
         'address1',
         'address2',
         'organization',

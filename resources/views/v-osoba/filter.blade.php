@@ -28,7 +28,7 @@
 
             <div class="col-lg-2">
                 <div class="mb-3">
-                    <label class="mb-2" for="name1">Meno:</label>
+                    <label class="mb-2" for="name1">Meno 1:</label>
                     
                     <input class="form-control" id="name1" type="text" name="name1">
                 </div>
@@ -36,7 +36,7 @@
 
             <div class="col-lg-2">
                 <div class="mb-3">
-                    <label class="mb-2" for="address1">Adresa:</label>
+                    <label class="mb-2" for="address1">Adresa 1:</label>
                     
                     <input class="form-control" id="address1" type="text" name="address1">
                 </div>

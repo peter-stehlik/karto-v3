@@ -174,6 +174,7 @@ class IncomeController extends Controller
 			"category_id" => $_GET["category_id"],
 			"title" => $_GET["title"],
 			"name1" => $_GET["name1"],
+			"name2" => $_GET["name2"],
 			"address1" => $_GET["address1"],
 			"address2" => $_GET["address2"],
 			"organization" => $_GET["organization"],

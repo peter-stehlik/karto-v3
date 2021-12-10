@@ -63,7 +63,7 @@ let Filter = {
                 columns: [
                   {title:"ID", field:"id", sorter:"number", width: 50},
                   {title:"titul", field:"title", sorter:"string", visible:false},
-                  {title:"meno", field:"name1", sorter:"string", width:250, formatter: function(cell, formatterParams){
+                  {title:"meno 1", field:"name1", sorter:"string", width:250, formatter: function(cell, formatterParams){
                     let value = cell.getValue();
                     let id = cell.getRow().getCells()[0].getValue();
                     let titul =cell.getRow().getCells()[1].getValue();
@@ -75,7 +75,7 @@ let Filter = {
                     return "<a href='/dobrodinec/" + id + "/ucty' target='_blank'>" + titul + " " + value + "</a>";
                   }},
                   {title:"organizácia", field:"organization", sorter:"string"},
-                  {title:"adresa", field:"address1", sorter:"string"},
+                  {title:"adresa 1", field:"address1", sorter:"string"},
                   {title:"PSČ", field:"zip_code", sorter:"string"},
                   {title:"mesto", field:"city", sorter:"string"},
                   {title:"štát", field:"state", sorter:"string"},
