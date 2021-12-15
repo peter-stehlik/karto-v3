@@ -50,8 +50,7 @@ var PersonIncomesFilter = {
       income_date_to: income_date_to
     }, function (data) {
       if (data.incomes.length) {
-        /* OLD WAY REPLACED BY TABULAR.JS */
-        // PersonIncomesFilter.populateSearchedPeople(data.incomes);
+        $("#totalCount").text(data.incomes.length);
         var table = new Tabulator("#personIncomesFilterTabulator", {
           layout: "fitColumns",
           pagination: "local",
@@ -165,45 +164,12 @@ var PersonIncomesFilter = {
       Help.hidePreloader();
     });
   },
-
-  /**
-   * OLD WAY, REPLACED BY TABULAR.JS
-   */
-  populateSearchedPeople: function populateSearchedPeople(incomes) {
-    if (incomes) {
-      var htmlResults = "";
-
-      for (var i = 0; i < incomes.length; i++) {
-        var income_id = incomes[i].income_id;
-        var username = incomes[i].username;
-        var income_sum = Help.beautifyDecimal(incomes[i].income_sum);
-        var bank_name = incomes[i].bank_name;
-        var number = incomes[i].number;
-        var package_number = incomes[i].package_number;
-        var invoice = incomes[i].invoice;
-        var accounting_date = Help.beautifyDate(incomes[i].accounting_date);
-        var note = incomes[i].note;
-        var income_date = Help.beautifyDate(incomes[i].income_date);
-        var row = "\n            <tr class=\"income-row\">\n              <td>".concat(income_id, "</td>\n              <td>").concat(username, "</td>\n              <td>").concat(income_sum, " &euro;</td>\n              <td>").concat(bank_name, "</td>\n              <td>").concat(number, "</td>\n              <td>").concat(package_number, "</td>\n              <td>").concat(invoice, "</td>\n              <td>").concat(accounting_date, "</td>\n              <td>").concat(note, "</td>\n              <td>").concat(income_date, "</td>\n              <td><a class=\"js-toggle-transfers btn btn-primary btn-sm\" href=\"javascript:void(0);\" data-income-id=\"").concat(income_id, "\">prevody</a></td>\n            </tr>\n            <tr class=\"transfers-row bg-light\" style=\"display: none;\">\n              <td id=\"income-").concat(income_id, "\" colspan=\"11\"></td>\n            </tr>\n          ");
-        htmlResults += row;
-      }
-
-      $("#personIncomeFilterTableResults").html(htmlResults);
-      PersonIncomesFilter.toggleTransfers();
-    }
-  },
   toggleTransfers: function toggleTransfers() {
     $(document).off("click", ".js-toggle-transfers").on("click", ".js-toggle-transfers", function () {
       Help.showPreloader();
       var income_id = parseInt($(this).attr("data-income-id"));
       var $incomeRow = $(this).closest(".income-row");
       $incomeRow.toggleClass("bg-light").next(".transfers-row").slideToggle();
-      /* OLD WAY, LOAD DATA ONLY ONCE
-      if( $incomeRow.next(".transfers-row").find(".transfers-list").length ){
-        Help.hidePreloader();
-         return;
-      }*/
-
       /***
        * GET DATA FROM SERVER
        */

@@ -26,6 +26,7 @@ var ListFilter = {
       periodical_publication_ids: periodical_publication_ids
     }, function (data) {
       if (data.list.length) {
+        $("#totalCount").text(data.list.length);
         var table = new Tabulator("#listFilterTabulator", {
           layout: "fitColumns",
           pagination: "local",

@@ -52,7 +52,7 @@ let Filter = {
         },
         function (data) {
           if (data.people) {
-            // Filter.populateSearchedPeople(data.people); OLD WAY TO DISPLAY AJAX RESULT
+            $("#totalCount").text(data.people.length);
 
             let table = new Tabulator("#personFilterTabulator", {
                 layout: "fitColumns",
@@ -108,38 +108,6 @@ let Filter = {
         }
       );
     },
-    /**
-     * OLD WAY HOW TO DISPLAY
-     * AJAX RESULTS
-     * REPLACED BY TABULATOR.JS PLUGIN
-     */
-    populateSearchedPeople: people => {
-      if (people) {
-        var htmlResults = "";
-  
-        for (var i = 0; i < people.length; i++) {
-          var id = people[i].id;
-          var name1 = people[i].name1;
-          var address1 = people[i].address1 + ", " + people[i].zip_code + " " + people[i].city;
-          var note = people[i].note;
-          var category = people[i].category_name;
-  
-          var row = `
-            <tr>
-              <td>${id}</td>
-              <td><a href="/dobrodinec/${id}/ucty" target="_blank">${name1}</a></td>
-              <td>${address1}</td>
-              <td>${category}</td>
-              <td>${note}</td>
-            </tr>
-          `;
-  
-          htmlResults += row;
-        }
-  
-        $("#filterResults").html(htmlResults);
-      }
-    }
   };
   
   $("document").ready(function () {

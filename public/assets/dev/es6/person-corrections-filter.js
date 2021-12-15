@@ -58,6 +58,8 @@ let PersonCorrectionsFilter = {
         },
         function (data) {
          if (data.corrections.length) {
+            $("#totalCount").text(data.corrections.length);
+
             let table = new Tabulator("#personCorrectionsFilterTabulator", {
               layout: "fitColumns",
               pagination: "local",

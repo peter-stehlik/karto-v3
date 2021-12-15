@@ -38,6 +38,7 @@ var PersonTransfersFilter = {
       transfer_date_to: transfer_date_to
     }, function (data) {
       if (data.transfers.length) {
+        $("#totalCount").text(data.transfers.length);
         PersonTransfersFilter.populateSearchedTransfers(data.transfers);
         var table = new Tabulator("#personTransfersFilterTabulator", {
           layout: "fitColumns",

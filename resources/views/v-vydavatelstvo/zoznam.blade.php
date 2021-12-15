@@ -21,7 +21,7 @@
 
                     <button class="btn btn-info mt-2" id="initListFilter" type="button">Vybrať</button>
 
-                    <button class="btn btn-danger mt-2" type="submit">Tlačiť</button>
+                    <button class="btn btn-secondary mt-2" type="submit">Generuj PDF</button>
                 </div>
             {!! Form::close() !!}
         </div>
@@ -33,6 +33,8 @@
         </div>
 
         <div class="mt-3">
+            <p class="total-count-wrap" style="display: none;">Celkový počet: <strong id="totalCount"></strong></p>
+
             <div id="listFilterTabulator"></div>
         </div>
     </div>

@@ -37,6 +37,8 @@ let ObjPeriodicalFilter = {
         },
         function (data) {
          if (data.obj_periodical.length) {
+            $("#totalCount").text(data.obj_periodical.length);
+
             let table = new Tabulator("#objPeriodicalFilterTabulator", {
               layout: "fitColumns",
               pagination: "local",

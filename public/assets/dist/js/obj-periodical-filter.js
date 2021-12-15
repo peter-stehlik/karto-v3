@@ -30,6 +30,7 @@ var ObjPeriodicalFilter = {
       periodical_publication_id: periodical_publication_id
     }, function (data) {
       if (data.obj_periodical.length) {
+        $("#totalCount").text(data.obj_periodical.length);
         var table = new Tabulator("#objPeriodicalFilterTabulator", {
           layout: "fitColumns",
           pagination: "local",

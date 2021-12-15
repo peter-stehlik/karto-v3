@@ -3,6 +3,8 @@
 
     <div class="row">
         <div class="col-lg-12">
+            <p class="text-secondary">Celkový počet: {!! count($incomes) !!}</p>
+
             <table class="table">
                 <thead>
                     <tr>

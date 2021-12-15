@@ -44,6 +44,7 @@ var PersonCorrectionsFilter = {
       user_id: user_id
     }, function (data) {
       if (data.corrections.length) {
+        $("#totalCount").text(data.corrections.length);
         var table = new Tabulator("#personCorrectionsFilterTabulator", {
           layout: "fitColumns",
           pagination: "local",

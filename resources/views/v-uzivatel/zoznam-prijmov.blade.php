@@ -134,30 +134,9 @@
             Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
         </div>
 
-        <!-- OLD WAY, REPLACED BY TABULATOR.JS
-        <table class="table" id="personIncomeFilterTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Užívateľ</th>
-                    <th>Suma</th>
-                    <th>Bankový účet</th>
-                    <th>Číslo</th>
-                    <th>Balík</th>
-                    <th>Faktúra</th>
-                    <th>Účt. dátum</th>
-                    <th>Poznámka</th>
-                    <th>Dát. príjmu</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody id="personIncomeFilterTableResults">
-
-            </tbody>
-        </table>-->
-
         <div class="mt-3">
+            <p class="total-count-wrap" style="display: none;">Celkový počet: <strong id="totalCount"></strong></p>
+
             <div id="personIncomesFilterTabulator"></div>
         </div>
     </div>  

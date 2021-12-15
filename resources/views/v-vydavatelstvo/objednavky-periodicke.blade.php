@@ -45,6 +45,8 @@
         </div>
 
         <div class="mt-3">
+            <p class="total-count-wrap" style="display: none;">Celkový počet: <strong id="totalCount"></strong></p>
+
             <div id="objPeriodicalFilterTabulator"></div>
         </div>
     </div>

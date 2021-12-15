@@ -49,6 +49,8 @@ let PersonTransfersFilter = {
         },
         function (data) {
           if (data.transfers.length) {
+            $("#totalCount").text(data.transfers.length);
+
             PersonTransfersFilter.populateSearchedTransfers(data.transfers);
 
             let table = new Tabulator("#personTransfersFilterTabulator", {

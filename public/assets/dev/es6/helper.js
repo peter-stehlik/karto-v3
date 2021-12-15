@@ -43,10 +43,17 @@ let Help = {
 		if ($(".preloader").length) {
 			$(".preloader").show();
 		}
+		
+		if ($(".total-count-wrap").length) {
+			$(".total-count-wrap").hide();
+		}
 	},
 	hidePreloader: () => {
 		if ($(".preloader").length) {
 			$(".preloader").hide();
+		}
+		if ($(".total-count-wrap").length) {
+			$(".total-count-wrap").show();
 		}
 	},
 };

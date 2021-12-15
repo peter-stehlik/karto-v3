@@ -46,6 +46,8 @@ let PersonOutcomesFilter = {
         },
         function (data) {
          if (data.outcomes.length) {
+            $("#totalCount").text(data.outcomes.length);
+
             let table = new Tabulator("#personOutcomesFilterTabulator", {
               layout: "fitColumns",
               pagination: "local",

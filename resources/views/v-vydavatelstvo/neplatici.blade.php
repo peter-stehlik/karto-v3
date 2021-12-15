@@ -18,6 +18,8 @@
 		</div>
 
 		<div class="mt-3">
+			<p class="total-count-wrap">Celkový počet: <strong id="totalCount"></strong></p>
+
 			<div id="neplaticiTabulator"></div>
 		</div>
 	</div>
@@ -26,9 +28,10 @@
 		$(document).ready(function () {
     		if ($("#neplaticiTabulator").length) {
 				var data = @json($people);
-				console.log(data);
 
 				if (data.length) {
+					$("#totalCount").text(data.length);
+
 					let table = new Tabulator("#neplaticiTabulator", {
 					layout: "fitColumns",
 					pagination: "local",

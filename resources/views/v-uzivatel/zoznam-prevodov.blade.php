@@ -82,27 +82,9 @@
             Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
         </div>
 
-        <!-- 
-        <table class="table" id="personTransferFilterTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Suma</th>
-                    <th>Periodikum</th>
-                    <th>Neperiodikum</th>
-                    <th>Poznámka</th>
-                    <th>Dát. prevodu</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody id="personTransferFilterTableResults">
-
-            </tbody>
-        </table>
-        -->
-
         <div class="mt-3">
+            <p class="total-count-wrap" style="display: none;">Celkový počet: <strong id="totalCount"></strong></p>
+
             <div id="personTransfersFilterTabulator"></div>
         </div>
     </div>  

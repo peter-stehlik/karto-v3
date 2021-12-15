@@ -31,6 +31,8 @@ let ListFilter = {
         },
         function (data) {
          if (data.list.length) {
+            $("#totalCount").text(data.list.length);
+
             let table = new Tabulator("#listFilterTabulator", {
               layout: "fitColumns",
               pagination: "local",

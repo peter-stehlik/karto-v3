@@ -85,24 +85,9 @@
                 Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
             </div>
 
-            <!-- OLD WAY HOW TO DISPLAY AJAX RESULTS, REPLACED BY TABULATOR.JS PLUGIN
-            <table class="table" id="filterTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Meno 1</th>
-                        <th>Adresa 1</th>
-                        <th>Kategória</th>
-                        <th>Poznámka</th>
-                    </tr>
-                </thead>
-
-                <tbody id="filterResults">
-
-                </tbody>
-            </table> -->
-
             <div class="mt-3">
+                <p class="total-count-wrap" style="display: none;">Celkový počet: <strong id="totalCount"></strong></p>
+
                 <div id="personFilterTabulator"></div>
             </div>
         </div>

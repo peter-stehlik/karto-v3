@@ -40,7 +40,7 @@ var Filter = {
       bin: bin
     }, function (data) {
       if (data.people) {
-        // Filter.populateSearchedPeople(data.people); OLD WAY TO DISPLAY AJAX RESULT
+        $("#totalCount").text(data.people.length);
         var table = new Tabulator("#personFilterTabulator", {
           layout: "fitColumns",
           pagination: "local",
@@ -127,29 +127,6 @@ var Filter = {
 
       Help.hidePreloader();
     });
-  },
-
-  /**
-   * OLD WAY HOW TO DISPLAY
-   * AJAX RESULTS
-   * REPLACED BY TABULATOR.JS PLUGIN
-   */
-  populateSearchedPeople: function populateSearchedPeople(people) {
-    if (people) {
-      var htmlResults = "";
-
-      for (var i = 0; i < people.length; i++) {
-        var id = people[i].id;
-        var name1 = people[i].name1;
-        var address1 = people[i].address1 + ", " + people[i].zip_code + " " + people[i].city;
-        var note = people[i].note;
-        var category = people[i].category_name;
-        var row = "\n            <tr>\n              <td>".concat(id, "</td>\n              <td><a href=\"/dobrodinec/").concat(id, "/ucty\" target=\"_blank\">").concat(name1, "</a></td>\n              <td>").concat(address1, "</td>\n              <td>").concat(category, "</td>\n              <td>").concat(note, "</td>\n            </tr>\n          ");
-        htmlResults += row;
-      }
-
-      $("#filterResults").html(htmlResults);
-    }
   }
 };
 $("document").ready(function () {

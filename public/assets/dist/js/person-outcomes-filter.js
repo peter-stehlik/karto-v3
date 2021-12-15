@@ -36,6 +36,7 @@ var PersonOutcomesFilter = {
       outcome_date_to: outcome_date_to
     }, function (data) {
       if (data.outcomes.length) {
+        $("#totalCount").text(data.outcomes.length);
         var table = new Tabulator("#personOutcomesFilterTabulator", {
           layout: "fitColumns",
           pagination: "local",
