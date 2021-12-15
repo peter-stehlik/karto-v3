@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
+	<!-- 
+		Control Panel - Hardware and Software - Devices and Printers [Print server properties]
+		v nastaveniach papiera rozmer 17 x 3.81 cm
+	-->
+	<style>
 		html, body {
 			margin: 0;
 			font-family: Verdana, 'Sans Serif', 'Draft', 'Roman', monospace;

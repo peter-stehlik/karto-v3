@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Person;
 use App\Models\PeriodicalOrder;
+use Auth;
 use DB;
 
 class PrintController extends Controller
@@ -12,8 +13,19 @@ class PrintController extends Controller
 	public function person($id)
 	{
 		$person = Person::withTrashed()->find($id);
-		
-		return view('v-tlac/person')
+        $user_printer = Auth::user()->printer;
+        $template = "person-lx-300II";
+
+        switch( $user_printer ){
+            case "EPSON LX-300II+":
+                $template = "person-lx-300II";
+                break;
+            case "EPSON LX-350":
+                $template = "person-lx-350";
+                break;
+        }
+
+		return view('v-tlac/' . $template)
                     ->with('person', $person);
 	}
 
@@ -39,7 +51,19 @@ class PrintController extends Controller
                     ->select("people.id", "title", "name1", "address1", "address2", "zip_code", "city", "state")
                     ->get();
 
-		return view('v-tlac/people')
+        $user_printer = Auth::user()->printer;
+        $template = "people-lx-300II";
+
+        switch( $user_printer ){
+            case "EPSON LX-300II+":
+                $template = "people-lx-300II";
+                break;
+            case "EPSON LX-350":
+                $template = "people-lx-350";
+                break;
+        }
+
+		return view('v-tlac/' . $template)
                     ->with('people', $people);
 	}
 

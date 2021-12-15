@@ -1,45 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- WORKING FOR EPSON LX 350
-	 
-		Control Panel - Hardware and Software - Devices and Printers [Print server properties]
-		v nastaveniach papiera rozmer 10 x 3.8 cm
-	
-
-	<style>
-		html, body {
-			margin: 0;
-			font-family: 'Sans Serif', 'Draft', 'Roman', monospace;
-		}
-		body {
-			font-size: 14px;
-		}
-		p {
-			width: 100%;
-			margin: 0 0 0px;
-			overflow: hidden;
-			white-space: nowrap;
-		}
-		.sided {
-			
-			display: flex;
-			justify-content: space-between;
-		}
-		.mt {
-			margin-top: 8px;
-		}
-		.mw {
-			width: 330px;
-		}
-	</style>
-	-->
-
 	<!-- 
 		Control Panel - Hardware and Software - Devices and Printers [Print server properties]
 		v nastaveniach papiera rozmer 17 x 3.81 cm
 	-->
-
 
 	<style>
 		html, body {
@@ -93,6 +58,8 @@
 
 	<script>
 		window.print();
+
+        setTimeout(window.close, 1000);
 		// window.close();
 	</script>
 </body>
