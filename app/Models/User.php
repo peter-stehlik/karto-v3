@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'accounting_date',
+        'printer',
         'email_verified_at',
         'remember_token',
         'created_at',

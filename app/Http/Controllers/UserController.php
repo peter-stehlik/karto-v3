@@ -37,6 +37,22 @@ class UserController extends Controller
     }
 
 	/**
+	 * Change Printer
+	 */
+	public function changePrinter(Request $request)
+	{
+		$id = Auth::user()->id;
+		$printer = $request->printer;
+
+		User::where('id', '=', $id)
+			->update([
+				'printer' => $printer,
+			]);
+
+		return redirect('/uzivatel/zmenit-tlaciaren')->with('message', 'Úspešne ste nastavili tlačiareň.');
+	}
+
+	/**
      * Change accounting date for a given user. GET AJAX
      *
      * @param  int  $id

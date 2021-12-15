@@ -51,6 +51,10 @@
 				<a class="nav-link" href="{{ route('uzivatel.zmenit-heslo') }}">
 					{{ Auth::user()->name }}
 				</a>
+
+				<a class="nav-link text-secondary" href="{{ route('uzivatel.zmenit-tlaciaren') }}">
+					<small>tlačiareň:</small> {{ Auth::user()->printer }} <em>(zmeniť)</em>
+				</a>
 			</li><!-- / .nav-item -->
 
 			<li class="nav-item">

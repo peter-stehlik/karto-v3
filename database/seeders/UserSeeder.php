@@ -22,8 +22,9 @@ class UserSeeder extends Seeder
             'email' => 'peter@inovative.sk',
             'email_verified_at' => now(),
             'accounting_date' => now(),
-            'password' => Hash::make('.KartotekA1510/'),
+            'password' => Hash::make('kalvaria88'),
             'remember_token' => Str::random(10),
+            "printer" => "EPSON LX-350",
         ]);
 
         DB::table('users')->insert([
@@ -34,6 +35,7 @@ class UserSeeder extends Seeder
             'accounting_date' => now(),
             'password' => Hash::make('kalvaria1'),
             'remember_token' => Str::random(10),
+            "printer" => "EPSON LX-300II+",
         ]);
         
         DB::table('users')->insert([
@@ -44,6 +46,7 @@ class UserSeeder extends Seeder
             'accounting_date' => now(),
             'password' => Hash::make('kalvaria2'),
             'remember_token' => Str::random(10),
+            "printer" => "EPSON LX-350",
         ]);
     }
 }

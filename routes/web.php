@@ -188,7 +188,13 @@ Route::name('uzivatel.')->group(function () {
         return view('v-uzivatel/zmenit-heslo');
     })->middleware(['auth'])->name('zmenit-heslo');
 
-    Route::post('/uzivatel/zmenit-heslo', [UserController::class, 'changePassword'])->middleware(['auth'])->name('zmenit-heslo-post');
+    Route::post('/uzivatel/zmenit-heslo', [UserController::class, 'changePassword'])->middleware(['auth'])->name('zmenit-heslo-post');    
+    
+    Route::get('/uzivatel/zmenit-tlaciaren', function () {
+        return view('v-uzivatel/zmenit-tlaciaren');
+    })->middleware(['auth'])->name('zmenit-tlaciaren');
+
+    Route::post('/uzivatel/zmenit-tlaciaren', [UserController::class, 'changePrinter'])->middleware(['auth'])->name('zmenit-tlaciaren-post');
 
     Route::get('/uzivatel/uctovny-datum', [UserController::class, 'updateAccountingDate'])->middleware(['auth'])->name('update-accounting-date-get'); 
     
