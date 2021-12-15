@@ -31,13 +31,13 @@
 						<div class="col-lg-3">
 							<label for="title">Titul</label>
 								
-							<input type="text" name="title" id="inc_title" class="form-control" value="{!! $person->title !!}">
+							<input type="text" name="title" id="inc_title" class="form-control" value="{!! $person->title !!}" maxlength="30">
 						</div>
 
 						<div class="col-lg-9">
 							<label for="name1">Meno 1</label>
 							
-							<input type="text" name="name1" id="inc_name1" class="form-control" value="{!! $person->name1 !!}">
+							<input type="text" name="name1" id="inc_name1" class="form-control" value="{!! $person->name1 !!}" maxlength="30">
 						</div>
 					</div>
 				</div>
@@ -47,7 +47,7 @@
 						<div class="col-lg-9">
 							<label for="name2">Meno 2</label>
 							
-							<input type="text" name="name2" id="inc_name2" class="form-control" value="{!! $person->name2 !!}">
+							<input type="text" name="name2" id="inc_name2" class="form-control" value="{!! $person->name2 !!}" maxlength="30">
 						</div>
 					</div>
 				</div>
@@ -57,13 +57,13 @@
 						<div class="col-lg-6">
 							<label for="address1">Adresa 1</label>
 							
-							<input type="text" name="address1" id="inc_address1" class="form-control" value="{!! $person->address1 !!}">
+							<input type="text" name="address1" id="inc_address1" class="form-control" value="{!! $person->address1 !!}" maxlength="30">
 						</div>
 
 						<div class="col-lg-6">
 							<label for="address2">Adresa 2</label>
 							
-							<input type="text" name="address2" id="inc_address2" class="form-control" value="{!! $person->address2 !!}">
+							<input type="text" name="address2" id="inc_address2" class="form-control" value="{!! $person->address2 !!}" maxlength="30">
 						</div>
 					</div>
 				</div>
@@ -73,13 +73,13 @@
 						<div class="col-lg-6">
 							<label for="organization">Organizácia</label>
 							
-							<input type="text" name="organization" id="inc_organization" class="form-control" value="{!! $person->organization !!}">
+							<input type="text" name="organization" id="inc_organization" class="form-control" value="{!! $person->organization !!}" maxlength="30">
 						</div>
 
 						<div class="col-lg-6">
 							<label for="zip_code">PSČ</label>
 							
-							<input type="text" name="zip_code" id="inc_zip_code" class="form-control" value="{!! $person->zip_code !!}">
+							<input type="text" name="zip_code" id="inc_zip_code" class="form-control" value="{!! $person->zip_code !!}" maxlength="10">
 						</div>
 					</div>
 				</div>
@@ -89,13 +89,13 @@
 						<div class="col-lg-6">
 							<label for="city">Mesto</label>
 							
-							<input type="text" name="city" id="inc_city" class="form-control" value="{!! $person->city !!}">
+							<input type="text" name="city" id="inc_city" class="form-control" value="{!! $person->city !!}" maxlength="40">
 						</div>
 
 						<div class="col-lg-6">
 							<label for="state">Štát</label>
 							
-							<input type="text" name="state" id="inc_state" class="form-control" value="{!! $person->state !!}">
+							<input type="text" name="state" id="inc_state" class="form-control" value="{!! $person->state !!}" maxlength="20">
 						</div>
 					</div>
 				</div>
@@ -103,7 +103,7 @@
 				<div class="mb-3">
 					<label for="email">Email</label>
 					
-					<input type="email" name="email" id="inc_email" class="form-control" value="{!! $person->email !!}">
+					<input type="email" name="email" id="inc_email" class="form-control" value="{!! $person->email !!}" maxlength="70">
 				</div>
 
 				<div class="mb-3">
