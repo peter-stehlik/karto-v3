@@ -2,6 +2,14 @@
 	<h1 class="h3 py-2 border-bottom text-uppercase">Prenos dát zo starej kartotéky</h1>
 
 	<div class="col-lg-12">
+		<ol>
+			<li>Stiahnuť zo servera DB dump.</li>
+			<li>Ručne nahrať z SQL súboru dáta jednotlivých tabuliek pomocou SQL príkazov.</li>
+			<li>Nastaviť, aký <strong> účtovný dátum </strong> sa im má preniesť.</li>
+			<li>Spúšťať postupne skripty na prenos.</li>
+			<li>Pomocou HeidiSQL preniesť novú DB na nový hostin.</li>
+		</ol>
+
 		<p>Prenos dát musí ísť postupne:</p>
 
 		<ol>
