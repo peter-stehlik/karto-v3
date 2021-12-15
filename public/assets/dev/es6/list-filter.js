@@ -39,8 +39,8 @@ let ListFilter = {
               data: data.list, //assign data to table
               columns: [
                 {title:"ID", field:"person_id", sorter:"number", width: 60},
-				{title:"titul", field:"title", sorter:"string", visible:false},
-				{title:"meno", field:"name1", sorter:"string", formatter: function(cell, formatterParams){
+				        {title:"titul", field:"title", sorter:"string", visible:false},
+				        {title:"meno", field:"name1", sorter:"string", formatter: function(cell, formatterParams){
                     let value = cell.getValue();
                     let id = cell.getRow().getCells()[0].getValue();
                     let titul = cell.getRow().getCells()[1].getValue();
@@ -61,6 +61,12 @@ let ListFilter = {
                   let outcome_date = Help.beautifyDate(value);
 
                   return outcome_date;
+                }},
+                {title: "kredit", field: "credit", sorter:"number", formatter: function(cell, formatterParams){
+                  let value = cell.getValue();
+                  value = Help.beautifyDecimal(value) + " &euro;";
+
+                  return value;
                 }},
 				{title:"platné do", field:"valid_to", sorter:"date", formatter: function(cell, formatterParams){
 					let value = cell.getValue();

@@ -362,10 +362,11 @@ class ListingController extends Controller
 
         $people = PeriodicalOrder::join("people", "periodical_orders.person_id", "=", "people.id")
                     ->join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id")
+                    ->join("periodical_credits", "periodical_publications.id", "=", "periodical_credits.periodical_publication_id")
                     ->whereDate("valid_from", "<=", DB::raw("periodical_publications.label_date"))
                     ->whereDate("valid_to", ">=", DB::raw("periodical_publications.label_date"))
-                    ->whereIn("periodical_publication_id", $pp_ids)
-                    ->select("people.id AS person_id", "title", "name1", "address1", "zip_code", "city", "name", "count", "valid_from", "valid_to", "periodical_orders.note")
+                    ->whereIn("periodical_orders.periodical_publication_id", $pp_ids)
+                    ->select("people.id AS person_id", "title", "name1", "address1", "zip_code", "city", "name", "count", "valid_from", "valid_to", "periodical_orders.note", "credit")
                     ->get();
 
         $data = array('result' => 1);

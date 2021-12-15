@@ -89,6 +89,15 @@ var ListFilter = {
               return outcome_date;
             }
           }, {
+            title: "kredit",
+            field: "credit",
+            sorter: "number",
+            formatter: function formatter(cell, formatterParams) {
+              var value = cell.getValue();
+              value = Help.beautifyDecimal(value) + " &euro;";
+              return value;
+            }
+          }, {
             title: "platné do",
             field: "valid_to",
             sorter: "date",
