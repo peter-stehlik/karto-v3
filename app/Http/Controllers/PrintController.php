@@ -48,7 +48,7 @@ class PrintController extends Controller
                             $query->where('count', '<=', $count_to);
                         }
                     })
-                    ->select("people.id", "title", "name1", "address1", "address2", "zip_code", "city", "state")
+                    ->select("people.id", "title", "name1", "name2", "address1", "address2", "zip_code", "city", "state")
                     ->get();
 
         $user_printer = Auth::user()->printer;
@@ -98,7 +98,7 @@ class PrintController extends Controller
                     })
                     ->join("categories", "people.category_id", "=", "categories.id")
                     ->join("incomes", "people.id", "=", "incomes.person_id")
-                    ->select("people.id", "people.title", "name1", "address1", "address2", "city", "zip_code", "state")
+                    ->select("people.id", "people.title", "name1", "name2", "address1", "address2", "city", "zip_code", "state")
                     ->groupBy("person_id")
                     ->get();
         } else {
@@ -124,12 +124,47 @@ class PrintController extends Controller
                     ->join("categories", "people.category_id", "=", "categories.id")
                     ->join("incomes", "people.id", "=", "incomes.person_id")
                     ->join("transfers", "incomes.id", "=", "transfers.income_id")
-                    ->select("people.id", "people.title", "name1", "address1", "address2", "city", "zip_code", "state")
+                    ->select("people.id", "people.title", "name1", "name2", "address1", "address2", "city", "zip_code", "state")
                     ->groupBy("person_id")
                     ->get();
         }
 
-		return view('v-tlac/people')
-			->with('people', $people);
+        $user_printer = Auth::user()->printer;
+        $template = "people-lx-300II";
+
+        switch( $user_printer ){
+            case "EPSON LX-300II+":
+                $template = "people-lx-300II";
+                break;
+            case "EPSON LX-350":
+                $template = "people-lx-350";
+                break;
+        }
+
+		return view('v-tlac/' . $template)
+                    ->with('people', $people);
 	}
+
+    public function neplatici()
+    {
+        $people = Person::join("periodical_credits", "people.id", "=", "periodical_credits.person_id")
+            ->where("periodical_credits.credit", "<", -3)
+            ->select("people.id", "title", "name1", "name2", "address1", "address2", "zip_code", "city", "state")
+            ->get();
+
+        $user_printer = Auth::user()->printer;
+        $template = "people-lx-300II";
+
+        switch( $user_printer ){
+            case "EPSON LX-300II+":
+                $template = "people-lx-300II";
+                break;
+            case "EPSON LX-350":
+                $template = "people-lx-350";
+                break;
+        }
+
+        return view('v-tlac/' . $template)
+                    ->with('people', $people);
+    }
 }

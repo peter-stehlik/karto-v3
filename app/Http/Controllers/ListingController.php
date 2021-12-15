@@ -627,7 +627,7 @@ class ListingController extends Controller
         $hlasy_id = PeriodicalPublication::where("name", "LIKE", "%" . "hlasy" . "%")->first()->id;
 
         $people = Person::join("periodical_credits", "people.id", "=", "periodical_credits.person_id")
-                        ->where("periodical_credits.credit", "<", 0)
+                        ->where("periodical_credits.credit", "<", -3)
                         ->select("people.id", "title", "name1", "address1", "zip_code", "city")
                         ->get();
 
@@ -689,7 +689,7 @@ class ListingController extends Controller
         $hlasy_id = PeriodicalPublication::where("name", "LIKE", "%" . "hlasy" . "%")->first()->id;
 
         $people = Person::join("periodical_credits", "people.id", "=", "periodical_credits.person_id")
-                        ->where("periodical_credits.credit", "<", 0)
+                        ->where("periodical_credits.credit", "<", -3)
                         ->where(function($query) use ($periodical_publication_id){
                             if( $periodical_publication_id > 0 ){
                                 $query->where("periodical_credits.periodical_publication_id", $periodical_publication_id);

@@ -36,7 +36,7 @@
 	</li><!-- / .nav-item -->
 
 	<li class="nav-item">
-		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.post-tlac-neplaticov' ) active @endif" href="{{ route('vydavatelstvo.post-tlac-neplaticov') }}">
+		<a class="nav-link @if( request()->route()->getName() === 'vydavatelstvo.get-tlac-neplaticov' ) active @endif" href="{{ route('vydavatelstvo.get-tlac-neplaticov') }}">
 			Tlač neplatičov
 		</a>
 	</li><!-- / .nav-item -->
