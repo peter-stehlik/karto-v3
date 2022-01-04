@@ -110,6 +110,7 @@ Route::name('vydavatelstvo.')->group(function () {
 Route::name('osoba.')->group(function () {
     Route::get('/osoba', [PersonFilterController::class, 'index'])->middleware(['auth'])->name('uvod');
     Route::get('/osoba/filter', [PersonFilterController::class, 'filter'])->middleware(['auth'])->name('filter');
+    Route::post('/osoba/filter', [PersonFilterController::class, 'filterPrint'])->middleware(['auth'])->name('filter-print');
 
     Route::resource('/osoba/kategorie', CategoryController::class)->middleware(['auth']);
 });

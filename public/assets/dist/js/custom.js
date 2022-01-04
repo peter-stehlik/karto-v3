@@ -5,6 +5,14 @@
 *	GENERAL SMALL SNIPPETS
 *
 */
-var SVD = {}; //////////
+var SVD = {
+  togglePrintSettings: function togglePrintSettings() {
+    $("#togglePrintSettings").click(function () {
+      $("#printSettings").slideToggle();
+    });
+  }
+}; //////////
 // INIT
 //////////
+
+SVD.togglePrintSettings();

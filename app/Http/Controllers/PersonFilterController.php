@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\BankAccount;
 use App\Models\PeriodicalPublication;
 use App\Models\NonperiodicalPublication;
+use PDF;
 use DB;
 
 class PersonFilterController extends Controller
@@ -77,6 +78,71 @@ class PersonFilterController extends Controller
 		$data["people"] = $people;
 
 		return response()->json($data);
+	}
+
+	/**
+	 * Tlac filter osob
+	 * SQL skopirovane z "filter"
+	 */
+	public function filterPrint(Request $request)
+	{
+		$data;
+		$id = $request->person_id;
+		$category_id = $request->category_id;
+		$name1 = $request->name1;
+		$address1 = $request->address1;
+		$zip_code = $request->zip_code;
+		$city = $request->city;
+		$bin = $request->bin;
+
+		if( $id || $category_id || $name1 || $address1 || $zip_code || $city || $bin ){ // if filter active		
+			$people = DB::table('people')
+				->where(function($query) use ($id, $category_id, $name1, $address1, $zip_code, $city, $bin) {
+					if($id > 0){
+						$query->where('people.id', $id);
+					}
+					if($category_id > 0){
+						$query->where('category_id', $category_id);
+					}
+					if($name1){
+						$query->where('name1', 'like', '%' . $name1 . '%');
+					}
+					if($address1){
+						$query->where('address1', 'like', '%' . $address1 . '%');
+					}
+					if($zip_code){
+						$query->where('zip_code', 'like', '%' . $zip_code . '%');
+					}
+					if($city){
+						$query->where('city', 'like', '%' . $city . '%');
+					}
+					if($bin){
+						if( $bin == 1 ){
+							$query->where("people.deleted_at", "!=", NULL);											
+						}
+					}else{
+						$query->where("people.deleted_at", NULL);			
+					}
+				})
+				->join("categories", "people.category_id", "=", "categories.id")
+				->select("people.id", "title", "name1", "name2", "address1", "address2", "zip_code", 'city', 'state')
+				->get();	
+		} else {
+			$people = [];
+		}
+
+		$data["people"] = $people;
+		$data["columns"] = $request->columns;
+		$data["start_position"] = $request->start_position;
+
+		
+		$pdf = PDF::loadView('pdf.adreska-a4-stlpce-2', $data);
+        return $pdf->stream('adresky.pdf');
+/*
+		return view('pdf/adreska-a4-stlpce-2')
+			->with('columns', $data["columns"])
+			->with('start_position', $data["start_position"])
+			->with('people', $people);*/
 	}
 
 	/**
