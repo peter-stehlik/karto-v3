@@ -135,14 +135,19 @@ class PersonFilterController extends Controller
 		$data["columns"] = $request->columns;
 		$data["start_position"] = $request->start_position;
 
-		
+		/*
 		$pdf = PDF::loadView('pdf.adreska-a4-stlpce-2', $data);
-        return $pdf->stream('adresky.pdf');
+        return $pdf->stream('adresky.pdf');*/
 /*
 		return view('pdf/adreska-a4-stlpce-2')
 			->with('columns', $data["columns"])
 			->with('start_position', $data["start_position"])
 			->with('people', $people);*/
+
+		return view('v-tlac/a4')
+			->with('columns', $data["columns"])
+			->with('start_position', $data["start_position"])
+			->with('people', $people);
 	}
 
 	/**

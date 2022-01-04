@@ -18,7 +18,7 @@
             @elseif( $columns == 3 )
                 margin-top: 45px; margin-top: 45px;
             @endif
-            margin-left: 20px; margin-right: 20px; font-family: 'DejaVu Sans', sans-serif; font-size:12px; line-height: 1; letter-spacing: 0.5px; /*color: #ccc; */
+            margin-left: 20px; margin-right: 20px; font-family: 'DejaVu Sans', sans-serif; font-size:12px; line-height: 1; letter-spacing: 0.5px; /* color: #eee; */
         }
         .page-break { page-break-after: always; }
         p { padding: 0; margin: 0; }
@@ -81,11 +81,11 @@
         @endif
 
             @if( $index <= $offset )
-                <td class="main-td" style="border: 1px solid #ddd;">
+                <td class="main-td" style="border: 1px solid #ccc;">
                     <div class="content"></div>
                 </td>
             @else
-                <td class="main-td" style="border: 1px solid #ddd;">
+                <td class="main-td" style="border: 1px solid #ccc;">
                     <div class="content">
                         <table class="inner-table" cellpadding="0" cellspacing="0" width="100%" border="0">
                             <tr>
