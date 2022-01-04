@@ -32,8 +32,8 @@
             @elseif( $columns == 3 ) 
                 width: 210px;
                 height: 118px;
-                padding: 10px 20px 0;
-                font-size: 12px;
+                padding: 10px 10px 0 20px;
+                font-size: 11px;
             @endif
             overflow: hidden;
         }
@@ -46,10 +46,11 @@
         }
         .short-line {
             @if( $columns == 2 )
-                max-width: 150px;
+                width: 150px;
             @elseif( $columns == 3 ) 
-                max-width: 100px;
+                width: 100px;
             @endif
+            overflow: hidden;
         }
     </style>
 </head>
@@ -109,7 +110,7 @@
                             </tr>
                             
                             <tr>
-                                <td style="width: 100px;">{{ $people[$at]->zip_code }}</td>
+                                <td><p style="width: 110px;">{{ $people[$at]->zip_code }}</p></td>
                                 <td><p class="short-line">{{ $people[$at]->city }}</p></td>
                             </tr>
                             
