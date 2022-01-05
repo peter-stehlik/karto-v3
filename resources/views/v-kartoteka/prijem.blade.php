@@ -51,6 +51,10 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="pt-2">
+							<a class="btn btn-secondary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#myModal">Pridať novú osobu</a>
+						</div>
 					</div>
 
 					<div class="mb-3">
