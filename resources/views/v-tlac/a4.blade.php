@@ -27,7 +27,7 @@
             @if( $columns == 2 )
                 width: 9.8cm; max-width: 9.8cm; height: 4.2cm; padding: 1cm 0.5cm 0 1cm;
             @elseif( $columns == 3 )
-                width: 6.6cm; max-width: 6.6cm; height: 3.4cm; padding: 0.5cm 0.5cm 0 1cm;
+                width: 6.6cm; max-width: 6.6cm; height: 3.4cm; padding: 0.25cm 0.5cm 0 1cm;
             @endif
         }
         .flex { display: flex; }
