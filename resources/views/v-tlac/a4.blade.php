@@ -19,16 +19,15 @@
             @elseif( $columns == 3 )
                 padding-top: 1.3cm; padding-top: 1.3cm;
             @endif
-            padding-left: .7cm; padding-right: .7cm; font-family: 'DejaVu Sans', sans-serif; font-size:12px; line-height: 1.1; letter-spacing: 0.5px; color: #eee;
-            border: 1px solid red;
+            padding-left: .7cm; padding-right: .7cm; font-family: 'DejaVu Sans', sans-serif; font-size:12px; line-height: 1.1; letter-spacing: 0.5px; color: #ddd;
         }
         .page-break { page-break-after: always; }
         p { padding: 0; margin: 0; }
         article {
             @if( $columns == 2 )
-                width: 9.8cm; max-width: 9.8cm; height: 4.2cm; padding: .5cm;
-                @elseif( $columns == 3 )
-                width: 6.6cm; max-width: 6.6cm; height: 3.4cm; padding: .5cm;
+                width: 9.8cm; max-width: 9.8cm; height: 4.2cm; padding: 1cm 0.5cm 0 1cm;
+            @elseif( $columns == 3 )
+                width: 6.6cm; max-width: 6.6cm; height: 3.4cm; padding: 0.5cm 0.5cm 0 1cm;
             @endif
         }
         .flex { display: flex; }
@@ -106,7 +105,9 @@
 
 
 <script>
-    window.print();
+    if (window.confirm("Nezabudnite pri tlači nastaviť nulové okraje!")) {
+        window.print();
+    }
 </script>
 </body>
 </html>
