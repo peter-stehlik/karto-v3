@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             BankAccountSeeder::class,
             CategorySeeder::class,
+            TagSeeder::class,
             PeriodicalPublicationSeeder::class,
             NonperiodicalPublicationSeeder::class,
         ]);

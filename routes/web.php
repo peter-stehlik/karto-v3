@@ -8,6 +8,7 @@ use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\PeriodicalController;
 use App\Http\Controllers\NonperiodicalController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\IncomeUnconfirmedController;
@@ -113,6 +114,7 @@ Route::name('osoba.')->group(function () {
     Route::post('/osoba/filter', [PersonFilterController::class, 'filterPrint'])->middleware(['auth'])->name('filter-print');
 
     Route::resource('/osoba/kategorie', CategoryController::class)->middleware(['auth']);
+    Route::resource('/osoba/stitky', TagController::class)->middleware(['auth']);
 });
 
 /* DOBRODINEC */
