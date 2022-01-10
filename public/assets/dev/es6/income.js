@@ -426,6 +426,7 @@ let Income = {
 		let state = $("#inc_state").val();
 		let email = $("#inc_email").val();
 		let note = $("#inc_note").val();
+		let tags = $("#inc_tags").val();
 
 		$.getJSON(
 			"/kartoteka/prijem/create-new-person",
@@ -441,7 +442,8 @@ let Income = {
 				city: city,
 				state: state,
 				email: email,
-				note: note
+				note: note,
+				tags: tags
 			},
 			function (data) {
 				if (data.result == 1) {

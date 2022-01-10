@@ -7,6 +7,8 @@ use App\Models\Person;
 use App\Models\NonperiodicalCredit;
 use App\Models\PeriodicalCredit;
 use App\Models\Category;
+use App\Models\Tag;
+use App\Models\PersonInTag;
 use App\Models\User;
 use App\Models\BankAccount;
 use App\Models\Income;
@@ -62,9 +64,13 @@ class PersonController extends Controller
 	{
 		$person = Person::withTrashed()->find($id);
 		$categories = Category::get();
+		$tags = Tag::get();
+		$person_in_tags = PersonInTag::where("person_id", $id)->get();
 
 		return view('v-osoba/dobrodinec/osobne-udaje')
 			->with('person', $person)
+			->with('tags', $tags)
+			->with('person_in_tags', $person_in_tags)
 			->with('categories', $categories);
 	}
 
@@ -91,6 +97,20 @@ class PersonController extends Controller
 			'email' => $request->email,
 			'note' => $request->note,
 		]);
+
+		PersonInTag::where("person_id", $id)->delete();
+		$tags = $request->tags;
+
+		if( count($tags) ){
+			foreach( $tags as $tag ){
+				if( $tag ){
+					PersonInTag::create([
+						"person_id" => $id,
+						"tag_id" => intval($tag)
+					]);
+				}
+			}
+		}
 
 		return redirect('/dobrodinec/' . $id . '/ucty')->with('message', 'Operácia sa podarila!');
 	}

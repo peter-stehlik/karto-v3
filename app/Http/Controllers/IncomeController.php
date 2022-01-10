@@ -13,6 +13,8 @@ use App\Models\Outcome;
 use App\Models\Transfer;
 use App\Models\Person;
 use App\Models\Category;
+use App\Models\Tag;
+use App\Models\PersonInTag;
 use App\Models\Correction;
 use Auth;
 use DB;
@@ -30,9 +32,11 @@ class IncomeController extends Controller
 		$nonperiodicals = NonperiodicalPublication::get();
 		$bank_accounts = BankAccount::get();
 		$categories = Category::get();
+		$tags = Tag::get();
 
         return view('v-kartoteka/prijem')
 				->with('categories', $categories)
+				->with('tags', $tags)
 				->with('periodicals', $periodicals)
 				->with('nonperiodicals', $nonperiodicals)
 				->with('bank_accounts', $bank_accounts);
@@ -170,7 +174,8 @@ class IncomeController extends Controller
      */
 	public function createNewPerson()
 	{
-		Person::create([
+		$tags = $_GET["tags"];
+		$person = Person::create([
 			"category_id" => $_GET["category_id"],
 			"title" => $_GET["title"],
 			"name1" => $_GET["name1"],
@@ -184,6 +189,17 @@ class IncomeController extends Controller
 			"email" => $_GET["email"],
 			"note" => $_GET["note"],
 		]);
+
+		if( count($tags) ){
+			foreach( $tags as $tag ){
+				if( $tag ){
+					PersonInTag::create([
+						"person_id" => $person->id,
+						"tag_id" => intval($tag)
+					]);
+				}
+			}
+		}
 
 		$data = array('result' => 1);
 		

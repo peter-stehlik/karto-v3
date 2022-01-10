@@ -354,6 +354,7 @@ var Income = {
     var state = $("#inc_state").val();
     var email = $("#inc_email").val();
     var note = $("#inc_note").val();
+    var tags = $("#inc_tags").val();
     $.getJSON("/kartoteka/prijem/create-new-person", {
       category_id: category_id,
       title: title,
@@ -366,7 +367,8 @@ var Income = {
       city: city,
       state: state,
       email: email,
-      note: note
+      note: note,
+      tags: tags
     }, function (data) {
       if (data.result == 1) {
         $("#create_user_dynamically input").val("");

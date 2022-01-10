@@ -368,6 +368,17 @@
 						
 						<textarea name="note" id="inc_note" class="form-control" maxlength="255"></textarea>
 					</div>
+
+					<div class="mb-3">
+						<label for="tags">Štítky <em>(viac štítkov označíte Ctrl + klik)</em></label>
+						
+						<select name="tags" id="inc_tags" class="form-control" multiple>
+							<option value="0">Vyberte</option>
+							@foreach( $tags as $tag )
+							<option value="{!! $tag->id !!}">{!! $tag->name !!}</option>
+							@endforeach
+						</select>
+					</div>
 				</div>
 
                 <div class="modal-footer">

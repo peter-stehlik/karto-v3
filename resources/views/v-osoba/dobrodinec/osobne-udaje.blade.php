@@ -112,6 +112,27 @@
 					<textarea name="note" id="inc_note" class="form-control" maxlength="255">{!! $person->note !!}</textarea>
 				</div>
 
+				<div class="mb-3">
+					<label for="tags">Štítky <em>(viac štítkov označíte Ctrl + klik)</em></label>
+					
+					<?php $tagsArr = []; ?>
+					@foreach( $person_in_tags as $pitag )
+						<?php array_push($tagsArr, $pitag->tag_id); ?>
+					@endforeach
+
+					<select name="tags[]" id="inc_tags" class="form-control" multiple>
+						<option value="0">Vyberte</option>
+						@foreach( $tags as $tag )
+							<option
+								value="{!! $tag->id !!}"
+								@if( in_array($tag->id, $tagsArr) ) selected @endif
+							>
+								{!! $tag->name !!}
+							</option>
+						@endforeach
+					</select>
+				</div>
+
 				<button type="submit" class="btn btn-lg btn-success mr-2">Uložiť zmeny</button>
 
 				<a href="/dobrodinec/{!! $person->id !!}/ucty"> Späť na Účty</a>

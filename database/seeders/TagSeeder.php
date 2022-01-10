@@ -14,9 +14,14 @@ class TagSeeder extends Seeder
      */
     public function run()
     {
-		DB::table('tags')->insert([
-			'id' => 1,
-			'name' => 'Netlačiť adresku',
-		]);
+      DB::table('tags')->insert([
+        'id' => 1,
+        'name' => 'Netlačiť adresku',
+      ]);
+
+      DB::table('tags')->insert([
+        'id' => 2,
+        'name' => 'p. Kruták',
+      ]);
     }
 }

@@ -18,6 +18,7 @@ class CreatePersonInTagsTable extends Migration
             $table->integer('person_id');
             $table->integer('tag_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
