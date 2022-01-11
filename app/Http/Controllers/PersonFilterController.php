@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\PersonInTag;
 use App\Models\User;
 use App\Models\BankAccount;
 use App\Models\PeriodicalPublication;
@@ -75,6 +76,7 @@ class PersonFilterController extends Controller
 				})
 				->join("categories", "people.category_id", "=", "categories.id")
 				->leftJoin("person_in_tags", "people.id", "=", "person_in_tags.person_id")
+				->groupBy("people.id")
 				->select("people.id", "title", "name1", "address1", "address2", "organization", "people.note", "zip_code", 'city', 'state', 'categories.name AS category_name')
 				->get();	
 		} else {
@@ -90,27 +92,37 @@ class PersonFilterController extends Controller
 
 	/**
 	 * Tlac filter osob
-	 * SQL skopirovane z "filter"
+	 * SQL skopirovane z "filter", drobne upravene
 	 */
 	public function filterPrint(Request $request)
 	{
+		$excludePeopleArr = PersonInTag::where("deleted_at", NULL)
+								->where("tag_id", 1) // netlacit adresky
+								->select("person_id")
+								->get()
+								->toArray();
+
 		$data;
 		$id = $request->person_id;
 		$category_id = $request->category_id;
+		$tag_id = $request->tag_id;
 		$name1 = $request->name1;
 		$address1 = $request->address1;
 		$zip_code = $request->zip_code;
 		$city = $request->city;
 		$bin = $request->bin;
 
-		if( $id || $category_id || $name1 || $address1 || $zip_code || $city || $bin ){ // if filter active		
+		if( $id || $category_id || $tag_id || $name1 || $address1 || $zip_code || $city || $bin ){ // if filter active		
 			$people = DB::table('people')
-				->where(function($query) use ($id, $category_id, $name1, $address1, $zip_code, $city, $bin) {
+				->where(function($query) use ($id, $category_id, $tag_id, $name1, $address1, $zip_code, $city, $bin) {
 					if($id > 0){
 						$query->where('people.id', $id);
 					}
 					if($category_id > 0){
 						$query->where('category_id', $category_id);
+					}
+					if($tag_id > 0){
+						$query->where('tag_id', $tag_id);
 					}
 					if($name1){
 						$query->where('name1', 'like', '%' . $name1 . '%');
@@ -133,6 +145,9 @@ class PersonFilterController extends Controller
 					}
 				})
 				->join("categories", "people.category_id", "=", "categories.id")
+				->leftJoin("person_in_tags", "people.id", "=", "person_in_tags.person_id")
+				->whereNotIn("people.id", $excludePeopleArr)
+				->groupBy("people.id")
 				->select("people.id", "title", "name1", "name2", "address1", "address2", "zip_code", 'city', 'state')
 				->get();	
 		} else {

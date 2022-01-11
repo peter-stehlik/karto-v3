@@ -101,7 +101,7 @@ class PersonController extends Controller
 		PersonInTag::where("person_id", $id)->delete();
 		$tags = $request->tags;
 
-		if( count($tags) ){
+		if( $tags ){
 			foreach( $tags as $tag ){
 				if( $tag ){
 					PersonInTag::create([

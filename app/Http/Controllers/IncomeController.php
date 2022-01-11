@@ -190,7 +190,7 @@ class IncomeController extends Controller
 			"note" => $_GET["note"],
 		]);
 
-		if( count($tags) ){
+		if( $tags ){
 			foreach( $tags as $tag ){
 				if( $tag ){
 					PersonInTag::create([
