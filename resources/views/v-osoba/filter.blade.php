@@ -29,6 +29,19 @@
 
             <div class="col-lg-2">
                 <div class="mb-3">
+                    <label class="mb-2" for="tag_id">Štítky:</label>
+                    
+                    <select class="form-control" id="tag_id" name="tag_id">
+                        <option value="0">Vyberte</option>
+                        @foreach( $tags as $tag )
+                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+                <div class="mb-3">
                     <label class="mb-2" for="name1">Meno 1:</label>
                     
                     <input class="form-control" id="name1" type="text" name="name1">
@@ -72,7 +85,7 @@
 
             <div class="col-lg-2">
                 <div class="mb-3">
-                    <label class="mb-2" for="city">&nbsp;</label>
+                    <label class="d-block mb-2" for="city"> &nbsp;</label>
                     
                     <button class="btn btn-primary" id="initFilter" type="button">Filtrovať</button>
                 </div>

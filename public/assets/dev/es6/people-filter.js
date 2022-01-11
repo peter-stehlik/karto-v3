@@ -9,6 +9,7 @@ let Filter = {
   
       let person_id = $("#id").val();
       let category_id = $("#category_id").val();
+      let tag_id = $("#tag_id").val();
       let name1 = $("#name1").val();
       let address1 = $("#address1").val();
       let zip_code = $("#zip_code").val();
@@ -23,6 +24,7 @@ let Filter = {
       if (
         person_id.length == 0 &&
         category_id == 0 &&
+        tag_id == 0 &&
         name1.length == 0 &&
         address1.length == 0 &&
         zip_code.length == 0 &&
@@ -44,6 +46,7 @@ let Filter = {
         {
           person_id: person_id,
           category_id: category_id,
+          tag_id: tag_id,
           name1: name1,
           address1: address1,
           zip_code: zip_code,

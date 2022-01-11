@@ -10,6 +10,7 @@ var Filter = {
     Filter.emptySearchResults();
     var person_id = $("#id").val();
     var category_id = $("#category_id").val();
+    var tag_id = $("#tag_id").val();
     var name1 = $("#name1").val();
     var address1 = $("#address1").val();
     var zip_code = $("#zip_code").val();
@@ -20,7 +21,7 @@ var Filter = {
      * VALIDATE IF SOME PARAMETER FILLED
      */
 
-    if (person_id.length == 0 && category_id == 0 && name1.length == 0 && address1.length == 0 && zip_code.length == 0 && city.length == 0 && bin == 0) {
+    if (person_id.length == 0 && category_id == 0 && tag_id == 0 && name1.length == 0 && address1.length == 0 && zip_code.length == 0 && city.length == 0 && bin == 0) {
       alert("Zadajte aspoň jeden parameter do vyhľadávania.");
       Help.hidePreloader();
       return;
@@ -33,6 +34,7 @@ var Filter = {
     $.getJSON("/osoba/filter", {
       person_id: person_id,
       category_id: category_id,
+      tag_id: tag_id,
       name1: name1,
       address1: address1,
       zip_code: zip_code,

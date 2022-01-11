@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\User;
 use App\Models\BankAccount;
 use App\Models\PeriodicalPublication;
@@ -19,8 +20,10 @@ class PersonFilterController extends Controller
 	public function index()
 	{
 		$categories = Category::get();
+		$tags = Tag::get();
 
 		return view('v-osoba/filter')
+				->with('tags', $tags)
 				->with('categories', $categories);
 	}
 
@@ -31,20 +34,24 @@ class PersonFilterController extends Controller
 	{
 		$id = $_GET["person_id"];
 		$category_id = $_GET["category_id"];
+		$tag_id = $_GET["tag_id"];
 		$name1 = $_GET["name1"];
 		$address1 = $_GET["address1"];
 		$zip_code = $_GET["zip_code"];
 		$city = $_GET["city"];
 		$bin = $_GET["bin"];
 
-		if( $id || $category_id || $name1 || $address1 || $zip_code || $city || $bin ){ // if filter active		
+		if( $id || $category_id || $tag_id || $name1 || $address1 || $zip_code || $city || $bin ){ // if filter active		
 			$people = DB::table('people')
-				->where(function($query) use ($id, $category_id, $name1, $address1, $zip_code, $city, $bin) {
+				->where(function($query) use ($id, $category_id, $tag_id, $name1, $address1, $zip_code, $city, $bin) {
 					if($id > 0){
 						$query->where('people.id', $id);
 					}
 					if($category_id > 0){
 						$query->where('category_id', $category_id);
+					}
+					if($tag_id > 0){
+						$query->where('tag_id', $tag_id);
 					}
 					if($name1){
 						$query->where('name1', 'like', '%' . $name1 . '%');
@@ -67,6 +74,7 @@ class PersonFilterController extends Controller
 					}
 				})
 				->join("categories", "people.category_id", "=", "categories.id")
+				->leftJoin("person_in_tags", "people.id", "=", "person_in_tags.person_id")
 				->select("people.id", "title", "name1", "address1", "address2", "organization", "people.note", "zip_code", 'city', 'state', 'categories.name AS category_name')
 				->get();	
 		} else {
