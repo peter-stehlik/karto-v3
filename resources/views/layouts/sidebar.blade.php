@@ -42,6 +42,55 @@
 
 		<hr class="mr-2">
 
+		<div class="printRowWrap" style="display: none;">
+			<div class="printRowInner p-2 bg-primary">
+				<div class="m-0" id="printRow">
+
+				</div>
+
+				<style>
+					.printRowInner {
+						max-height: 200px;
+						border-bottom: 1px solid #fff;
+						overflow: auto;
+					}
+					#printRow p {
+						margin-bottom: 0;
+					}
+				</style>
+			</div>
+				
+			{!! Form::open(['action' => 'App\Http\Controllers\PrintController@printRow', 'target' => '_blank', 'id' => 'printRowForm']) !!}
+			<div class="p-2 bg-primary">
+				<div class="row">
+					<input type="hidden" id="printRowNames" name="names">
+					<input type="hidden" id="printRowIds" name="ids">
+
+					<div class="col-sm-6">
+						<label class="mb-2" for="columns">Počet stĺpcov</label>
+								
+						<select class="form-control" id="printRowColumns" name="columns">
+							<option value="2">2</option>
+							<option value="3">3</option>
+						</select>
+					</div>
+		
+					<div class="col-sm-6">
+						<label class="mb-2" for="start_position">Zač. pozícia</label>
+								
+						<input class="form-control" id="printRowStartPosition" name="start_position" type="text" value="1">
+					</div>
+
+					<div class="col-sm-12 mt-2">
+						<button class="btn btn-danger" id="printRowSubmit" type="submit">Tlačiť</button>
+					</div>
+				</div>
+			</div>
+			{!! Form::close() !!}
+		</div>
+
+		<hr class="mr-2">
+
 		<h6 class="sidebar-heading px-2 mt-3 mb-1 text-muted">
 			užívateľ
 		</h6>

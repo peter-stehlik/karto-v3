@@ -167,4 +167,21 @@ class PrintController extends Controller
         return view('v-tlac/' . $template)
                     ->with('people', $people);
     }
+
+    public function printRow(Request $request)
+    {
+        $people = [];
+        $peopleIds = explode("|", $request->ids);
+
+        $people = Person::whereIn("id", $peopleIds)->get();
+
+		$data["people"] = $people;
+		$data["columns"] = $request->columns;
+		$data["start_position"] = $request->start_position;
+
+		return view('v-tlac/a4')
+			->with('columns', $data["columns"])
+			->with('start_position', $data["start_position"])
+			->with('people', $people);
+    }
 }

@@ -223,6 +223,8 @@ Route::name('print.')->group(function () {
     Route::post('/print/selekcie', [PrintController::class, 'selekcie'])->middleware(['auth'])->name('selekcie-print');
     
     Route::post('/print/neplatici', [PrintController::class, 'neplatici'])->middleware(['auth'])->name('neplatici-print');
+
+    Route::post('/print/row', [PrintController::class, 'printRow'])->middleware(['auth'])->name('print-row');
 });
 
 
