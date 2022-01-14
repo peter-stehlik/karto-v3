@@ -230,7 +230,7 @@
 		{!! Form::close() !!}
 		</div>
 
-		<div class="col-lg-6 offset-lg-1">
+		<div class="col-lg-7">
 			<div class="preloader" data-id="income-search" style="display:none;">
 				Prehrabávam zásuvky, moment prosím <img src="{{ asset('assets/images/ajax-loader.gif') }}" width="16" height="11" alt="" class="ajax-loader">
 			</div>
