@@ -70,7 +70,7 @@ class CorrectionController extends Controller
 		Correction::create([
 			"from_person_id" => $request->from_person_id,
 			"for_person_id" => $request->for_person_id,
-			"sum" => floatval($request->sum),
+			"sum" => floatval(str_replace(',', '.', $request->sum)),
 			"from_periodical_id" => $request->from_periodical_id,
 			"from_nonperiodical_id" => $request->from_nonperiodical_id,
 			"for_periodical_id" => $request->for_periodical_id,
@@ -242,8 +242,8 @@ class CorrectionController extends Controller
 	public function getCorrectionsFilter()
 	{
 		$person_id = $_GET["person_id"];
-		$sum_from = $_GET["sum_from"];
-		$sum_to = $_GET["sum_to"];
+		$sum_from = floatval(str_replace(',', '.', $_GET["sum_from"]));
+		$sum_to = floatval(str_replace(',', '.', $_GET["sum_to"]));
 		$from_periodical_id = $_GET["from_periodical_id"];
 		$from_nonperiodical_id = $_GET["from_nonperiodical_id"];
 		$for_periodical_id = $_GET["for_periodical_id"];

@@ -17,7 +17,7 @@
 						</div>
 					</div>
 
-					<div class="col-lg-2">
+					<div class="col-lg-3">
 						<div class="mb-3">
 							<label class="pr-2 mb-1" for="income_sum">Suma</label>
 
@@ -27,7 +27,7 @@
 						</div>
 					</div>
 
-					<div class="col-lg-5">
+					<div class="col-lg-4">
 						<div class="mb-3">
 							<label class="pr-2 mb-1" for="income_date">Dátum príjmu</label>
 

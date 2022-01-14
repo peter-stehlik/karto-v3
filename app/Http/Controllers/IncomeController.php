@@ -56,7 +56,7 @@ class IncomeController extends Controller
         $new_income = Income::create([
             'person_id' => $request->person_id,
             'user_id' => Auth::user()->id,
-            'sum' => floatval($request->income_sum),
+            'sum' => floatval(str_replace(',', '.', $request->income_sum)),
             'bank_account_id' => $request->bank_account_id,
             'number' => $request->number,
             'package_number' => $request->package_number,
@@ -108,11 +108,10 @@ class IncomeController extends Controller
 				
 				Transfer::create([
                     "income_id" => $new_income->id,
-					"sum" => $p,
 					"periodical_publication_id" => $pp,
 					"nonperiodical_publication_id" => $np,
 					"note" => $n,
-					"sum" => floatval($p),
+					"sum" => floatval(str_replace(',', '.', $p)),
 					"transfer_date" => $a,
 				]);
 			}

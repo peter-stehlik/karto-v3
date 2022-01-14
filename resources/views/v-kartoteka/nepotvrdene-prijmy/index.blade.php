@@ -31,6 +31,8 @@
                         <?php $transfers_sum += $transfer->sum; ?>
                     @endforeach
 
+                    <?php $transfers_sum = str_replace(',', '.', $transfers_sum); ?>
+
                     <tr class="@if( $income->sum != $transfers_sum ) bg-notice @endif" data-id="{{ $income->id }}">
                         <td>{{ $income->id }}</td>
                         <td>{{ $income->person->name1 }}</td>
