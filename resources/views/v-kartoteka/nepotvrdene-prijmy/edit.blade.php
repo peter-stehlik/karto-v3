@@ -22,7 +22,7 @@
 							<label class="pr-2 mb-1" for="income_sum">Suma</label>
 
 							<div>
-								<input class="form-control" id="income_sum" type="text" name="income_sum" value="{{ number_format($income->sum, 2, ',', ' ') }}" autocomplete="off">
+								<input class="form-control" id="income_sum" type="text" name="income_sum" value="{{ number_format($income->sum, 2, ',', '') }}" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -164,7 +164,7 @@
 											<div class="mb-2">
 												<label class="pr-2 mb-1">Suma</label>
 
-												<input class="form-control" type="text" id="s1" name="sum[]" value="{{ isset($income->transfers[$i]) ? number_format($income->transfers[$i]->sum, 2, ',', ' ') : '' }}">
+												<input class="form-control" type="text" id="s1" name="sum[]" value="{{ isset($income->transfers[$i]) ? number_format($income->transfers[$i]->sum, 2, ',', '') : '' }}">
 											</div>
 										</div>
 
