@@ -48,23 +48,17 @@ class PrintController extends Controller
                             $query->where('count', '<=', $count_to);
                         }
                     })
-                    ->select("people.id", "title", "name1", "name2", "address1", "address2", "zip_code", "city", "state")
+                    ->select("people.id", "title", "name1", "name2", "address1", "address2", "zip_code", "city", "state", "count", "abbreviation")
                     ->get();
 
-        $user_printer = Auth::user()->printer;
-        $template = "people-lx-300II";
+        $data["people"] = $people;
+        $data["columns"] = $request->columns;
+        $data["start_position"] = $request->start_position;
 
-        switch( $user_printer ){
-            case "EPSON LX-300II+":
-                $template = "people-lx-300II";
-                break;
-            case "EPSON LX-350":
-                $template = "people-lx-350";
-                break;
-        }
-
-		return view('v-tlac/' . $template)
-                    ->with('people', $people);
+        return view('v-tlac/a4')
+            ->with('columns', $data["columns"])
+            ->with('start_position', $data["start_position"])
+            ->with('people', $people);
 	}
 
 	public function selekcie(Request $request)

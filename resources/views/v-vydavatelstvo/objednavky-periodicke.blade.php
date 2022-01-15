@@ -32,9 +32,46 @@
 			
 			<div class="col-lg-12">
 				<button class="btn btn-info mt-2" id="initObjPeriodicalFilter" type="button">Vybrať</button>
-
-                <button class="btn btn-danger mt-2" id="" type="submit">Tlač adresiek</button>
 			</div>
+
+            <div class="col-lg-12 mt-2" id="printSettings" style="display: none;">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="mb-3">
+                            <label class="mb-2" for="columns">Počet stĺpcov</label>
+                            
+                            <select class="form-control" id="columns" name="columns">
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2">
+                        <div class="mb-3">
+                            <label class="mb-2" for="start_position">Začiatočná pozícia</label>
+                            
+                            <input class="form-control" id="start_position" name="start_position" type="text" value="1">
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2">
+                        <div class="mb-3">
+                            <label class="d-block mb-2" for="city">&nbsp;</label>
+                            
+                            <button class="btn btn-danger" type="submit">Tlačiť</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-12 mt-2">
+                    <div class="mb-3">                    
+                        <button class="btn btn-secondary" id="togglePrintSettings" type="button">Nastaviť tlač</button>
+                    </div>
+                </div>
+            </div>
         </div>
         {!! Form::close() !!}
     </div>

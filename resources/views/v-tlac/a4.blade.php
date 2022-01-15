@@ -27,7 +27,7 @@
             @if( $columns == 2 )
                 width: 9.8cm; max-width: 9.8cm; height: 4.2cm; padding: 1cm 0.5cm 0 1cm;
             @elseif( $columns == 3 )
-                width: 6.6cm; max-width: 6.6cm; height: 3.4cm; padding: 0.25cm 0.5cm 0 1cm;
+                width: 6.6cm; min-width: 6.6cm; max-width: 6.6cm; height: 3.4cm; padding: 0.25cm 0.2cm 0 0.8cm;
             @endif
         }
         .flex { display: flex; }
@@ -81,14 +81,22 @@
                             
                     <div class="one-line">{{ $people[$at]->address1 }} &nbsp;</div>
                             
-                    <div class="one-line">{{ $people[$at]->address2 }} &nbsp;</div>
+                    <div class="flex">{{ $people[$at]->address2 }} &nbsp;</div>
                             
                     <div class="flex">
                         <div style="width: 100px; overflow: hidden;">{{ $people[$at]->zip_code }}</div>
                         <div>{{ $people[$at]->city }}</div>
                     </div>        
                                     
-                    <div>{{ $people[$at]->state }}</div>
+                    <div class="flex">
+                        <div class="flex-1">{{ $people[$at]->state }}</div>
+
+                        @if( isset($people[$at]->abbreviation) )
+                        <div class="text-right">
+                            {{ $people[$at]->abbreviation }} {{ $people[$at]->count }}
+                        </div>
+                        @endif
+                    </div>
                 </article>
             @endif
 
