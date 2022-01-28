@@ -4,8 +4,23 @@
 	<div class="col-lg-12">
 		<ol>
 			<li>Stiahnuť zo servera DB dump.</li>
-			<li>Ručne nahrať z SQL súboru dáta jednotlivých tabuliek pomocou SQL príkazov.</li>
-			<li>Nastaviť, aký <strong> účtovný dátum </strong> sa im má preniesť.</li>
+			<li>Ručne nahrať z SQL súboru dáta jednotlivých tabuliek pomocou SQL príkazov.
+				<ol>
+					<li><em>bank_account</em></li>
+					<li><em>category</em></li>
+					<li><em>intention</em></li>
+					<li><em>person</em></li>
+					<li><em>publication</em></li>
+					<li><em>users</em></li>
+					<li><em>intention_account</em></li>
+					<li><em>multiple_order</em></li>
+					<li><em>income</em></li>
+					<li><em>transfer</em></li>
+					<li><em>outcome</em></li>
+				</ol>
+			</li>
+			<li>Nastaviť, aký <strong> účtovný dátum </strong> sa im má preniesť <em>(v transfer-old-db.blade.php)</em>.</li>
+			<li>Vyčistiť starú databázu od nepotrebných záznamov. Inštrukcie v Trello.</li>
 			<li>Spúšťať postupne skripty na prenos.</li>
 			<li>Pomocou HeidiSQL preniesť novú DB na nový hostin.</li>
 		</ol>

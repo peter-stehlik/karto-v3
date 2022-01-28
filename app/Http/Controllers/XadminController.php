@@ -59,7 +59,7 @@ class XadminController extends Controller
                     "password" => Hash::make('kalvaria2'),
                     "remember_token" => Str::random(10),
                     "printer" => "EPSON LX-350",
-                    "accounting_date" => "2021-12-01",
+                    "accounting_date" => "2022-01-01",
                     "created_at" => $user->creation_date,
                 ]);                
             } else if( $user->user_name === "Katarína Vallová" ){
@@ -71,7 +71,7 @@ class XadminController extends Controller
                     "password" => Hash::make('kalvaria1'),
                     "remember_token" => Str::random(10),
                     "printer" => "EPSON LX-300II+",
-                    "accounting_date" => "2021-12-01",
+                    "accounting_date" => "2022-01-01",
                     "created_at" => $user->creation_date,
                 ]);
             } else {   
@@ -82,7 +82,7 @@ class XadminController extends Controller
                     'email_verified_at' => now(),
                     "password" => Hash::make("kalvaria+" . $i),
                     "remember_token" => Str::random(10),
-                    "accounting_date" => "2021-12-01",
+                    "accounting_date" => "2022-01-01",
                     "created_at" => $user->creation_date,
                 ]);
             }
@@ -99,7 +99,7 @@ class XadminController extends Controller
             'password' => Hash::make('kalvaria88'),
             'remember_token' => Str::random(10),
             "printer" => "EPSON LX-350",
-            "accounting_date" => "2021-12-01",
+            "accounting_date" => "2022-01-01",
             "created_at" => "2021-12-01",
         ]);
 
