@@ -6,6 +6,7 @@
 			<li>Stiahnuť zo servera DB dump.</li>
 			<li>Ručne nahrať z SQL súboru dáta jednotlivých tabuliek pomocou SQL príkazov.
 				<ol>
+					<li><em>bank</em></li>
 					<li><em>bank_account</em></li>
 					<li><em>category</em></li>
 					<li><em>intention</em></li>
