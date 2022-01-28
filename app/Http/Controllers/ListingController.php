@@ -426,6 +426,7 @@ class ListingController extends Controller
 
         $people = PeriodicalOrder::join("people", "periodical_orders.person_id", "=", "people.id")
                     ->join("periodical_publications", "periodical_orders.periodical_publication_id", "=", "periodical_publications.id")
+                    ->where("people.deleted_at", NULL)
                     ->whereDate("valid_from", "<=", DB::raw("periodical_publications.label_date"))
                     ->whereDate("valid_to", ">=", DB::raw("periodical_publications.label_date"))
                     ->where("periodical_publication_id", $periodical_publication_id)

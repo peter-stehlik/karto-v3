@@ -545,8 +545,21 @@ if ($("#incomeForm").length) {
 
 /* search */
 let initSearchFn = debounce(function () {
-	Income.initSearch();
-}, 400);
+	let sn = $("#search_name").val().length;
+	let sa = $("#search_address").val().length;
+	let szc = $("#search_zip_code").val().length;
+	let sc = $("#search_city").val().length;
+
+	if( sn > 3 || sa > 3 || szc > 3 || sc > 3 ){
+		Income.initSearch();
+	} else {
+		Income.clearSearchResults();
+		Help.hidePreloader();
+		Income.hideAddNewPersonOnIncome();
+
+		alert("Zadajte aspoň 4 znaky.");
+	}
+}, 800);
 
 $(document).on(
 	"input",

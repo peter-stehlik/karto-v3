@@ -6,6 +6,7 @@
 /storage/*.key
 /vendor
 /db
+/database/seeders
 .env
 .env.backup
 .phpunit.result.cache

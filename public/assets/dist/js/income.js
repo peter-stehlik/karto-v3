@@ -457,8 +457,20 @@ if ($("#incomeForm").length) {
 
 
 var initSearchFn = debounce(function () {
-  Income.initSearch();
-}, 400);
+  var sn = $("#search_name").val().length;
+  var sa = $("#search_address").val().length;
+  var szc = $("#search_zip_code").val().length;
+  var sc = $("#search_city").val().length;
+
+  if (sn > 3 || sa > 3 || szc > 3 || sc > 3) {
+    Income.initSearch();
+  } else {
+    Income.clearSearchResults();
+    Help.hidePreloader();
+    Income.hideAddNewPersonOnIncome();
+    alert("Zadajte aspoň 4 znaky.");
+  }
+}, 800);
 $(document).on("input", "#search_name, #search_address, #search_zip_code, #search_city", initSearchFn); ///////////////////////
 
 /* fill chosen person into the income form from the search list */
