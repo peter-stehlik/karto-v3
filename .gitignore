@@ -5,6 +5,7 @@
 /public/assets/package-lock.json
 /storage/*.key
 /vendor
+/db
 .env
 .env.backup
 .phpunit.result.cache
