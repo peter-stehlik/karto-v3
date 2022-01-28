@@ -6,9 +6,20 @@
 
 <hr class="mr-2">
 
+
+<script>
+	$(document).ready(function(){
+		setTimeout(function(){
+			let dobrodinecName = $("#dobrodinec strong").first().text();
+			
+			$(".js-add-to-print-row").attr("data-person-name", dobrodinecName);
+		}, 500);
+	});		
+</script>
+
 <ul class="nav flex-column">
 	<li class="nav-item">
-		<a class="nav-link" href="{{ route('print.one-person-print', $dobrodinec_id) }}" target="_blank">
+		<a class="nav-link js-add-to-print-row" data-person-name="" data-person-id="{{ $dobrodinec_id }}" href="javascript:void(0);">
 			Listová adreska
 		</a>
 	</li><!-- / .nav-item -->

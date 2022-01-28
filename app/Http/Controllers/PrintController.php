@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Person;
 use App\Models\PeriodicalOrder;
+use App\Models\PersonInTag;
 use Auth;
 use DB;
 
@@ -63,6 +64,12 @@ class PrintController extends Controller
 
 	public function selekcie(Request $request)
 	{
+		$excludePeopleArr = PersonInTag::where("deleted_at", NULL)
+								->where("tag_id", 1) // netlacit adresky
+								->select("person_id")
+								->get()
+								->toArray();
+        
 		$date_from = $request->date_from;
         if( $date_from ){
             $date_from = date('Y-m-d', strtotime($date_from));
@@ -72,12 +79,12 @@ class PrintController extends Controller
             $date_to = date('Y-m-d', strtotime($date_to));
         }
         $category_id = $request->category_id;
-        $periodical_publication_id = $request->periodical_publication_id;
-        $nonperiodical_publication_id = $request->nonperiodical_publication_id;
+        $periodical_publication_id = $request->periodical_publication_id ? explode(",", $request->periodical_publication_id) : [];
+        $nonperiodical_publication_id = $request->nonperiodical_publication_id ? explode(",", $request->nonperiodical_publication_id) : [];
         $people;
 
         // filter podla prijmu
-        if( $periodical_publication_id == 0 && $nonperiodical_publication_id == 0 ){
+        if( !$periodical_publication_id && !$nonperiodical_publication_id ){
             $people = DB::table("people")
                     ->where(function($query) use ($date_from, $date_to, $category_id){
                         if( strlen($date_from) > 0 ){
@@ -92,24 +99,26 @@ class PrintController extends Controller
                     })
                     ->join("categories", "people.category_id", "=", "categories.id")
                     ->join("incomes", "people.id", "=", "incomes.person_id")
+                    ->whereNotIn("people.id", $excludePeopleArr)
                     ->select("people.id", "people.title", "name1", "name2", "address1", "address2", "city", "zip_code", "state")
-                    ->groupBy("person_id")
+                    ->groupBy("people.id")
                     ->get();
         } else {
             // filter podla prevodu
-            $people = DB::table("people")
-                    ->where(function($query) use ($date_from, $date_to, $category_id, $periodical_publication_id, $nonperiodical_publication_id){
+            $selection1 = collect();
+            $selection2 = collect();
+
+            if( count($periodical_publication_id) ){
+                $selection1 = DB::table("people")
+                    ->where(function($query) use ($date_from, $date_to, $category_id, $periodical_publication_id){
                         if( strlen($date_from) > 0 ){
                             $query->whereDate('transfers.transfer_date', '>=', $date_from);
                         }
                         if( strlen($date_to) > 0 ){
                             $query->whereDate('transfers.transfer_date', '<=', $date_to);
                         }
-                        if( $periodical_publication_id > 0 ){
-                            $query->where("transfers.periodical_publication_id", $periodical_publication_id);
-                        }
-                        if( $nonperiodical_publication_id > 0 ){
-                            $query->where("transfers.nonperiodical_publication_id", $nonperiodical_publication_id);
+                        if( count($periodical_publication_id) ){
+                            $query->whereIn("transfers.periodical_publication_id", $periodical_publication_id);
                         }
                         if( $category_id > 0 ){
                             $query->where("category_id", $category_id);
@@ -118,48 +127,67 @@ class PrintController extends Controller
                     ->join("categories", "people.category_id", "=", "categories.id")
                     ->join("incomes", "people.id", "=", "incomes.person_id")
                     ->join("transfers", "incomes.id", "=", "transfers.income_id")
-                    ->select("people.id", "people.title", "name1", "name2", "address1", "address2", "city", "zip_code", "state")
-                    ->groupBy("person_id")
+                    ->whereNotIn("people.id", $excludePeopleArr)
+                    ->select("people.id AS id", "people.title", "name1", "name2", "address1", "address2", "city", "zip_code", "state")
+                    ->groupBy("id")
                     ->get();
+            }
+
+            if( count($nonperiodical_publication_id) ){
+                $selection2 = DB::table("people")
+                    ->where(function($query) use ($date_from, $date_to, $category_id, $nonperiodical_publication_id){
+                        if( strlen($date_from) > 0 ){
+                            $query->whereDate('transfers.transfer_date', '>=', $date_from);
+                        }
+                        if( strlen($date_to) > 0 ){
+                            $query->whereDate('transfers.transfer_date', '<=', $date_to);
+                        }
+                        if( count($nonperiodical_publication_id) ){
+                            $query->whereIn("transfers.nonperiodical_publication_id", $nonperiodical_publication_id);
+                        }
+                        if( $category_id > 0 ){
+                            $query->where("category_id", $category_id);
+                        }
+                    })
+                    ->join("categories", "people.category_id", "=", "categories.id")
+                    ->join("incomes", "people.id", "=", "incomes.person_id")
+                    ->join("transfers", "incomes.id", "=", "transfers.income_id")
+                    ->whereNotIn("people.id", $excludePeopleArr)
+                    ->select("people.id AS id", "people.title", "name1", "name2", "address1", "address2", "city", "zip_code", "state")
+                    ->groupBy("id")
+                    ->get();
+            }
+
+            $people = $selection1->concat($selection2);
+            $people = $people->unique("id");
+            $people = $people->values()->all();
         }
 
-        $user_printer = Auth::user()->printer;
-        $template = "people-lx-300II";
+        $data["columns"] = $request->columns;
+        $data["start_position"] = $request->start_position;
 
-        switch( $user_printer ){
-            case "EPSON LX-300II+":
-                $template = "people-lx-300II";
-                break;
-            case "EPSON LX-350":
-                $template = "people-lx-350";
-                break;
-        }
-
-		return view('v-tlac/' . $template)
-                    ->with('people', $people);
+        return view('v-tlac/a4')
+            ->with('columns', $data["columns"])
+            ->with('start_position', $data["start_position"])
+            ->with('people', $people);
 	}
 
-    public function neplatici()
+    public function neplatici(Request $request)
     {
+        $data;
         $people = Person::join("periodical_credits", "people.id", "=", "periodical_credits.person_id")
             ->where("periodical_credits.credit", "<", -3)
             ->select("people.id", "title", "name1", "name2", "address1", "address2", "zip_code", "city", "state")
             ->get();
 
-        $user_printer = Auth::user()->printer;
-        $template = "people-lx-300II";
+        $data["people"] = $people;
+        $data["columns"] = $request->columns;
+        $data["start_position"] = $request->start_position;
 
-        switch( $user_printer ){
-            case "EPSON LX-300II+":
-                $template = "people-lx-300II";
-                break;
-            case "EPSON LX-350":
-                $template = "people-lx-350";
-                break;
-        }
-
-        return view('v-tlac/' . $template)
-                    ->with('people', $people);
+        return view('v-tlac/a4')
+            ->with('columns', $data["columns"])
+            ->with('start_position', $data["start_position"])
+            ->with('people', $people);
     }
 
     public function printRow(Request $request)

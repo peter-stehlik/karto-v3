@@ -11,14 +11,8 @@ let SelectionFilter = {
       let transfer = $("#transfer").val();
       let category = $("#category").val();
       let category_excluded = $("#category_excluded").val();
-      let periodical_publication_id = 0;
-      let nonperiodical_publication_id = 0;
-
-      if( transfer.startsWith("p") ){
-            periodical_publication_id = transfer.substring(1);
-      } else if( transfer.startsWith("n") ) {
-            nonperiodical_publication_id = transfer.substring(1);
-      }
+      let periodical_publication_id = $("#periodical_publication_ids").val();
+      let nonperiodical_publication_id = $("#nonperiodical_publication_ids").val();
 
       /***
        * VALIDATE IF SOME PARAMETER FILLED
@@ -28,8 +22,8 @@ let SelectionFilter = {
         date_to.length == 0 &&
         category == 0 &&
         category_excluded == 0 &&
-        periodical_publication_id == 0 &&
-        nonperiodical_publication_id == 0
+        periodical_publication_id.length == 0 &&
+        nonperiodical_publication_id.length == 0
       ) {
         alert("Zadajte aspoň jeden parameter do vyhľadávania.");
   
@@ -104,9 +98,39 @@ let SelectionFilter = {
         }
       );
     },
+    preFillTransfers: () => {
+      $("#transfer").change(function(){
+        let val = $(this).val();
+
+        if( !val ){
+            return;
+        }
+
+        let per = [];
+        let nonper = [];
+        let removeFirstChar = str => {
+          return str.substring(1);
+        };
+
+        for( var i=0; i<val.length; i++ ){
+          if( val[i].startsWith("p") ){
+            per.push(removeFirstChar(val[i]));
+          }
+
+          if( val[i].startsWith("n") ){
+            nonper.push(removeFirstChar(val[i]));
+          }
+        }
+
+        $("#periodical_publication_ids").val( per.join(",") );
+        $("#nonperiodical_publication_ids").val( nonper.join(",") );
+      });
+    },
   };
   
   $(document).ready(function () {
+    SelectionFilter.preFillTransfers();
+
     if ($("#selectionFilterTabulator").length) {
       $(document).off("click", "#initSelectionFilter").on("click", "#initSelectionFilter", function () {
         SelectionFilter.filterList();

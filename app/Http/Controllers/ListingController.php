@@ -452,19 +452,19 @@ class ListingController extends Controller
     {
         $periodical_publications = PeriodicalPublication::get();
 
-        $maly_kalendar_id = PeriodicalPublication::where("name", "LIKE", "%" . "maly kalendar" . "%")->first()->id;
+        $maly_kalendar_id = PeriodicalPublication::where("name", "LIKE", "%" . "malý kalendár" . "%")->first()->id;
         $maly_kalendar = PostedPeriodicalPublication::where("periodical_publication_id", $maly_kalendar_id)
                                         ->take(12)
                                         ->orderBy("created_at", "desc")
                                         ->get();
 
-        $kalendar_nastenny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar nastenny" . "%")->first()->id;
+        $kalendar_nastenny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendár nástenný" . "%")->first()->id;
         $kalendar_nastenny = PostedPeriodicalPublication::where("periodical_publication_id", $kalendar_nastenny_id)
                                         ->take(12)
                                         ->orderBy("created_at", "desc")
                                         ->get();
 
-        $kalendar_knizny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendar knizny" . "%")->first()->id;
+        $kalendar_knizny_id = PeriodicalPublication::where("name", "LIKE", "%" . "kalendár knižný" . "%")->first()->id;
         $kalendar_knizny = PostedPeriodicalPublication::where("periodical_publication_id", $kalendar_knizny_id)
                                         ->take(12)
                                         ->orderBy("created_at", "desc")
@@ -735,10 +735,7 @@ class ListingController extends Controller
         }
 
         $data["people"] = $list;
-/*
-        echo "<pre>";
-        print_r($data["people"]);
-        echo "</pre>";*/
+
 
         $pdf = PDF::loadView('pdf.tlac-neplaticov', $data);
 		return $pdf->stream('neplatici.pdf');

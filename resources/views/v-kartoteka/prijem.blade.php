@@ -373,7 +373,7 @@
 						<label for="tags">Štítky <em>(viac štítkov označíte Ctrl + klik)</em></label>
 						
 						<select name="tags" id="inc_tags" class="form-control" multiple>
-							<option value="0">Vyberte</option>
+							<option value="0" selected>Vyberte</option>
 							@foreach( $tags as $tag )
 							<option value="{!! $tag->id !!}">{!! $tag->name !!}</option>
 							@endforeach

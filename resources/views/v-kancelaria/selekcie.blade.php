@@ -21,8 +21,8 @@
                 <div class="col-lg-2">
                     <label class="mb-2" for="transfer">Účel:</label>
 
-                    <select class="form-control" id="transfer" name="transfer">
-                        <option>Nezáleží, ľubovoľný príjem</option>
+                    <select class="form-control" id="transfer" name="transfer[]" multiple>
+                        <option value="0">Nezáleží, ľubovoľný príjem</option>
                         
                         @foreach( $periodical_publications as $pp )
                             <option value="p{!! $pp->id !!}">{!! $pp->name !!}</option>
@@ -32,6 +32,9 @@
                             <option value="n{!! $pp->id !!}">{!! $pp->name !!}</option>
                         @endforeach
                     </select>
+
+                    <input type="hidden" id="periodical_publication_ids" name="periodical_publication_id">
+                    <input type="hidden" id="nonperiodical_publication_ids" name="nonperiodical_publication_id">
                 </div>
 
                 <div class="col-lg-2">
@@ -46,10 +49,47 @@
                     </select>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 mb-2">
                     <button class="btn btn-info mt-2" id="initSelectionFilter" type="button">Vybrať</button>
+                </div>
+            </div>
 
-                    <button class="btn btn-danger mt-2" type="submit">Tlač adresiek</button>
+            <div class="row">	
+                <div class="col-lg-12" id="printSettings" style="display: none;">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="mb-2" for="columns">Počet stĺpcov</label>
+                                
+                                <select class="form-control" id="columns" name="columns">
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="mb-2" for="start_position">Začiatočná pozícia</label>
+                                
+                                <input class="form-control" id="start_position" name="start_position" type="text" value="1">
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="d-block mb-2" for="city">&nbsp;</label>
+                                
+                                <button class="btn btn-danger" type="submit">Tlačiť</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="mb-3">								
+                        <button class="btn btn-secondary" id="togglePrintSettings" type="button">Nastaviť tlač</button>
+                    </div>
                 </div>
             </div>
         {!! Form::close() !!}

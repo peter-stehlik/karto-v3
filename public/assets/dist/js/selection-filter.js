@@ -12,20 +12,13 @@ var SelectionFilter = {
     var transfer = $("#transfer").val();
     var category = $("#category").val();
     var category_excluded = $("#category_excluded").val();
-    var periodical_publication_id = 0;
-    var nonperiodical_publication_id = 0;
-
-    if (transfer.startsWith("p")) {
-      periodical_publication_id = transfer.substring(1);
-    } else if (transfer.startsWith("n")) {
-      nonperiodical_publication_id = transfer.substring(1);
-    }
+    var periodical_publication_id = $("#periodical_publication_ids").val();
+    var nonperiodical_publication_id = $("#nonperiodical_publication_ids").val();
     /***
      * VALIDATE IF SOME PARAMETER FILLED
      */
 
-
-    if (date_from.length == 0 && date_to.length == 0 && category == 0 && category_excluded == 0 && periodical_publication_id == 0 && nonperiodical_publication_id == 0) {
+    if (date_from.length == 0 && date_to.length == 0 && category == 0 && category_excluded == 0 && periodical_publication_id.length == 0 && nonperiodical_publication_id.length == 0) {
       alert("Zadajte aspoň jeden parameter do vyhľadávania.");
       Help.hidePreloader();
       return;
@@ -117,9 +110,40 @@ var SelectionFilter = {
 
       Help.hidePreloader();
     });
+  },
+  preFillTransfers: function preFillTransfers() {
+    $("#transfer").change(function () {
+      var val = $(this).val();
+
+      if (!val) {
+        return;
+      }
+
+      var per = [];
+      var nonper = [];
+
+      var removeFirstChar = function removeFirstChar(str) {
+        return str.substring(1);
+      };
+
+      for (var i = 0; i < val.length; i++) {
+        if (val[i].startsWith("p")) {
+          per.push(removeFirstChar(val[i]));
+        }
+
+        if (val[i].startsWith("n")) {
+          nonper.push(removeFirstChar(val[i]));
+        }
+      }
+
+      $("#periodical_publication_ids").val(per.join(","));
+      $("#nonperiodical_publication_ids").val(nonper.join(","));
+    });
   }
 };
 $(document).ready(function () {
+  SelectionFilter.preFillTransfers();
+
   if ($("#selectionFilterTabulator").length) {
     $(document).off("click", "#initSelectionFilter").on("click", "#initSelectionFilter", function () {
       SelectionFilter.filterList();
