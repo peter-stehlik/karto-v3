@@ -1,0 +1,71 @@
+:root {
+	--blue-light: #90cfe1;
+	--blue-dark: #749ea6;
+}
+html,
+body {
+	padding: 0;
+	margin: 0;
+	background-color: var(--blue-light);
+	font-family: 'Roboto', Arial, sans-serif;
+	font-weight: 300;
+	font-size: 1rem;
+}
+.body-wrap {
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+}
+.login-wrap {
+	display: flex;
+	padding: 30px;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 12px rgba(0,0,0,.25);
+	background: #fff;
+}
+.login-form-wrap {
+	padding-left: 30px;
+}
+.input-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1.2rem;
+}
+label {
+	margin-right: 15px;
+}
+input.input {
+	padding: .5rem 1rem;
+	border: 1px solid #ccc;
+	border-radius: 0;
+	background: #ccc;
+}
+.input:focus {
+	border-radius: 0;
+	border-color: var(--blue-dark);
+	background: #fafafa;
+}
+.submit-wrap {
+	display: flex;
+	justify-content: flex-end;
+}
+.btn {
+	padding: .5rem 1rem;
+	border: 1px solid var(--blue-dark);
+	background: var(--blue-light);
+	color: #fff;
+	cursor: pointer;
+	transition: background .3s ease;
+}
+.btn:hover {
+	background: var(--blue-dark);
+}
+.errors-wrap > .mb-4 {
+	padding: 15px 15px 1px;
+	margin-bottom: 1.2rem;
+	background: #ff0000;
+	color: #fff;
+}

@@ -1,0 +1,14 @@
+footer {
+	margin-top: $spacer * 3;
+	font-size: $font-size-lg;
+	font-family: $font-family-sans-serif;
+	font-weight: 300;
+	a {
+		color: $black;
+	}
+	blockquote {
+		a {
+			color: $primary;
+		}
+	}
+}
