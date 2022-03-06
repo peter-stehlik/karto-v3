@@ -116,6 +116,56 @@ class PersonController extends Controller
 	}
 
 	/*
+		GET
+		(create) novu osobu
+	*/
+	public function getNewPerson()
+	{
+		$categories = Category::get();
+		$tags = Tag::get();
+
+		return view('v-osoba/nova-osoba')
+			->with('tags', $tags)
+			->with('categories', $categories);
+	}
+
+	/*
+		POST
+		(create) novu osobu
+	*/
+	public function postNewPerson(Request $request)
+	{
+		$person = Person::create([
+			"category_id" => $request->category_id,
+			"title" => $request->title,
+			"name1" => $request->name1,
+			"name2" => $request->name2,
+			"address1" => $request->address1,
+			"address2" => $request->address2,
+			"organization" => $request->organization,
+			"zip_code" => $request->zip_code,
+			"city" => $request->city,
+			"state" => $request->state,
+			"email" => $request->email,
+			"note" => $request->note,
+		]);
+
+		$tags = $request->tags;
+		if( $tags ){
+			foreach( $tags as $tag ){
+				if( $tag ){
+					PersonInTag::create([
+						"person_id" => $person->id,
+						"tag_id" => intval($tag)
+					]);
+				}
+			}
+		}
+
+		return redirect('/osoba')->with('message', 'Operácia sa podarila!');
+	}
+
+	/*
 		GET prijmy
 		zobrazit filter prijmov pre konkretnu osobu
 	*/
