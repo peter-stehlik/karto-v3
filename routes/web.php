@@ -9,6 +9,7 @@ use App\Http\Controllers\PeriodicalController;
 use App\Http\Controllers\NonperiodicalController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\MoneyXmlImportController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\IncomeUnconfirmedController;
@@ -72,6 +73,9 @@ Route::name('kartoteka.')->group(function () {
     Route::get('/kartoteka/nepotvrdene-opravy-upravit/{id}', [CorrectionController::class, 'editGet'])->middleware(['auth'])->name('nepotvrdene-opravy-upravit-get');
     Route::post('/kartoteka/nepotvrdene-opravy-upravit', [CorrectionController::class, 'editPost'])->middleware(['auth'])->name('nepotvrdene-opravy-upravit-post');
     Route::get('/kartoteka/nepotvrdene-opravy-vymazat/{id}', [CorrectionController::class, 'destroy'])->middleware(['auth'])->name('nepotvrdene-opravy-vymazat');
+
+    Route::get('/kartoteka/money-xml-import', [MoneyXmlImportController::class, 'index'])->middleware(['auth'])->name('money-xml-import');
+    Route::post('/kartoteka/money-xml-import', [MoneyXmlImportController::class, 'import'])->middleware(['auth'])->name('money-xml-parse');
 });
 
 /* ---------------------- */
